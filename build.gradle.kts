@@ -31,14 +31,15 @@ dependencies {
 	versionCatalog.findLibrary("spring-boot-starter-web").ifPresent { implementation(it) }
 	versionCatalog.findLibrary("spring-boot-devtools").ifPresent { implementation(it) }
 	versionCatalog.findLibrary("spring-boot-starter-test").ifPresent { implementation(it) }
-	versionCatalog.findLibrary("security:spring-security-test").ifPresent { implementation(it) }
+	versionCatalog.findLibrary("spring-security-test").ifPresent { implementation(it) }
+	versionCatalog.findLibrary("jetbrains-annotation").ifPresent { implementation(it) }
+	versionCatalog.findLibrary("lombok").ifPresent {
+		compileOnly(it)
+		annotationProcessor(it)
+	}
+	versionCatalog.findLibrary("mysql-connector").ifPresent { runtimeOnly(it) }
+	versionCatalog.findLibrary("junit-platform-launcher").ifPresent { testRuntimeOnly(it) }
 
-    implementation("org.jetbrains:annotations:24.0.0")
-    compileOnly("org.projectlombok:lombok")
-//	runtimeOnly("com.h2database:h2")
-	runtimeOnly("com.mysql:mysql-connector-j")
-	annotationProcessor("org.projectlombok:lombok")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<Test> {
