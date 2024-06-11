@@ -3,7 +3,6 @@ package com.system.billingSystem.service;
 import com.system.billingSystem.dto.InvoiceDto;
 import com.system.billingSystem.dto.InvoiceProductDto;
 import com.system.billingSystem.dto.ProductDto;
-import com.system.billingSystem.exeption.ResourceNotFoundException;
 import com.system.billingSystem.model.*;
 import com.system.billingSystem.repository.*;
 import jakarta.transaction.Transactional;
@@ -85,7 +84,8 @@ public class InvoiceService{
     public InvoiceDto deleteInvoice (Long id){
         try {
             InvoiceDto invoiceDto = this.findInvoiceById(id);
-            invoiceRepository.deleteById(id);
+            if (invoiceDto != null)
+                invoiceRepository.deleteById(id);
             return  invoiceDto;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method deleteInvoice");
@@ -96,10 +96,9 @@ public class InvoiceService{
     public InvoiceDto findInvoiceById(Long id){
         try {
             Invoice invoice = invoiceRepository.findById(id).orElse(null);
-            if (invoice!=null){
+            if (invoice!=null)
                 return new InvoiceDto(invoice);
-            } else
-                throw new ResourceNotFoundException("Product not found for this id :: " + id);
+            return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findInvoiceById");
             throw e;
@@ -130,7 +129,8 @@ public class InvoiceService{
     public ProductDto deleteProduct (Long id){
         try{
             ProductDto productDto= this.findProductById(id);
-            productRepository.deleteById(id);
+            if (productDto != null)
+                productRepository.deleteById(id);
             return productDto;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findProductById");
@@ -143,8 +143,7 @@ public class InvoiceService{
             Product product= this.productRepository.findById(id).orElse(null);
             if (product != null)
                 return new ProductDto(product);
-            else
-                throw new ResourceNotFoundException("Product not found for this id :: " + id);
+            return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findProductById");
             throw e;

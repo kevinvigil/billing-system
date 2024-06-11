@@ -30,15 +30,30 @@ dependencies {
 	versionCatalog.findLibrary("spring-boot-starter-security").ifPresent { implementation(it) }
 	versionCatalog.findLibrary("spring-boot-starter-web").ifPresent { implementation(it) }
 	versionCatalog.findLibrary("spring-boot-devtools").ifPresent { implementation(it) }
-	versionCatalog.findLibrary("spring-boot-starter-test").ifPresent { implementation(it) }
-	versionCatalog.findLibrary("spring-security-test").ifPresent { implementation(it) }
+
+	versionCatalog.findLibrary("spring-boot-starter-test").ifPresent {
+		testCompileOnly(it)
+		testRuntimeOnly(it)
+	}
+	versionCatalog.findLibrary("spring-security-test").ifPresent {
+		testCompileOnly(it)
+		testRuntimeOnly(it)
+	}
+
 	versionCatalog.findLibrary("jetbrains-annotation").ifPresent { implementation(it) }
 	versionCatalog.findLibrary("lombok").ifPresent {
 		compileOnly(it)
 		annotationProcessor(it)
 	}
+
 	versionCatalog.findLibrary("mysql-connector").ifPresent { runtimeOnly(it) }
+
 	versionCatalog.findLibrary("junit-platform-launcher").ifPresent { testRuntimeOnly(it) }
+
+	versionCatalog.findLibrary("zalando").ifPresent { implementation(it) }
+	versionCatalog.findLibrary("problem-spring-web-starter").ifPresent { implementation(it) }
+	versionCatalog.findLibrary("problem-spring-web").ifPresent { implementation(it) }
+	versionCatalog.findLibrary("jackson-datatype-problem").ifPresent { implementation(it) }
 
 }
 

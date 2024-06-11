@@ -1,10 +1,10 @@
 package com.system.billingSystem.controller;
 
 import com.system.billingSystem.dto.UserDto;
-import com.system.billingSystem.exeption.BadRequestException;
 import com.system.billingSystem.model.User;
 import com.system.billingSystem.repository.UserRepository;
 import com.system.billingSystem.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class UserController {
     @PostMapping()
     public ResponseEntity<?> save(@RequestBody User user){
         if (user == null)
-            throw new BadRequestException("Invalid user data");
+            throw new IllegalArgumentException();
 
         boolean isNew = user.getId() == null || !userRepository.existsById(user.getId());
 
@@ -49,7 +49,14 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id){
-        UserDto userDto = userService.findById(id);
-        return ResponseEntity.ok().body(userDto);
+        try {
+            UserDto userDto = userService.findById(id);
+            if (userDto == null)
+                return ResponseEntity.ok().body(userDto);
+            else
+                throw new EntityNotFoundException();
+        } catch (Exception e){
+            throw new InternalError();
+        }
     }
 }

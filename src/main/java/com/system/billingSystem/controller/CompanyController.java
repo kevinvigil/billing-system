@@ -1,10 +1,10 @@
 package com.system.billingSystem.controller;
 
 import com.system.billingSystem.dto.CompanyDto;
-import com.system.billingSystem.exeption.BadRequestException;
 import com.system.billingSystem.model.Company;
 import com.system.billingSystem.repository.CompanyRepository;
 import com.system.billingSystem.service.CompanyService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class CompanyController {
     @PostMapping
     public ResponseEntity<?> save(@RequestBody Company company){
         if (company == null)
-            throw new BadRequestException("Invalid company data");
+            throw new IllegalArgumentException();
 
         boolean isNew = company.getId()  == null || !companyRepository.existsById(company.getId());
 
@@ -49,7 +49,15 @@ public class CompanyController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById (@PathVariable Long id){
-        CompanyDto companyDto = companyService.findById(id);
-        return ResponseEntity.ok().body(companyDto);
+        try {
+            CompanyDto companyDto = companyService.findById(id);
+            if (companyDto != null)
+                return ResponseEntity.ok().body(companyDto);
+            else
+                throw new EntityNotFoundException();
+
+        } catch (Exception e){
+            throw new InternalError();
+        }
     }
 }

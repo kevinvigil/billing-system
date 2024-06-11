@@ -1,10 +1,10 @@
 package com.system.billingSystem.controller;
 
 import com.system.billingSystem.dto.CustomerDto;
-import com.system.billingSystem.exeption.BadRequestException;
 import com.system.billingSystem.model.Customer;
 import com.system.billingSystem.repository.CustomerRepository;
 import com.system.billingSystem.service.CustomerService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,7 @@ public class CustomerController {
     @PostMapping()
     public ResponseEntity<?> save(@RequestBody Customer customer){
         if (customer == null)
-            throw new BadRequestException("Invalid customer data");
+            throw new IllegalArgumentException();
 
         boolean isNew = customer.getId() == null || !customerRepository.existsById(customer.getId());
 
@@ -50,7 +50,14 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id){
-        CustomerDto customerDto = customerService.findById(id);
-        return ResponseEntity.ok().body(customerDto);
+        try {
+            CustomerDto customerDto = customerService.findById(id);
+            if (customerDto != null)
+                return ResponseEntity.ok().body(customerDto);
+            else
+                throw new EntityNotFoundException();
+        } catch (Exception e) {
+            throw new InternalError();
+        }
     }
 }

@@ -1,7 +1,6 @@
 package com.system.billingSystem.service;
 
 import com.system.billingSystem.dto.CompanyDto;
-import com.system.billingSystem.exeption.ResourceNotFoundException;
 import com.system.billingSystem.model.Company;
 import com.system.billingSystem.repository.CompanyRepository;
 import jakarta.transaction.Transactional;
@@ -24,10 +23,9 @@ public class CompanyService{
     }
 
     @Transactional
-    public boolean save(Company entity) {
+    public CompanyDto save(Company entity) {
         try{
-            this.companyRepository.save(entity);
-            return true;
+            return new CompanyDto(companyRepository.save(entity));
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method save, User: " + entity.toString());
             throw e;
@@ -38,7 +36,8 @@ public class CompanyService{
     public CompanyDto delete(Long id) {
         try {
             CompanyDto companyDto = this.findById(id);
-            this.companyRepository.deleteById(id);
+            if (companyDto != null)
+                this.companyRepository.deleteById(id);
             return companyDto;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method delete, id: " + id);
@@ -51,8 +50,7 @@ public class CompanyService{
             Company company = this.companyRepository.findById(id).orElse(null);
             if (company != null)
                 return new CompanyDto(company);
-            else
-                throw new ResourceNotFoundException("Company not found for this id :: " +id);
+            return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method findById, id: " + id );
             throw e;

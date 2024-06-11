@@ -1,10 +1,10 @@
 package com.system.billingSystem.controller;
 
 import com.system.billingSystem.dto.ProductDto;
-import com.system.billingSystem.exeption.BadRequestException;
 import com.system.billingSystem.model.Product;
 import com.system.billingSystem.repository.ProductRepository;
 import com.system.billingSystem.service.InvoiceService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,8 @@ public class ProductController {
     @PostMapping()
     public ResponseEntity<?> save(@RequestBody Product entity){
         if (entity == null)
-            throw new BadRequestException("Invalid product data");
+            throw new IllegalArgumentException();
+
 
         boolean isNew = entity.getId() == null || !productRepository.existsById(entity.getId());
 
@@ -50,7 +51,14 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public  ResponseEntity<?> findById(@PathVariable Long id){
-        ProductDto productDto = invoiceService.findProductById(id);
-        return ResponseEntity.ok().body(productDto);
+        try {
+            ProductDto productDto = invoiceService.findProductById(id);
+            if (productDto != null)
+                return ResponseEntity.ok().body(productDto);
+            else
+                throw new EntityNotFoundException();
+        } catch (Exception e){
+            throw new InternalError();
+        }
     }
 }

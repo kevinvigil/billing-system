@@ -1,7 +1,6 @@
 package com.system.billingSystem.service;
 
 import com.system.billingSystem.dto.UserDto;
-import com.system.billingSystem.exeption.ResourceNotFoundException;
 import com.system.billingSystem.model.User;
 import com.system.billingSystem.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -37,7 +36,8 @@ public class UserService{
     public UserDto delete(Long id) {
         try {
             UserDto userDto = this.findById(id);
-            userRepository.deleteById(id);
+            if(userDto != null)
+                userRepository.deleteById(id);
             return userDto;
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error on UserService method delete, id:" + id);
@@ -50,8 +50,7 @@ public class UserService{
             User user = userRepository.findById(id).orElse(null);
             if (user != null)
                 return new UserDto(user);
-            else
-                throw new ResourceNotFoundException("User not found for this id :: " + id);
+            return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on UserService method findById, id: " + id);
             throw e;

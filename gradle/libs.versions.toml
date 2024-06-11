@@ -4,6 +4,9 @@ spring-security = "6.3.0"
 jetbrains = "24.0.0"
 mySql-conector = "8.4.0"
 junit-platform-launcher = "1.10.2"
+zalando = "0.29.1"
+jackson-datatype-problem = "0.27.1"
+
 
 [libraries]
 spring-boot-starter-data-jpa = {module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "spring-framework"}
@@ -16,5 +19,7 @@ jetbrains-annotation = {module = "org.jetbrains:annotations", version.ref = "jet
 lombok = {module = "org.projectlombok:lombok"}
 mysql-connector = {module = "com.mysql:mysql-connector-j", version.ref = "mySql-conector"}
 junit-platform-launcher = {module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform-launcher"}
-
-
+#zalando = {module = "org.zalando:problem-spring-web", version.ref = "zalando"}
+problem-spring-web-starter = {module = "org.zalando:problem-spring-web-starter", version.ref = "zalando"}
+problem-spring-web = {module = "org.zalando:problem-spring-web", version.ref = "zalando"}
+jackson-datatype-problem = { module = "org.zalando:jackson-datatype-problem", version.ref = "jackson-datatype-problem" }
