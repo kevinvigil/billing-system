@@ -1,6 +1,7 @@
 package com.system.billingSystem.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -20,8 +21,13 @@ public class Company {
     private String name;
     private String direction;
     private String phone;
-    private String email;
+
+    @Column(unique = true, nullable = false)
     private String cuit;
+
+    @Email
+    @Column(unique = true, nullable = false)
+    private String email;
 
     @OneToMany(mappedBy = "company")
     private List<Invoice> invoice;

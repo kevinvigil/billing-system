@@ -25,7 +25,7 @@ public class UserService{
     @Transactional
     public UserDto save(User entity) {
         try {
-            return new UserDto(userRepository.save(entity));
+            return UserDto.newUserDto(userRepository.save(entity));
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on UserService method save" + entity.toString());
             throw e;
@@ -49,7 +49,7 @@ public class UserService{
         try {
             User user = userRepository.findById(id).orElse(null);
             if (user != null)
-                return new UserDto(user);
+                return UserDto.newUserDto(user);
             return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on UserService method findById, id: " + id);

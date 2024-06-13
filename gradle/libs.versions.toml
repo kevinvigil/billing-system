@@ -6,7 +6,7 @@ mySql-conector = "8.4.0"
 junit-platform-launcher = "1.10.2"
 zalando = "0.29.1"
 jackson-datatype-problem = "0.27.1"
-
+jackson-datatype-jsr310 = "2.17.1"
 
 [libraries]
 spring-boot-starter-data-jpa = {module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "spring-framework"}
@@ -23,3 +23,5 @@ junit-platform-launcher = {module = "org.junit.platform:junit-platform-launcher"
 problem-spring-web-starter = {module = "org.zalando:problem-spring-web-starter", version.ref = "zalando"}
 problem-spring-web = {module = "org.zalando:problem-spring-web", version.ref = "zalando"}
 jackson-datatype-problem = { module = "org.zalando:jackson-datatype-problem", version.ref = "jackson-datatype-problem" }
+jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson-datatype-jsr310" }
+

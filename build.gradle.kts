@@ -54,6 +54,7 @@ dependencies {
 	versionCatalog.findLibrary("problem-spring-web-starter").ifPresent { implementation(it) }
 	versionCatalog.findLibrary("problem-spring-web").ifPresent { implementation(it) }
 	versionCatalog.findLibrary("jackson-datatype-problem").ifPresent { implementation(it) }
+	versionCatalog.findLibrary("jackson-datatype-jsr310").ifPresent { implementation(it) }
 
 }
 

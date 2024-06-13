@@ -22,11 +22,24 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public CustomerDto save(Customer entity) {
+    @Transactional
+    public CustomerDto save(CustomerDto entity) {
         try {
-            return new CustomerDto(this.customerRepository.save(entity));
+            Customer customer = new Customer(entity);
+            return new CustomerDto(this.customerRepository.save(customer));
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CustomerService on method save" + entity.toString());
+            throw e;
+        }
+    }
+
+    @Transactional
+    public CustomerDto update(CustomerDto customerDto){
+        try{
+            return new CustomerDto(this.customerRepository.updateById(customerDto.id(), customerDto.name(), customerDto.direction(),
+                    customerDto.email(), customerDto.phone()));
+        }catch (Exception e){
+            logger.log(Level.SEVERE, "Error in CustomerService on method update");
             throw e;
         }
     }

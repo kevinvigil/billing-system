@@ -4,6 +4,7 @@ import com.system.billingSystem.dto.InvoiceDto;
 import com.system.billingSystem.repository.InvoiceRepository;
 import com.system.billingSystem.service.InvoiceService;
 import jakarta.persistence.EntityNotFoundException;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,15 +37,22 @@ public class InvoiceController {
 
     @PutMapping("")
     public ResponseEntity<?> update(@RequestBody InvoiceDto entity) {
-        try {
-            InvoiceDto invoiceDto = invoiceService.findInvoiceById(entity.getId());
-            if (invoiceDto != null){
-                if (!invoiceDto.isInvoiced() && !invoiceDto.isPaid()){
-                    return ResponseEntity.ok().body(invoiceService.updateInvoiceById(entity));
+        if (entity == null)
+            throw new IllegalArgumentException();
 
-                } else if ( false ){ // TODO
-                    throw new RuntimeException();
-                } else
+        try {
+            InvoiceDto invoiceDto = invoiceService.findInvoiceById(entity.id());
+            if (invoiceDto != null){
+                if (!invoiceDto.invoiced() && !invoiceDto.paid())
+                    return ResponseEntity.ok().body(invoiceService.updateInvoiceById(entity));
+                else if (!invoiceDto.invoiced()){
+                    if (InvoiceDto.compareInvoices(invoiceDto, entity) && invoiceDto.invoiced() != entity.invoiced())
+                        return ResponseEntity.ok().body(invoiceService.updateInvoiceById(entity));
+                    else
+                        throw new UnsupportedOperationException("This invoice can change only to be invoiced" +
+                                " because it is already paid");
+                }
+                else
                     throw new UnsupportedOperationException("This invoice can not be changed, " +
                             "because it is already invoiced");
             }
@@ -54,6 +62,8 @@ public class InvoiceController {
             throw new InternalError();
         }
     }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){

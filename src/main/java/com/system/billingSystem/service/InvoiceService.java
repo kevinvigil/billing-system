@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,20 +45,25 @@ public class InvoiceService{
     @Transactional
     public InvoiceDto saveInvoice(InvoiceDto invoiceDto){
         try{
-
-            Invoice i=  invoiceRepository.save(Invoice.newInvoice(invoiceDto));
-            List<InvoiceProductDto> productList = invoiceDto.getProducts();
+            System.out.println(invoiceDto.id());
+            Invoice i = Invoice.newInvoice(invoiceDto);
+            List<InvoiceProductDto> productList = invoiceDto.products();
+            double total = 0L;
             if (productList != null){
                 for (InvoiceProductDto invoiceProductDto:productList) {
-                    invoiceProductDto.setIdInvoice(i.getId());
 
                     InvoiceProduct invoiceProduct = new InvoiceProduct(invoiceProductDto);
+
+                    invoiceProduct.setInvoice(i);
+
+                    total += invoiceProduct.getAmount() * this.findProductById(invoiceProduct.getProduct().getId()).price();
 
                     saveInvoiceProduct(invoiceProduct);
                 }
             }
 
-            return new InvoiceDto(i);
+            i.setTotal(total);
+            return InvoiceDto.newInvoiceDto(invoiceRepository.save(i));
 
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method saveInvoice");
@@ -66,14 +72,14 @@ public class InvoiceService{
     }
 
     @Transactional
-    public boolean updateInvoiceById (InvoiceDto invoiceDto){
+    public InvoiceDto updateInvoiceById (InvoiceDto invoiceDto){
         try {
-            Invoice invoice = Invoice.newInvoice(invoiceDto);
-            this.invoiceRepository.updateInvoiceById(invoice.getId(),
-                    invoice.getDate(), invoice.isPaid(), invoice.isInvoiced(), invoice.getTotal(), invoice.getInvoiceVoucher(),
-                    invoice.getType(), invoice.getCompany(), invoice.getCustomer());
+            this.deleteInvoice(invoiceDto.id());
 
-            return true;
+            InvoiceDto newInvoiceDto = new InvoiceDto(null, invoiceDto.date(), invoiceDto.paid(), invoiceDto.invoiced(), invoiceDto.total(),
+                    invoiceDto.invoiceVoucher(), invoiceDto.type(), invoiceDto.company(), invoiceDto.customer(), invoiceDto.products());
+
+            return this.saveInvoice(newInvoiceDto);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method updateInvoiceById");
             throw e;
@@ -93,11 +99,12 @@ public class InvoiceService{
         }
     }
 
+    @Transactional
     public InvoiceDto findInvoiceById(Long id){
         try {
             Invoice invoice = invoiceRepository.findById(id).orElse(null);
             if (invoice!=null)
-                return new InvoiceDto(invoice);
+                return InvoiceDto.newInvoiceDto(invoice);
             return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findInvoiceById");
@@ -118,7 +125,7 @@ public class InvoiceService{
     @Transactional
     public ProductDto saveProduct(Product data){
         try{
-            return new ProductDto(productRepository.save(data));
+            return ProductDto.newProductDto(productRepository.save(data));
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method saveProduct");
             throw e;
@@ -142,7 +149,7 @@ public class InvoiceService{
         try{
             Product product= this.productRepository.findById(id).orElse(null);
             if (product != null)
-                return new ProductDto(product);
+                return ProductDto.newProductDto(product);
             return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findProductById");

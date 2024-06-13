@@ -27,10 +27,10 @@ public class InvoiceProduct {
     public InvoiceProduct() {}
 
     public InvoiceProduct(InvoiceProductDto in) {
-        this.id = in.getId();
-        this.invoice = new Invoice(in.getIdInvoice());
-        this.product = new Product(in.getIdProduct());
-        this.amount = in.getAmount();
+        this.id = in.id();
+        this.invoice = new Invoice(in.idInvoice());
+        this.product = new Product(in.idProduct());
+        this.amount = in.amount();
     }
 
 

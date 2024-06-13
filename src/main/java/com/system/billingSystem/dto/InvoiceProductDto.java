@@ -1,23 +1,72 @@
 package com.system.billingSystem.dto;
 
 import com.system.billingSystem.model.InvoiceProduct;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
-@Data
-@AllArgsConstructor
-public class InvoiceProductDto {
-    private Long id;
-    private String name;
-    private double amount;
-    private Long idProduct;
-    private Long idInvoice;
+import java.util.Objects;
 
-    public InvoiceProductDto(InvoiceProduct invoiceProduct){
-        this.id = invoiceProduct.getId();
-        this.amount = invoiceProduct.getAmount();
-        this.name = invoiceProduct.getProduct().getName();
-        this.idInvoice = invoiceProduct.getInvoice().getId();
-        this.idProduct = invoiceProduct.getProduct().getId();
+public record InvoiceProductDto (
+        Long id,
+        String name,
+        double amount,
+        Long idProduct,
+        Long idInvoice ) {
+
+    public InvoiceProductDto(Long id, String name, double amount, Long idProduct, Long idInvoice) {
+        this.id = id;
+        this.name = name;
+        this.amount = amount;
+        this.idProduct = idProduct;
+        this.idInvoice = idInvoice;
+    }
+
+    public InvoiceProductDto(Long id) {
+        this(id, null, 0, null, null);
+    }
+
+    public static InvoiceProductDto newInvoiceProductDto(InvoiceProduct invoiceProduct){
+        return new InvoiceProductDto(invoiceProduct.getId(), invoiceProduct.getProduct().getName(),
+                invoiceProduct.getAmount(), invoiceProduct.getInvoice().getId(),
+                invoiceProduct.getProduct().getId());
+    }
+
+    public static boolean compareProducts(InvoiceProductDto product1, InvoiceProductDto product2) {
+        if (product1 == product2) {
+            return true;
+        }
+        if (product1 == null || product2 == null) {
+            return false;
+        }
+
+        return Objects.equals(product1.id(), product2.id())
+                && Objects.equals(product1.name(), product2.name())
+                && Double.compare(product1.amount(), product2.amount()) == 0
+                && Objects.equals(product1.idProduct(), product2.idProduct())
+                && Objects.equals(product1.idInvoice(), product2.idInvoice());
+    }
+
+
+    @Override
+    public Long id() {
+        return id;
+    }
+
+    @Override
+    public String name() {
+        return name;
+    }
+
+    @Override
+    public double amount() {
+        return amount;
+    }
+
+    @Override
+    public Long idProduct() {
+        return idProduct;
+    }
+
+    @Override
+    public Long idInvoice() {
+        return idInvoice;
     }
 }

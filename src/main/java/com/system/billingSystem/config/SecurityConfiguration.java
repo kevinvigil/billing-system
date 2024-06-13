@@ -1,6 +1,7 @@
-package com.system.billingSystem.security;
+package com.system.billingSystem.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +28,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request.requestMatchers(new AntPathRequestMatcher("/"))
+                .authorizeHttpRequests(request -> request.requestMatchers(new AntPathRequestMatcher("/api/**"))
                         .permitAll())
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(problemSupport)
                         .accessDeniedHandler(problemSupport))
@@ -38,6 +39,7 @@ public class SecurityConfiguration {
     public ObjectMapper objectMapper() {
         return new ObjectMapper().registerModules(
                 new ProblemModule(),
-                new ConstraintViolationProblemModule());
+                new ConstraintViolationProblemModule(),
+                new JavaTimeModule());
     }
 }

@@ -28,18 +28,27 @@ public class CustomerController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> save(@RequestBody Customer customer){
+    public ResponseEntity<?> save(@RequestBody CustomerDto customer){
         if (customer == null)
             throw new IllegalArgumentException();
 
-        boolean isNew = customer.getId() == null || !customerRepository.existsById(customer.getId());
-
         CustomerDto customerDto = customerService.save(customer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerDto);
+    }
 
-        if (isNew)
-            return ResponseEntity.status(HttpStatus.CREATED).body(customerDto);
-        else
-            return ResponseEntity.ok().body(customerDto);
+    @PutMapping("")
+    public ResponseEntity<?> update(@RequestBody CustomerDto customer){
+        if (customer == null)
+            throw new IllegalArgumentException();
+        try {
+            if (this.customerRepository.existsById(customer.id())){
+                return ResponseEntity.ok().body(this.customerService.update(customer));
+            }
+            else
+                throw new EntityNotFoundException();
+        } catch (Exception e) {
+            throw new InternalError();
+        }
     }
 
     @DeleteMapping("/{id}")

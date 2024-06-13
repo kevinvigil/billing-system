@@ -41,15 +41,15 @@ public class Invoice {
 
     public static Invoice newInvoice(InvoiceDto dto){
         Invoice invoice = new Invoice();
-        invoice.setId(dto.getId());
-        invoice.setDate(dto.getDate());
-        invoice.setPaid(dto.isPaid());
-        invoice.setInvoiced(dto.isInvoiced());
-        invoice.setTotal(dto.getTotal());
-        invoice.setInvoiceVoucher(InvoiceVoucher.valueOf(dto.getInvoiceVoucher()));
-        invoice.setType(InvoiceType.valueOf(dto.getType()));
-        invoice.setCompany(new Company(dto.getCompany()));
-        invoice.setCustomer(new Customer(dto.getCustomer()));
+        invoice.setId(dto.id());
+        invoice.setDate(dto.date());
+        invoice.setPaid(dto.paid());
+        invoice.setInvoiced(dto.invoiced());
+        invoice.setTotal(dto.total());
+        invoice.setInvoiceVoucher(InvoiceVoucher.valueOf(dto.invoiceVoucher()));
+        invoice.setType(InvoiceType.valueOf(dto.type()));
+        invoice.setCompany(new Company(dto.company()));
+        invoice.setCustomer(new Customer(dto.customer()));
         return invoice;
     }
 
@@ -61,5 +61,20 @@ public class Invoice {
 
     public void addProduct(InvoiceProduct invoiceProduct){
         this.products.add(invoiceProduct);
+    }
+
+    @Override
+    public String toString() {
+        return "YourClassName{" +
+                "id=" + id +
+                ", date=" + date +
+                ", paid=" + paid +
+                ", invoiced=" + invoiced +
+                ", total=" + total +
+                ", invoiceVoucher='" + invoiceVoucher.name() + '\'' +
+                ", type='" + type.name() + '\'' +
+                ", company=" + company.getId() +
+                ", customer=" + customer.getId() +
+                '}';
     }
 }

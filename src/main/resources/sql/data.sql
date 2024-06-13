@@ -46,7 +46,7 @@ INSERT INTO `user` (`email`, `name`, `password`, `company_id`) VALUES
 ('user9@example.com', 'User Nine', 'password9', 9),
 ('user10@example.com', 'User Ten', 'password10', 10);
 
-INSERT INTO `invoice` (`date`, `invoice_vaucher`, `invoiced`, `paid`, `total`, `type`, `company_id`, `customer_id`) VALUES
+INSERT INTO `invoice` (`date`, `invoice_voucher`, `invoiced`, `paid`, `total`, `type`, `company_id`, `customer_id`) VALUES
 ('2023-01-01 10:00:00.123456', 'FACTURA', b'1', b'0', 1000.00, 'A', 11, 11),
 ('2023-02-01 11:00:00.234567', 'REMITO', b'0', b'1', 2000.00, 'B', 2, 2),
 ('2023-03-01 12:00:00.345678', 'FACTURA', b'1', b'1', 1500.00, 'C', 3, 3),

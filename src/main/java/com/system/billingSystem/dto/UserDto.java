@@ -5,19 +5,41 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
-@Data
-@AllArgsConstructor
-public class UserDto {
+public record UserDto (
+        Long id,
+        String name,
+        String email,
+        Long company
+) {
 
-    private Long id;
-    private String name;
-    private String email;
-    private Long company;
+    public UserDto(Long id, String name, String email, Long company) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.company = company;
+    }
 
-    public UserDto (@NotNull User u){
-        this.id = u.getId();
-        this.name = u.getName();
-        this.company = u.getCompany().getId();
-        this.email = u.getEmail();
+    public static UserDto newUserDto (@NotNull User u){
+        return new UserDto(u.getId(), u.getName(), u.getEmail(), u.getCompany().getId());
+    }
+
+    @Override
+    public Long id() {
+        return id;
+    }
+
+    @Override
+    public String name() {
+        return name;
+    }
+
+    @Override
+    public String email() {
+        return email;
+    }
+
+    @Override
+    public Long company() {
+        return company;
     }
 }

@@ -1,24 +1,49 @@
 package com.system.billingSystem.dto;
 
 import com.system.billingSystem.model.Customer;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
-@Data
-@AllArgsConstructor
-public class CustomerDto {
-    private Long id;
-    private String name;
-    private String direction;
-    private String phone;
-    private String email;
+public record CustomerDto (
+        Long id,
+        String name,
+        String direction,
+        String phone,
+        String email) {
 
-    public CustomerDto (@NotNull Customer c){
-        this.id = c.getId();
-        this.name = c.getName();
-        this.direction = c.getDirection();
-        this.email = c.getEmail();
-        this.phone = c.getPhone();
+    public CustomerDto(Long id, String name, String direction, String phone, String email) {
+        this.id = id;
+        this.name = name;
+        this.direction = direction;
+        this.phone = phone;
+        this.email = email;
+    }
+
+    public CustomerDto(@NotNull Customer c){
+        this(c.getId(), c.getName(), c.getDirection(), c.getEmail(), c.getPhone());
+    }
+
+    @Override
+    public Long id() {
+        return id;
+    }
+
+    @Override
+    public String name() {
+        return name;
+    }
+
+    @Override
+    public String direction() {
+        return direction;
+    }
+
+    @Override
+    public String phone() {
+        return phone;
+    }
+
+    @Override
+    public String email() {
+        return email;
     }
 }
