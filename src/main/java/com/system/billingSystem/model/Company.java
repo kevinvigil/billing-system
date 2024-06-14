@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -44,4 +45,16 @@ public class Company {
         return ("ID: " + this.id + " Name: " + this.name);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Company company = (Company) o;
+
+        if ( (!Objects.equals(id, company.id)) || (!Objects.equals(name, company.name)) || (!Objects.equals(direction, company.direction))
+        || (!Objects.equals(phone, company.phone)) || (!Objects.equals(cuit, company.cuit)) ) return false;
+
+        return Objects.equals(email, company.email);
+    }
 }

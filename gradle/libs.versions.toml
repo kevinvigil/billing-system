@@ -4,6 +4,8 @@ spring-security = "6.3.0"
 jetbrains = "24.0.0"
 mySql-conector = "8.4.0"
 junit-platform-launcher = "1.10.2"
+junit-jupiter-api = "5.10.2"
+h2-dataBase = "2.2.224"
 zalando = "0.29.1"
 jackson-datatype-problem = "0.27.1"
 jackson-datatype-jsr310 = "2.17.1"
@@ -16,10 +18,15 @@ spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools
 spring-boot-starter-test = {module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring-framework"}
 spring-security-test = {module = "org.springframework.security:spring-security-test", version.ref = "spring-security"}
 jetbrains-annotation = {module = "org.jetbrains:annotations", version.ref = "jetbrains"}
+
 lombok = {module = "org.projectlombok:lombok"}
+
 mysql-connector = {module = "com.mysql:mysql-connector-j", version.ref = "mySql-conector"}
+
 junit-platform-launcher = {module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform-launcher"}
-#zalando = {module = "org.zalando:problem-spring-web", version.ref = "zalando"}
+junit-jupiter-api = {module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter-api"}
+h2-dataBase = {module = "com.h2database:h2", version.ref = "h2-dataBase"}
+
 problem-spring-web-starter = {module = "org.zalando:problem-spring-web-starter", version.ref = "zalando"}
 problem-spring-web = {module = "org.zalando:problem-spring-web", version.ref = "zalando"}
 jackson-datatype-problem = { module = "org.zalando:jackson-datatype-problem", version.ref = "jackson-datatype-problem" }

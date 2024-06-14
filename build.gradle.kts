@@ -49,8 +49,10 @@ dependencies {
 	versionCatalog.findLibrary("mysql-connector").ifPresent { runtimeOnly(it) }
 
 	versionCatalog.findLibrary("junit-platform-launcher").ifPresent { testRuntimeOnly(it) }
+	versionCatalog.findLibrary("junit-jupiter-api").ifPresent { testRuntimeOnly(it) }
+//	versionCatalog.findLibrary("h2-dataBase").ifPresent { testRuntimeOnly(it); testImplementation(it)}
 
-	versionCatalog.findLibrary("zalando").ifPresent { implementation(it) }
+
 	versionCatalog.findLibrary("problem-spring-web-starter").ifPresent { implementation(it) }
 	versionCatalog.findLibrary("problem-spring-web").ifPresent { implementation(it) }
 	versionCatalog.findLibrary("jackson-datatype-problem").ifPresent { implementation(it) }

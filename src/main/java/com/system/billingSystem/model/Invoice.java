@@ -3,14 +3,17 @@ package com.system.billingSystem.model;
 import com.system.billingSystem.dto.InvoiceDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
 @AllArgsConstructor
+@Builder
 @Table(name = "Invoice")
 public class Invoice {
 
@@ -76,5 +79,19 @@ public class Invoice {
                 ", company=" + company.getId() +
                 ", customer=" + customer.getId() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Invoice invoice = (Invoice) o;
+
+        if ( (Double.compare(invoice.total, total) != 0) || (paid != invoice.paid) || (invoiced != invoice.invoiced)
+        || (!Objects.equals(id, invoice.id)) || (!Objects.equals(date, invoice.date)) || (invoiceVoucher != invoice.invoiceVoucher)
+        || (type != invoice.type) || (!Objects.equals(company, invoice.company)) )return false;
+
+        return Objects.equals(customer, invoice.customer);
     }
 }
