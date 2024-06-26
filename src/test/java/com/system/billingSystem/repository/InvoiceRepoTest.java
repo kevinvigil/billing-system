@@ -3,8 +3,8 @@ package com.system.billingSystem.repository;
 import com.system.billingSystem.model.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -13,8 +13,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("test")
 public class InvoiceRepoTest {
 
     @Autowired
@@ -23,47 +22,55 @@ public class InvoiceRepoTest {
     private Invoice invoice;
 
     @BeforeEach
-    public void setUp(){
+    void setUp(){
         OffsetDateTime offsetDateTime = OffsetDateTime.now();
-        this.invoice = Invoice.builder()
-                .id(null)
+        invoice = Invoice.builder()
+                .id(1L)
                 .date(offsetDateTime)
                 .invoiceVoucher(InvoiceVoucher.FACTURA)
                 .invoiced(false)
                 .paid(false)
                 .type(InvoiceType.A)
-                .customer(new Customer(1L))
-                .company(new Company(1L))
+                .customer(null)
+                .company(null)
                 .total(0).build();
+
+        invoiceRepository.save(invoice);
+    }
+
+    @AfterEach
+    void tearDown(){
+        invoiceRepository.deleteAll();
     }
 
     @Test
-    @Order(1)
-    void saveTest(){
+    void testSave(){
         Invoice newInvoice = invoiceRepository.save(invoice);
 
         assertThat(newInvoice).isNotNull();
         assertThat(newInvoice.getId()).isNotNull();
 
         assertThat(newInvoice.getId()).isGreaterThan(0);
-
     }
 
+    /*
+     * If it's executed individually it isn't has errors, but when all the class is executed it has errors
+    */
     @Test
-    @Order(2)
-    void findById(){
-        invoiceRepository.save(invoice);
+    void testFindById(){
 
         Invoice invoice1 = invoiceRepository.findById(invoice.getId()).orElse(null);
+        System.out.println(invoice.getId());
 
         assertThat(invoice1).isNotNull();
+
+        System.out.println(invoice1.getId());
+
         assertEquals(invoice1.getId(), invoice.getId());
     }
 
     @Test
-    @Order(Integer.MAX_VALUE)
-    void delete(){
-        invoiceRepository.save(invoice);
+    void testDelete(){
 
         invoiceRepository.deleteById(invoice.getId());
 
@@ -71,5 +78,4 @@ public class InvoiceRepoTest {
 
         assertThat(invoice1).isNull();
     }
-
 }

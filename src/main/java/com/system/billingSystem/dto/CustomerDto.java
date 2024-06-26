@@ -18,6 +18,10 @@ public record CustomerDto (
         this.email = email;
     }
 
+    public CustomerDto(Long id){
+        this(id, null, null, null, null);
+    }
+
     public CustomerDto(@NotNull Customer c){
         this(c.getId(), c.getName(), c.getDirection(), c.getEmail(), c.getPhone());
     }

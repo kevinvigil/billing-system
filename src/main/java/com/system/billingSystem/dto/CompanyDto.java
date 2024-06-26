@@ -20,6 +20,10 @@ public record CompanyDto(
         this.cuit = cuit;
     }
 
+    public  CompanyDto (long id) {
+        this (id, null, null, null, null, null);
+    }
+
     public static CompanyDto newCompanyDto(@NotNull Company c){
         return new CompanyDto(c.getId(), c.getName(), c.getCuit(), c.getEmail(), c.getPhone(), c.getDirection());
     }

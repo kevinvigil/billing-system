@@ -72,7 +72,7 @@ public class InvoiceService{
     }
 
     @Transactional
-    public InvoiceDto updateInvoiceById (InvoiceDto invoiceDto){
+    public InvoiceDto updateInvoice (InvoiceDto invoiceDto){
         try {
             this.deleteInvoice(invoiceDto.id());
 

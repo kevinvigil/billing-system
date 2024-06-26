@@ -90,7 +90,21 @@ public class Invoice {
 
         if ( (Double.compare(invoice.total, total) != 0) || (paid != invoice.paid) || (invoiced != invoice.invoiced)
         || (!Objects.equals(id, invoice.id)) || (!Objects.equals(date, invoice.date)) || (invoiceVoucher != invoice.invoiceVoucher)
-        || (type != invoice.type) || (!Objects.equals(company, invoice.company)) )return false;
+        || (type != invoice.type))return false;
+
+        if (this.company != null && invoice.company != null)
+            if (!Objects.equals(company, invoice.company))
+                return false;
+            else ;
+        else if  (this.company != null || invoice.company != null)
+            return false;
+
+        if (this.customer != null && invoice.customer != null)
+            if (!Objects.equals(customer, invoice.customer))
+                return false;
+            else ;
+        else if (this.customer != null || invoice.customer != null)
+            return false;
 
         return Objects.equals(customer, invoice.customer);
     }

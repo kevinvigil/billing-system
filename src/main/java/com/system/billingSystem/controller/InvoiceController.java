@@ -44,10 +44,10 @@ public class InvoiceController {
             InvoiceDto invoiceDto = invoiceService.findInvoiceById(entity.id());
             if (invoiceDto != null){
                 if (!invoiceDto.invoiced() && !invoiceDto.paid())
-                    return ResponseEntity.ok().body(invoiceService.updateInvoiceById(entity));
+                    return ResponseEntity.ok().body(invoiceService.updateInvoice(entity));
                 else if (!invoiceDto.invoiced()){
                     if (InvoiceDto.compareInvoices(invoiceDto, entity) && invoiceDto.invoiced() != entity.invoiced())
-                        return ResponseEntity.ok().body(invoiceService.updateInvoiceById(entity));
+                        return ResponseEntity.ok().body(invoiceService.updateInvoice(entity));
                     else
                         throw new UnsupportedOperationException("This invoice can change only to be invoiced" +
                                 " because it is already paid");

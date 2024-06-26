@@ -26,37 +26,32 @@ repositories {
 }
 
 dependencies {
-	versionCatalog.findLibrary("spring-boot-starter-data-jpa").ifPresent { implementation(it)}
-	versionCatalog.findLibrary("spring-boot-starter-security").ifPresent { implementation(it) }
-	versionCatalog.findLibrary("spring-boot-starter-web").ifPresent { implementation(it) }
-	versionCatalog.findLibrary("spring-boot-devtools").ifPresent { implementation(it) }
+	// Principal implementation
+	implementation(versionCatalog.findLibrary("spring-boot-starter-data-jpa").get())
+	implementation(versionCatalog.findLibrary("spring-boot-starter-security").get())
+	implementation(versionCatalog.findLibrary("spring-boot-starter-web").get())
+	implementation(versionCatalog.findLibrary("problem-spring-web-starter").get())
+	implementation(versionCatalog.findLibrary("problem-spring-web").get())
+	implementation(versionCatalog.findLibrary("jackson-datatype-problem").get())
+	implementation(versionCatalog.findLibrary("jackson-datatype-jsr310").get())
+	implementation(versionCatalog.findLibrary("jetbrains-annotation").get())
 
-	versionCatalog.findLibrary("spring-boot-starter-test").ifPresent {
-		testCompileOnly(it)
-		testRuntimeOnly(it)
-	}
-	versionCatalog.findLibrary("spring-security-test").ifPresent {
-		testCompileOnly(it)
-		testRuntimeOnly(it)
-	}
+	// Development
+	developmentOnly(versionCatalog.findLibrary("spring-boot-devtools").get())
 
-	versionCatalog.findLibrary("jetbrains-annotation").ifPresent { implementation(it) }
-	versionCatalog.findLibrary("lombok").ifPresent {
-		compileOnly(it)
-		annotationProcessor(it)
-	}
+	// Testing
+	testImplementation(versionCatalog.findLibrary("spring-boot-starter-test").get())
+	testImplementation(versionCatalog.findLibrary("spring-security-test").get())
+	testImplementation(versionCatalog.findLibrary("h2-dataBase").get())
+	testImplementation(versionCatalog.findLibrary("junit-jupiter-api").get())
 
-	versionCatalog.findLibrary("mysql-connector").ifPresent { runtimeOnly(it) }
+	// Runtime
+	runtimeOnly(versionCatalog.findLibrary("mysql-connector").get())
+	testRuntimeOnly(versionCatalog.findLibrary("junit-platform-launcher").get())
 
-	versionCatalog.findLibrary("junit-platform-launcher").ifPresent { testRuntimeOnly(it) }
-	versionCatalog.findLibrary("junit-jupiter-api").ifPresent { testRuntimeOnly(it) }
-//	versionCatalog.findLibrary("h2-dataBase").ifPresent { testRuntimeOnly(it); testImplementation(it)}
-
-
-	versionCatalog.findLibrary("problem-spring-web-starter").ifPresent { implementation(it) }
-	versionCatalog.findLibrary("problem-spring-web").ifPresent { implementation(it) }
-	versionCatalog.findLibrary("jackson-datatype-problem").ifPresent { implementation(it) }
-	versionCatalog.findLibrary("jackson-datatype-jsr310").ifPresent { implementation(it) }
+	// Compile and annotations
+	compileOnly(versionCatalog.findLibrary("lombok").get())
+	annotationProcessor(versionCatalog.findLibrary("lombok").get())
 
 }
 

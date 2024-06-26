@@ -19,10 +19,6 @@ public record InvoiceProductDto (
         this.idInvoice = idInvoice;
     }
 
-    public InvoiceProductDto(Long id) {
-        this(id, null, 0, null, null);
-    }
-
     public static InvoiceProductDto newInvoiceProductDto(InvoiceProduct invoiceProduct){
         return new InvoiceProductDto(invoiceProduct.getId(), invoiceProduct.getProduct().getName(),
                 invoiceProduct.getAmount(), invoiceProduct.getInvoice().getId(),
