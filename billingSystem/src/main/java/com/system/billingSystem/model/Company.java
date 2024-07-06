@@ -3,6 +3,7 @@ package com.system.billingSystem.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Data
+@Builder
 @Table(name = "Company")
 @AllArgsConstructor
 public class Company {
@@ -56,5 +58,10 @@ public class Company {
         || (!Objects.equals(phone, company.phone)) || (!Objects.equals(cuit, company.cuit)) ) return false;
 
         return Objects.equals(email, company.email);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

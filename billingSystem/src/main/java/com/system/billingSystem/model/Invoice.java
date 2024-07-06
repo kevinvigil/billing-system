@@ -68,7 +68,7 @@ public class Invoice {
 
     @Override
     public String toString() {
-        return "YourClassName{" +
+        return "Invoice{" +
                 "id=" + id +
                 ", date=" + date +
                 ", paid=" + paid +
@@ -76,8 +76,8 @@ public class Invoice {
                 ", total=" + total +
                 ", invoiceVoucher='" + invoiceVoucher.name() + '\'' +
                 ", type='" + type.name() + '\'' +
-                ", company=" + company.getId() +
-                ", customer=" + customer.getId() +
+                ", company=" + ((company != null) ? company.getId() : "null") +
+                ", customer=" + ((customer != null) ? customer.getId() : "null") +
                 '}';
     }
 
@@ -107,5 +107,10 @@ public class Invoice {
             return false;
 
         return Objects.equals(customer, invoice.customer);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

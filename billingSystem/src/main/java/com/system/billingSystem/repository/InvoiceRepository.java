@@ -27,13 +27,4 @@ public interface InvoiceRepository extends BaseRepository<Invoice, Long> {
                            @Param("type") InvoiceType type,
                            @Param("company") Company company,
                            @Param("customer") Customer customer);
-    
-//    @Transactional
-//    @Query("select * " +
-//            "from invoice i left join company c1_0 on c1_0.id=i.company_id " +
-//            "    left join customer c2_0 on c2_0.id=i.customer_id " +
-//            "    left join invoice_product p1_0 on i.invoice_id=p1_0.invoice_id " +
-//            "    left join product p2_0 on p2_0.product_id=p1_0.product_id " +
-//            "where i.invoice_id=?")
-//    Optional<Invoice> findById(@Param("id") Long id);
 }

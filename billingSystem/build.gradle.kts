@@ -42,12 +42,15 @@ dependencies {
 	// Testing
 	testImplementation(versionCatalog.findLibrary("spring-boot-starter-test").get())
 	testImplementation(versionCatalog.findLibrary("spring-security-test").get())
-	testImplementation(versionCatalog.findLibrary("h2-dataBase").get())
-	testImplementation(versionCatalog.findLibrary("junit-jupiter-api").get())
 
-	// Runtime
+
+	testImplementation(versionCatalog.findLibrary("junit-platform-runner").get())
+	testImplementation(versionCatalog.findLibrary("junit-jupiter-api").get())
+	testRuntimeOnly (versionCatalog.findLibrary("junit-jupiter-engine").get())
+
+	// Data Base
 	runtimeOnly(versionCatalog.findLibrary("mysql-connector").get())
-	testRuntimeOnly(versionCatalog.findLibrary("junit-platform-launcher").get())
+	testImplementation(versionCatalog.findLibrary("h2-dataBase").get())
 
 	// Compile and annotations
 	compileOnly(versionCatalog.findLibrary("lombok").get())
@@ -55,6 +58,6 @@ dependencies {
 
 }
 
-tasks.withType<Test> {
+tasks.test {
 	useJUnitPlatform()
 }

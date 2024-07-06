@@ -1,13 +1,9 @@
 package com.system.billingSystem;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
 
-@SpringBootTest
-class BillingSystemApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
-}
+@RunWith(JUnitPlatform.class)
+@SelectPackages(value = {"com.system.billingSystem.repository"})
+public class BillingSystemApplicationTests {}
