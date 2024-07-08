@@ -1,0 +1,35 @@
+-- Crear la tabla company
+CREATE TABLE company (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY, cuit VARCHAR(20) NOT NULL, direction VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, phone VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE customer (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY, direction VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL, phone VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE product (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY, description VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE user (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL, company_id BIGINT NOT NULL, FOREIGN KEY (company_id) REFERENCES company(id)
+);
+
+CREATE TABLE invoice (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY, date TIMESTAMP NOT NULL, invoice_voucher VARCHAR(50) NOT NULL,
+    invoiced BOOLEAN NOT NULL, paid BOOLEAN NOT NULL, total DECIMAL(10, 2) NOT NULL,
+    type CHAR(1) NOT NULL, company_id BIGINT NOT NULL, customer_id BIGINT NOT NULL,
+    FOREIGN KEY (company_id) REFERENCES company(id),
+    FOREIGN KEY (customer_id) REFERENCES customer(id)
+);
+
+CREATE TABLE invoice_product (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY, amount INT NOT NULL, invoice_id BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    FOREIGN KEY (invoice_id) REFERENCES invoice(id),
+    FOREIGN KEY (product_id) REFERENCES product(id)
+);
