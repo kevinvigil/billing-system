@@ -2,13 +2,18 @@ package com.system.billingSystem.model;
 
 import com.system.billingSystem.dto.InvoiceDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Value;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
+
+import static java.time.OffsetDateTime.now;
 
 @Entity
 @Data
@@ -22,16 +27,21 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private OffsetDateTime date;
-    private boolean paid;
-    private boolean invoiced;
-    private double total;
+    @Column(nullable = false)
+    private OffsetDateTime date = now();
+    private boolean paid = true;
+    private boolean invoiced = false;
+    private double total = 0;
+
+    @Max(100)
+    @Min(0)
+    private Integer discount = 0;
 
     @Enumerated(EnumType.STRING)
-    private InvoiceVoucher invoiceVoucher;
+    private InvoiceVoucher invoiceVoucher = InvoiceVoucher.CASH;
 
     @Enumerated(EnumType.STRING)
-    private InvoiceType type;
+    private InvoiceType type = InvoiceType.B;
 
     @ManyToOne
     private Company company;

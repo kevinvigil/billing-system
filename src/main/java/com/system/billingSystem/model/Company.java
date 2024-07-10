@@ -24,14 +24,11 @@ public class Company {
     private String name;
     private String direction;
     private String phone;
-
     @Column(unique = true, nullable = false)
     private String cuit;
-
     @Email
     @Column(unique = true, nullable = false)
     private String email;
-
     @OneToMany(mappedBy = "company")
     private List<Invoice> invoice;
 
