@@ -37,7 +37,6 @@ public class InvoiceRepoTest {
                 .customer(null)
                 .company(null)
                 .total(0).build();
-
     }
 
     @AfterEach
@@ -56,7 +55,8 @@ public class InvoiceRepoTest {
     public void testFindById(){
         Invoice newInvoice = invoiceRepository.save(invoice);
         assertNotNull(newInvoice);
-        Invoice newInvoice2 = invoiceRepository.findById(invoice.getId()).get();
+        Invoice newInvoice2 = invoiceRepository.findById(newInvoice.getId()).orElse(null);
+        assertNotNull(newInvoice2);
         assertEquals(newInvoice.getId(), newInvoice2.getId());
     }
 

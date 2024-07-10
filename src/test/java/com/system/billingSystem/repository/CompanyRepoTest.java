@@ -55,7 +55,8 @@ public class CompanyRepoTest {
     public void testFindById() {
         Company newCompany = companyRepository.save(company);
         assertNotNull(newCompany);
-        Company newCompany2 = companyRepository.findById(newCompany.getId()).get();
+        Company newCompany2 = companyRepository.findById(newCompany.getId()).orElse(null);
+        assertNotNull(newCompany2);
         assertEquals("company", newCompany2.getName());
     }
 
