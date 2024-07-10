@@ -3,10 +3,12 @@ package com.system.billingSystem.model;
 import com.system.billingSystem.dto.InvoiceProductDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Entity
 @Data
+@Builder
 @AllArgsConstructor
 @Table(name = "InvoiceProduct")
 public class InvoiceProduct {

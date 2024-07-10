@@ -2,12 +2,14 @@ package com.system.billingSystem.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Entity
 @Data
+@Builder
 @AllArgsConstructor
-@Table(name = "User")
+@Table(name = "´User´")
 public class User {
 
     @Id
@@ -16,15 +18,17 @@ public class User {
 
     @Column
     private String name;
-    private String email;
+
+    @Column(nullable = false)
     private String password;
 
-    @ManyToOne
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @OneToOne
     private Company company;
 
-    public User() {
-
-    }
+    public User() {}
 
     @Override
     public String toString(){

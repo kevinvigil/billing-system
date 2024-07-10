@@ -4,12 +4,14 @@ import com.system.billingSystem.dto.CustomerDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Objects;
 
 @Entity
 @Data
+@Builder
 @AllArgsConstructor
 @Table(name = "Customer")
 public class Customer {
