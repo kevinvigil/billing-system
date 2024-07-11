@@ -32,7 +32,6 @@ public class CompanyRepoTest {
                 .email("company@hotmail.com")
                 .phone("1111")
                 .direction("hello world")
-                .invoice(new ArrayList<>())
                 .build();
     }
 
@@ -90,7 +89,6 @@ public class CompanyRepoTest {
                 .email("company2@hotmail.com")
                 .phone("1111")
                 .direction("hello world2")
-                .invoice(new ArrayList<>())
                 .build();
         List<Company> companies = new ArrayList<>();
         companies.add(company);

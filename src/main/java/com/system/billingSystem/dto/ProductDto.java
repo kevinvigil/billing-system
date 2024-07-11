@@ -16,8 +16,8 @@ public record ProductDto (
         this.price = price;
     }
 
-    public static ProductDto newProductDto (@NotNull Product p){
-        return new ProductDto(p.getId(), p.getName(), p.getDescription(), p.getPrice());
+    public ProductDto  (@NotNull Product p){
+        this (p.getId(), p.getName(), p.getDescription(), p.getPrice());
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.system.billingSystem.service;
 
-import com.system.billingSystem.dto.UserDto;
-import com.system.billingSystem.model.User;
-import com.system.billingSystem.repository.UserRepository;
+import com.system.billingSystem.dto.CustomerDto;
+import com.system.billingSystem.model.Customer;
+import com.system.billingSystem.repository.CustomerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,17 +15,17 @@ public class UserService{
 
     private static final Logger logger = Logger.getLogger(UserService.class.getName());
 
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository){
-        this.userRepository = userRepository;
+    public UserService(CustomerRepository customerRepository){
+        this.customerRepository = customerRepository;
     }
 
     @Transactional
-    public UserDto save(User entity) {
+    public CustomerDto save(Customer entity) {
         try {
-            return UserDto.newUserDto(userRepository.save(entity));
+            return new CustomerDto (customerRepository.save(entity));
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on UserService method save" + entity.toString());
             throw e;
@@ -33,23 +33,23 @@ public class UserService{
     }
 
     @Transactional
-    public UserDto delete(Long id) {
+    public CustomerDto delete(Long id) {
         try {
-            UserDto userDto = this.findById(id);
-            if(userDto != null)
-                userRepository.deleteById(id);
-            return userDto;
+            CustomerDto customerDto = this.findById(id);
+            if(customerDto != null)
+                customerRepository.deleteById(id);
+            return customerDto;
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error on UserService method delete, id:" + id);
             throw e;
         }
     }
 
-    public UserDto findById(Long id) {
+    public CustomerDto findById(Long id) {
         try {
-            User user = userRepository.findById(id).orElse(null);
+            Customer user = customerRepository.findById(id).orElse(null);
             if (user != null)
-                return UserDto.newUserDto(user);
+                return new CustomerDto (user);
             return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on UserService method findById, id: " + id);

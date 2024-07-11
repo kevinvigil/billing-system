@@ -16,7 +16,7 @@ public interface InvoiceRepository extends BaseRepository<Invoice, Long> {
     @Modifying
     @Transactional
     @Query("update Invoice i set i.date = :date, i.paid = :paid, i.invoiced=:invoiced, i.total=:total, " +
-            "i.invoiceVoucher=:invoiceVoucher, i.type = :type, i.company = :company, i.customer = :customer " +
+            "i.invoiceVoucher=:invoiceVoucher, i.type = :type, i.sellerCompany = :sellerCompany, i.buyerCompany = :buyerCompany " +
             "where i.id = :id")
     void updateInvoiceById(@Param("id") Long id,
                            @Param("date") OffsetDateTime date,
@@ -25,6 +25,6 @@ public interface InvoiceRepository extends BaseRepository<Invoice, Long> {
                            @Param("total") double total,
                            @Param("invoiceVoucher") InvoiceVoucher invoiceVoucher,
                            @Param("type") InvoiceType type,
-                           @Param("company") Company company,
-                           @Param("customer") Customer customer);
+                           @Param("sellerCompany") Company sellerCompany,
+                           @Param("buyerCompany") Company buyerCompany);
 }

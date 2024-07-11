@@ -34,8 +34,8 @@ public class InvoiceRepoTest {
                 .invoiced(false)
                 .paid(false)
                 .type(InvoiceType.A)
-                .customer(null)
-                .company(null)
+                .buyerCompany(null)
+                .sellerCompany(null)
                 .total(0).build();
     }
 
@@ -91,8 +91,8 @@ public class InvoiceRepoTest {
                 .invoiced(true)
                 .paid(true)
                 .type(InvoiceType.B)
-                .customer(null)
-                .company(null)
+                .buyerCompany(null)
+                .sellerCompany(null)
                 .total(0).build();
         List<Invoice> invoices = new ArrayList<>();
         invoices.add(newInvoice);

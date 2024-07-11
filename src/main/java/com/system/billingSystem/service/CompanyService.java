@@ -25,7 +25,7 @@ public class CompanyService{
     @Transactional
     public CompanyDto save(Company entity) {
         try{
-            return CompanyDto.newCompanyDto(companyRepository.save(entity));
+            return new CompanyDto (companyRepository.save(entity));
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method save, User: " + entity.toString());
             throw e;
@@ -49,7 +49,7 @@ public class CompanyService{
         try {
             Company company = this.companyRepository.findById(id).orElse(null);
             if (company != null)
-                return CompanyDto.newCompanyDto(company);
+                return new CompanyDto(company);
             return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method findById, id: " + id );

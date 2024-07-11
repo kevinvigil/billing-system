@@ -8,9 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -18,102 +15,61 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CustomerRepoTest {
 
     @Autowired
-    private CustomerRepository customerRepo;
+    private CustomerRepository userRepo;
 
     private static Customer customer;
 
     @BeforeAll
-    public static void setUp (){
+    public static void setUp() {
         customer = Customer.builder()
                 .id(1L)
-                .name("Customer")
-                .direction("Customer 9000")
-                .phone("2150 555555")
-                .cuit("9999")
-                .email("customer@hotmail.com")
+                .name("user name")
+                .email("user@hotmail.com")
+                .password("userPassword")
+                .company(null)
                 .build();
     }
 
     @AfterEach
-    public void tearDown(){
-        customerRepo.deleteAll();
+    public void tearDown() {
+        userRepo.deleteAll();
     }
 
     @Test
-    public void testSaveCustomer(){
-        Customer newCustomer = customerRepo.save(customer);
-
-        assertNotNull(newCustomer);
-
-        assertEquals(customer.getEmail(), newCustomer.getEmail());
+    public void testSaveUser() {
+        Customer newUser = userRepo.save(customer);
+        assertNotNull(newUser);
+        assertEquals(customer.getEmail(), newUser.getEmail());
     }
 
     @Test
-    public void testFindCustomerById(){
-        Customer newCustomer = customerRepo.save(customer);
-        assertNotNull(newCustomer);
-        Customer foundCustomer = customerRepo.findById(newCustomer.getId()).orElse(null);
-        assertNotNull(foundCustomer);
-        assertEquals(newCustomer.getId(), foundCustomer.getId());
-    }
-    
-    @Test
-    public void testUpdateCustomer(){
-        Customer newCustomer = customerRepo.save(customer);
-        String newName = "newName";
-        newCustomer.setName(newName);
-        customerRepo.save(newCustomer);
-        Customer updatedCustomer = customerRepo.findById(newCustomer.getId()).orElse(null);
-        assertNotNull(updatedCustomer);
-        assertEquals(newName, updatedCustomer.getName());
+    public void testFindById() {
+        Customer newUser = userRepo.save(customer);
+        assertNotNull(newUser);
+        Customer foundUser = userRepo.findById(newUser.getId()).orElse(null);
+        assertNotNull(foundUser);
+        assertEquals(newUser.getId(), foundUser.getId());
     }
 
     @Test
-    public void testDeleteCustomer(){
-        Customer newCustomer = customerRepo.save(customer);
-        Customer foundCustomer = customerRepo.findById(newCustomer.getId()).orElse(null);
-        assertNotNull(foundCustomer);
-        customerRepo.deleteById(newCustomer.getId());
-        foundCustomer = customerRepo.findById(newCustomer.getId()).orElse(null);
-        assertNull(foundCustomer);
+    public void testDeleteUser() {
+        Customer newUser = userRepo.save(customer);
+        assertNotNull(newUser);
+        Customer foundUser = userRepo.findById(newUser.getId()).orElse(null);
+        assertNotNull(foundUser);
+        assertEquals(newUser.getId(), foundUser.getId());
+        userRepo.deleteById(newUser.getId());
+        assertNull(userRepo.findById(newUser.getId()).orElse(null));
     }
 
     @Test
-    public void findAllCustomers(){
-        customerRepo.save(customer);
-        customerRepo.save(Customer.builder()
-                .id(2L)
-                .name("Customer2")
-                .direction("Customer2 9000")
-                .phone("22150 555555")
-                .cuit("99992")
-                .email("customer2@hotmail.com")
-                .build());
-
-        List<Customer> customers = customerRepo.findAll();
-        assertNotNull(customers);
-        assertEquals(2, customers.size());
-    }
-
-    @Test
-    public void saveAllCustomers(){
-        Customer newCustomer = Customer.builder()
-                .id(2L)
-                .name("Customer2")
-                .direction("Customer2 9000")
-                .phone("22150 555555")
-                .cuit("99992")
-                .email("customer2@hotmail.com")
-                .build();
-
-        List<Customer> customers = new ArrayList<>();
-        customers.add(customer);
-        customers.add(newCustomer);
-
-        customerRepo.saveAll(customers);
-        List<Customer> foundCustomers = customerRepo.findAll();
-
-        assertNotNull(foundCustomers);
-        assertEquals(2, foundCustomers.size());
+    public void testUpdateUser() {
+        Customer newUser = userRepo.save(customer);
+        assertNotNull(newUser);
+        newUser.setName("new name");
+        userRepo.save(newUser);
+        Customer foundUser = userRepo.findById(newUser.getId()).orElse(null);
+        assertNotNull(foundUser);
+        assertEquals(newUser.getName(), foundUser.getName());
     }
 }

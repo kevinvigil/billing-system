@@ -3,27 +3,22 @@ package com.system.billingSystem.dto;
 import com.system.billingSystem.model.Customer;
 import org.jetbrains.annotations.NotNull;
 
-public record CustomerDto (
+public record CustomerDto(
         Long id,
         String name,
-        String direction,
-        String phone,
-        String email) {
+        String email,
+        Long company
+) {
 
-    public CustomerDto(Long id, String name, String direction, String phone, String email) {
+    public CustomerDto(Long id, String name, String email, Long company) {
         this.id = id;
         this.name = name;
-        this.direction = direction;
-        this.phone = phone;
         this.email = email;
+        this.company = company;
     }
 
-    public CustomerDto(Long id){
-        this(id, null, null, null, null);
-    }
-
-    public CustomerDto(@NotNull Customer c){
-        this(c.getId(), c.getName(), c.getDirection(), c.getEmail(), c.getPhone());
+    public CustomerDto (@NotNull Customer u){
+        this (u.getId(), u.getName(), u.getEmail(), u.getCompany().getId());
     }
 
     @Override
@@ -37,17 +32,12 @@ public record CustomerDto (
     }
 
     @Override
-    public String direction() {
-        return direction;
-    }
-
-    @Override
-    public String phone() {
-        return phone;
-    }
-
-    @Override
     public String email() {
         return email;
+    }
+
+    @Override
+    public Long company() {
+        return company;
     }
 }

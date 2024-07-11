@@ -7,11 +7,11 @@ import java.util.Objects;
 public record InvoiceProductDto (
         Long id,
         String name,
-        double amount,
+        Double amount,
         Long idProduct,
         Long idInvoice ) {
 
-    public InvoiceProductDto(Long id, String name, double amount, Long idProduct, Long idInvoice) {
+    public InvoiceProductDto(Long id, String name, Double amount, Long idProduct, Long idInvoice) {
         this.id = id;
         this.name = name;
         this.amount = amount;
@@ -19,8 +19,8 @@ public record InvoiceProductDto (
         this.idInvoice = idInvoice;
     }
 
-    public static InvoiceProductDto newInvoiceProductDto(InvoiceProduct invoiceProduct){
-        return new InvoiceProductDto(invoiceProduct.getId(), invoiceProduct.getProduct().getName(),
+    public InvoiceProductDto (InvoiceProduct invoiceProduct){
+        this (invoiceProduct.getId(), invoiceProduct.getProduct().getName(),
                 invoiceProduct.getAmount(), invoiceProduct.getInvoice().getId(),
                 invoiceProduct.getProduct().getId());
     }
@@ -52,7 +52,7 @@ public record InvoiceProductDto (
     }
 
     @Override
-    public double amount() {
+    public Double amount() {
         return amount;
     }
 

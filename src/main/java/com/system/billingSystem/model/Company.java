@@ -17,6 +17,7 @@ import java.util.Objects;
 public class Company {
 
     @Id
+    @Column(name = "company_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -29,8 +30,12 @@ public class Company {
     @Email
     @Column(unique = true, nullable = false)
     private String email;
-    @OneToMany(mappedBy = "company")
-    private List<Invoice> invoice;
+
+    @OneToMany(mappedBy = "sellerCompany")
+    private List<Invoice> soldInvoices;
+
+    @OneToMany(mappedBy = "buyerCompany")
+    private List<Invoice> purchasedInvoices;
 
     public Company() {}
 

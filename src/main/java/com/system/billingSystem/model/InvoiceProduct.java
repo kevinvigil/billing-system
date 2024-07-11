@@ -24,7 +24,7 @@ public class InvoiceProduct {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    private double amount;
+    private Double amount;
 
     public InvoiceProduct() {}
 

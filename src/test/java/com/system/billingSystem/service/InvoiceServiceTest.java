@@ -9,12 +9,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -30,8 +34,6 @@ public class InvoiceServiceTest {
     @Mock
     private CompanyRepository companyRepository;
     @Mock
-    private CustomerRepository customerRepository;
-    @Mock
     private InvoiceProductRepository invoiceProductRepository;
     @Mock
     private ProductRepository productRepository;
@@ -40,22 +42,26 @@ public class InvoiceServiceTest {
     private InvoiceService invoiceService;
 
     private Invoice invoice;
-    private Customer customer;
-    private Company company;
+    private Company sellerCompany;
+    private Company buyerCompany;
     private Product product;
     private InvoiceProduct invoiceProduct;
 
+    private AutoCloseable autoCloseable;
+
     @BeforeEach
     public void setUp(){
-        this.customer = Customer.builder()
-                .id(1L) .name("Name Customer") .direction("Customer direction")
-                .phone("2150556655") .cuit("Cuit Customer") .email("customer@hotmail.com")
-                .build();
-
-        this.company = Company.builder()
+        autoCloseable = MockitoAnnotations.openMocks(this);
+        this.sellerCompany = Company.builder()
                 .id(1L) .name("Name Company") .cuit("Cuit Company")
                 .email("company@hotmail.com") .phone("2150556655") .direction("Company direction")
-                .invoice(new ArrayList<>()) .build();
+                .build();
+
+        this.buyerCompany = Company.builder()
+                .id(1L) .name("Name Company") .cuit("Cuit Company")
+                .email("company@hotmail.com") .phone("2150556655") .direction("Company direction")
+                .build();
+
 
         this.product = Product.builder()
                 .id(1L) .name("Name Product") .description("Description Product")
@@ -68,21 +74,25 @@ public class InvoiceServiceTest {
         OffsetDateTime offsetDateTime = OffsetDateTime.now();
         this.invoice = Invoice.builder()
                 .id(1L) .date(offsetDateTime) .invoiceVoucher(InvoiceVoucher.BILL)
-                .invoiced(false) .paid(false) .type(InvoiceType.A) .customer(this.customer)
-                .company(this.company) .total(0).build();
+                .invoiced(false) .paid(false) .type(InvoiceType.A) .sellerCompany(this.sellerCompany)
+                .buyerCompany(this.buyerCompany) .total(0).build();
     }
 
     @AfterEach
     void tearDown() throws Exception {
-
+        autoCloseable.close();
     }
 
     @Test
     public void testSaveInvoiceWithZeroProduct(){
         mock(Invoice.class);
+        mock(InvoiceDto.class);
+        mock(InvoiceProductDto.class);
         mock(InvoiceRepository.class);
 
-        when(invoiceRepository.save(invoice)).thenReturn(invoice);
+        assertNotNull(invoice);
+
+        when(invoiceRepository.save(Mockito.any(Invoice.class))).thenReturn(invoice);
 
         InvoiceDto invoiceDto = invoiceService.saveInvoice(InvoiceDto.newInvoiceDto(invoice));
 
@@ -90,7 +100,7 @@ public class InvoiceServiceTest {
 
         assertEquals(InvoiceDto.newInvoiceDto(invoice), invoiceDto);
     }
-//
+
 //    @Test
 //    public void testUpdateInvoiceById(){
 //        mock(Invoice.class);
@@ -116,7 +126,7 @@ public class InvoiceServiceTest {
 //        List<InvoiceProductDto> productList = new ArrayList<>();
 //        productList.add(invoiceProductDto);
 //
-//        InvoiceDto existingInvoiceDto = new InvoiceDto(invoiceId, OffsetDateTime.now(), false, false, 0.0, InvoiceVoucher.FACTURA.name(), InvoiceType.A.name(), 1L, 1L, productList);
+//        InvoiceDto existingInvoiceDto = new InvoiceDto(invoiceId, OffsetDateTime.now(), false, false, 0.0, InvoiceVoucher.BILL.name(), InvoiceType.A.name(), 1L, 1L, productList);
 //
 //        when(invoiceRepository.findById(invoiceId)).thenReturn(Optional.of(new Invoice()));
 //        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));

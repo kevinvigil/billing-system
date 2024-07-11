@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Value;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -44,10 +43,12 @@ public class Invoice {
     private InvoiceType type = InvoiceType.B;
 
     @ManyToOne
-    private Company company;
+    @JoinColumn(name = "seller_company_id", referencedColumnName = "company_id")
+    private Company sellerCompany;
 
     @ManyToOne
-    private Customer customer;
+    @JoinColumn(name = "buyer_company_id", referencedColumnName = "company_id")
+    private Company buyerCompany;
 
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InvoiceProduct> products;
@@ -55,14 +56,13 @@ public class Invoice {
     public static Invoice newInvoice(InvoiceDto dto){
         Invoice invoice = new Invoice();
         invoice.setId(dto.id());
-        invoice.setDate(dto.date());
         invoice.setPaid(dto.paid());
         invoice.setInvoiced(dto.invoiced());
         invoice.setTotal(dto.total());
         invoice.setInvoiceVoucher(InvoiceVoucher.valueOf(dto.invoiceVoucher()));
         invoice.setType(InvoiceType.valueOf(dto.type()));
-        invoice.setCompany(new Company(dto.company()));
-        invoice.setCustomer(new Customer(dto.customer()));
+        invoice.setSellerCompany(new Company(dto.sellerCompany()));
+        invoice.setBuyerCompany(new Company(dto.buyerCompany()));
         return invoice;
     }
 
@@ -86,8 +86,8 @@ public class Invoice {
                 ", total=" + total +
                 ", invoiceVoucher='" + invoiceVoucher.name() + '\'' +
                 ", type='" + type.name() + '\'' +
-                ", company=" + ((company != null) ? company.getId() : "null") +
-                ", customer=" + ((customer != null) ? customer.getId() : "null") +
+                ", company=" + ((sellerCompany != null) ? sellerCompany.getId() : "null") +
+                ", customer=" + ((buyerCompany != null) ? buyerCompany.getId() : "null") +
                 '}';
     }
 
@@ -102,21 +102,21 @@ public class Invoice {
         || (!Objects.equals(id, invoice.id)) || (!Objects.equals(date, invoice.date)) || (invoiceVoucher != invoice.invoiceVoucher)
         || (type != invoice.type))return false;
 
-        if (this.company != null && invoice.company != null)
-            if (!Objects.equals(company, invoice.company))
+        if (this.sellerCompany != null && invoice.sellerCompany != null)
+            if (!Objects.equals(sellerCompany, invoice.sellerCompany))
                 return false;
             else ;
-        else if  (this.company != null || invoice.company != null)
+        else if  (this.sellerCompany != null || invoice.sellerCompany != null)
             return false;
 
-        if (this.customer != null && invoice.customer != null)
-            if (!Objects.equals(customer, invoice.customer))
+        if (this.buyerCompany != null && invoice.buyerCompany != null)
+            if (!Objects.equals(buyerCompany, invoice.buyerCompany))
                 return false;
             else ;
-        else if (this.customer != null || invoice.customer != null)
+        else if (this.buyerCompany != null || invoice.buyerCompany != null)
             return false;
 
-        return Objects.equals(customer, invoice.customer);
+        return Objects.equals(buyerCompany, invoice.buyerCompany);
     }
 
     @Override

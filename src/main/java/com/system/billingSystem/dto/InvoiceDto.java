@@ -17,12 +17,12 @@ public record InvoiceDto (
         double total,
         String invoiceVoucher,
         String type,
-        Long company,
-        Long customer,
+        Long sellerCompany,
+        Long buyerCompany,
         List<InvoiceProductDto> products ) {
 
     public InvoiceDto(Long id, OffsetDateTime date, boolean paid, boolean invoiced, double total,
-                      String invoiceVoucher, String type, Long company, Long customer,
+                      String invoiceVoucher, String type, Long sellerCompany, Long buyerCompany,
                       List<InvoiceProductDto> products) {
         this.id = id;
         this.date = date;
@@ -31,8 +31,8 @@ public record InvoiceDto (
         this.total = total;
         this.invoiceVoucher = invoiceVoucher;
         this.type = type;
-        this.company = company;
-        this.customer = customer;
+        this.sellerCompany = sellerCompany;
+        this.buyerCompany = buyerCompany;
         this.products = products;
     }
 
@@ -41,12 +41,12 @@ public record InvoiceDto (
         List<InvoiceProductDto> products = new ArrayList<InvoiceProductDto>();
         if (productList != null && !productList.isEmpty()){
             for (InvoiceProduct IP:productList) {
-                products.add(InvoiceProductDto.newInvoiceProductDto(IP));
+                products.add(new InvoiceProductDto(IP));
             }
         }
         return new InvoiceDto(i.getId(), i.getDate(), i.isPaid(), i.isInvoiced(),
-                i.getTotal(), i.getInvoiceVoucher().name(), i.getType().name(), i.getCompany().getId(),
-                i.getCustomer().getId(), products);
+                i.getTotal(), i.getInvoiceVoucher().name(), i.getType().name(), i.getSellerCompany().getId(),
+                i.getBuyerCompany().getId(), products);
     }
 
     @Override
@@ -59,8 +59,8 @@ public record InvoiceDto (
                 ", total=" + total +
                 ", invoiceVoucher='" + invoiceVoucher + '\'' +
                 ", type='" + type + '\'' +
-                ", company=" + company +
-                ", customer=" + customer +
+                ", company=" + sellerCompany +
+                ", customer=" + buyerCompany +
                 '}';
     }
 
@@ -78,8 +78,8 @@ public record InvoiceDto (
                 && Double.compare(invoice1.total(), invoice2.total()) == 0
                 && Objects.equals(invoice1.invoiceVoucher(), invoice2.invoiceVoucher())
                 && Objects.equals(invoice1.type(), invoice2.type())
-                && Objects.equals(invoice1.company(), invoice2.company())
-                && Objects.equals(invoice1.customer(), invoice2.customer())
+                && Objects.equals(invoice1.sellerCompany(), invoice2.sellerCompany())
+                && Objects.equals(invoice1.buyerCompany(), invoice2.buyerCompany())
                 && compareProductLists(invoice1.products(), invoice2.products());
     }
 
@@ -135,13 +135,13 @@ public record InvoiceDto (
     }
 
     @Override
-    public Long company() {
-        return company;
+    public Long sellerCompany() {
+        return sellerCompany;
     }
 
     @Override
-    public Long customer() {
-        return customer;
+    public Long buyerCompany() {
+        return buyerCompany;
     }
 
     @Override
