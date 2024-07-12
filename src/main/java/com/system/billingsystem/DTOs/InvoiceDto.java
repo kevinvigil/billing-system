@@ -8,21 +8,22 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public record InvoiceDto (
-        Long id,
+        UUID id,
         OffsetDateTime date,
         boolean paid,
         boolean invoiced,
         double total,
         String invoiceVoucher,
         String type,
-        Long sellerCompany,
-        Long buyerCompany,
+        UUID sellerCompany,
+        UUID buyerCompany,
         List<InvoiceProductDto> products ) {
 
-    public InvoiceDto(Long id, OffsetDateTime date, boolean paid, boolean invoiced, double total,
-                      String invoiceVoucher, String type, Long sellerCompany, Long buyerCompany,
+    public InvoiceDto(UUID id, OffsetDateTime date, boolean paid, boolean invoiced, double total,
+                      String invoiceVoucher, String type, UUID sellerCompany, UUID buyerCompany,
                       List<InvoiceProductDto> products) {
         this.id = id;
         this.date = date;
@@ -101,7 +102,7 @@ public record InvoiceDto (
     }
 
     @Override
-    public Long id() {
+    public UUID id() {
         return id;
     }
 
@@ -135,12 +136,12 @@ public record InvoiceDto (
     }
 
     @Override
-    public Long sellerCompany() {
+    public UUID sellerCompany() {
         return sellerCompany;
     }
 
     @Override
-    public Long buyerCompany() {
+    public UUID buyerCompany() {
         return buyerCompany;
     }
 

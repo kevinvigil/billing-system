@@ -12,6 +12,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import static java.time.OffsetDateTime.now;
 
@@ -24,8 +25,8 @@ public class Invoice {
 
     @Id
     @Column(name = "invoice_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @Column(nullable = false)
     private OffsetDateTime date = now();
@@ -38,7 +39,7 @@ public class Invoice {
     private Integer discount = 0;
 
     @Enumerated(EnumType.STRING)
-    private InvoiceVoucher invoiceVoucher = InvoiceVoucher.CASH;
+    private InvoiceVoucher invoiceVoucher;
 
     @Enumerated(EnumType.STRING)
     private InvoiceType type = InvoiceType.B;
@@ -69,7 +70,7 @@ public class Invoice {
 
     public Invoice() {}
 
-    public Invoice(Long id) {
+    public Invoice(UUID id) {
         this.id = id;
     }
 

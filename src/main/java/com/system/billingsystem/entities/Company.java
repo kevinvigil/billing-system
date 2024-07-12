@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -18,8 +19,8 @@ public class Company {
 
     @Id
     @Column(name = "company_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @Column
     private String name;
@@ -39,7 +40,7 @@ public class Company {
 
     public Company() {}
 
-    public Company(Long id) {
+    public Company(UUID id) {
         this.id = id;
     }
 

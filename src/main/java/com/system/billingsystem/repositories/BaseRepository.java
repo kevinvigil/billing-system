@@ -5,6 +5,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @NoRepositoryBean
 public interface BaseRepository<T, ID extends Serializable> extends org.springframework.data.repository.Repository<T,ID> {
@@ -15,6 +16,6 @@ public interface BaseRepository<T, ID extends Serializable> extends org.springfr
     void deleteAll();
     boolean existsById(ID id);
     List<T> findAll();
-    Optional<T> findById(Long id);
+    Optional<T> findById(UUID id);
 
 }

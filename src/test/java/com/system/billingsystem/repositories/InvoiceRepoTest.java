@@ -12,6 +12,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +29,7 @@ public class InvoiceRepoTest {
     public static void setUp(){
         OffsetDateTime offsetDateTime = OffsetDateTime.now();
         invoice = Invoice.builder()
-                .id(1L)
+                .id(new UUID(1,1))
                 .date(offsetDateTime)
                 .invoiceVoucher(InvoiceVoucher.BILL)
                 .invoiced(false)
@@ -48,7 +49,7 @@ public class InvoiceRepoTest {
     public void testCreateInvoice(){
         Invoice newInvoice = invoiceRepository.save(invoice);
         assertNotNull(newInvoice);
-        assertTrue(newInvoice.getId() > 0);
+        assertTrue(newInvoice.getId().compareTo(new UUID(1,0)) > 0 );
     }
 
     @Test
@@ -85,7 +86,7 @@ public class InvoiceRepoTest {
     public void testFindAll(){
         OffsetDateTime offsetDateTime = OffsetDateTime.now();
         Invoice newInvoice = Invoice.builder()
-                .id(2L)
+                .id(new UUID(2,2))
                 .date(offsetDateTime)
                 .invoiceVoucher(InvoiceVoucher.REFERENCE)
                 .invoiced(true)
@@ -107,9 +108,9 @@ public class InvoiceRepoTest {
 
     @Test
     public void testSaveAll(){
-        Invoice newInvoice = new Invoice(2L);
-        Invoice newInvoice2 = new Invoice(3L);
-        Invoice newInvoice3 = new Invoice(4L);
+        Invoice newInvoice = new Invoice(new UUID(2,2));
+        Invoice newInvoice2 = new Invoice(new UUID(3,3));
+        Invoice newInvoice3 = new Invoice(new UUID(4,4));
 
         List<Invoice> invoices = new ArrayList<>();
         invoices.add(invoice);

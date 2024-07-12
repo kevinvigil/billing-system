@@ -3,13 +3,15 @@ package com.system.billingsystem.DTOs;
 import com.system.billingsystem.entities.Product;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+
 public record ProductDto (
-        Long id,
+        UUID id,
         String name,
         String description,
         double price ) {
 
-    public ProductDto(Long id, String name, String description, double price) {
+    public ProductDto(UUID id, String name, String description, double price) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -21,7 +23,7 @@ public record ProductDto (
     }
 
     @Override
-    public Long id() {
+    public UUID id() {
         return id;
     }
 

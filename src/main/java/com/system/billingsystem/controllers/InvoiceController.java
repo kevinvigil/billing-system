@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Controller
 @RestController
 @RequestMapping("/api/invoice")
@@ -65,13 +67,13 @@ public class InvoiceController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable UUID id){
         InvoiceDto invoiceDto = invoiceService.deleteInvoice(id);
         return ResponseEntity.ok().body(invoiceDto);
     }
 
     @GetMapping("/{id}")
-    public  ResponseEntity<?> findById(@PathVariable Long id){
+    public  ResponseEntity<?> findById(@PathVariable UUID id){
         try{
             InvoiceDto invoiceDto = invoiceService.findInvoiceById(id);
             if (invoiceDto != null)

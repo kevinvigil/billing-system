@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,7 +34,7 @@ public class UserService{
     }
 
     @Transactional
-    public CustomerDto delete(Long id) {
+    public CustomerDto delete(UUID id) {
         try {
             CustomerDto customerDto = this.findById(id);
             if(customerDto != null)
@@ -45,7 +46,7 @@ public class UserService{
         }
     }
 
-    public CustomerDto findById(Long id) {
+    public CustomerDto findById(UUID id) {
         try {
             Customer user = customerRepository.findById(id).orElse(null);
             if (user != null)
@@ -56,8 +57,4 @@ public class UserService{
             throw e;
         }
     }
-
-
-
-
 }

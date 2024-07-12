@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +26,7 @@ public class ProductRepoTest {
     @BeforeAll
     public static void setUp(){
         product = Product.builder()
-                .id(1L)
+                .id(new UUID(1,1))
                 .name("Name Product")
                 .description("Description Product")
                 .price(100.0)
@@ -80,7 +81,7 @@ public class ProductRepoTest {
         Product savedProduct = productRepo.save(product);
         assertNotNull(savedProduct);
         Product newProduct = Product.builder()
-                .id(2L)
+                .id(new UUID(2,2))
                 .name("Name Product 2")
                 .description("Description Product 2")
                 .price(200.0)
@@ -94,7 +95,7 @@ public class ProductRepoTest {
     @Test
     public void testSaveAllProducts(){
         Product newProduct = Product.builder()
-                .id(2L)
+                .id(new UUID(2,2))
                 .name("Name Product 2")
                 .description("Description Product 2")
                 .price(200.0)

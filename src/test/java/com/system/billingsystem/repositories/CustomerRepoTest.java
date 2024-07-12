@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -22,7 +24,7 @@ public class CustomerRepoTest {
     @BeforeAll
     public static void setUp() {
         customer = Customer.builder()
-                .id(1L)
+                .id(new UUID(1,1))
                 .name("user name")
                 .email("user@hotmail.com")
                 .password("userPassword")

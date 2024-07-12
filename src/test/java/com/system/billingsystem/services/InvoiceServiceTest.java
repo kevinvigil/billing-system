@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -54,26 +55,26 @@ public class InvoiceServiceTest {
         autoCloseable = MockitoAnnotations.openMocks(this);
 
         this.sellerCompany = Company.builder()
-                .id(1L) .name("Name Company") .cuit("Cuit Company")
+                .id(new UUID(1,1)) .name("Name Company") .cuit("Cuit Company")
                 .email("company@hotmail.com") .phone("2150556655") .direction("Company direction")
                 .build();
 
         this.buyerCompany = Company.builder()
-                .id(1L) .name("Name Company") .cuit("Cuit Company")
+                .id(new UUID(1,1)) .name("Name Company") .cuit("Cuit Company")
                 .email("company@hotmail.com") .phone("2150556655") .direction("Company direction")
                 .build();
 
         this.product = Product.builder()
-                .id(1L) .name("Name Product") .description("Description Product")
+                .id(new UUID(1,1)) .name("Name Product") .description("Description Product")
                 .price(100.0) .build();
 
         this.invoiceProduct = InvoiceProduct.builder()
-                .id(1L) .product(null) .invoice(null)
+                .id(new UUID(1,1)) .product(null) .invoice(null)
                 .build();
 
         OffsetDateTime offsetDateTime = OffsetDateTime.now();
         this.invoice = Invoice.builder()
-                .id(1L) .date(offsetDateTime) .invoiceVoucher(InvoiceVoucher.BILL)
+                .id(new UUID(1,1)) .date(offsetDateTime) .invoiceVoucher(InvoiceVoucher.BILL)
                 .invoiced(false) .paid(false) .type(InvoiceType.A) .sellerCompany(this.sellerCompany)
                 .buyerCompany(this.buyerCompany) .total(0).build();
 

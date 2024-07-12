@@ -3,14 +3,16 @@ package com.system.billingsystem.DTOs;
 import com.system.billingsystem.entities.Customer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+
 public record CustomerDto(
-        Long id,
+        UUID id,
         String name,
         String email,
-        Long company
+        UUID company
 ) {
 
-    public CustomerDto(Long id, String name, String email, Long company) {
+    public CustomerDto(UUID id, String name, String email, UUID company) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -22,7 +24,7 @@ public record CustomerDto(
     }
 
     @Override
-    public Long id() {
+    public UUID id() {
         return id;
     }
 
@@ -37,7 +39,7 @@ public record CustomerDto(
     }
 
     @Override
-    public Long company() {
+    public UUID company() {
         return company;
     }
 }

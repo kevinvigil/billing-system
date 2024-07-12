@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Entity
 @Data
 @Builder
@@ -14,8 +16,8 @@ public class Product {
 
     @Id
     @Column(name = "product_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
@@ -27,7 +29,7 @@ public class Product {
 
     public Product() {}
 
-    public Product(Long id) {
+    public Product(UUID id) {
         this.id=id;
     }
 

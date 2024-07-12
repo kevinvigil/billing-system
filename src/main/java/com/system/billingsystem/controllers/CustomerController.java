@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Controller
 @RestController
 @RequestMapping("/api/user")
@@ -42,13 +44,13 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable UUID id){
         CustomerDto customerDto = userService.delete(id);
         return ResponseEntity.ok().body(customerDto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id){
+    public ResponseEntity<?> findById(@PathVariable UUID id){
         try {
             CustomerDto customerDto = userService.findById(id);
             if (customerDto == null)

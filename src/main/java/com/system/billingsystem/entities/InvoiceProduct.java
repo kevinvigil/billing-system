@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Entity
 @Data
 @Builder
@@ -13,8 +15,8 @@ import lombok.Data;
 @Table(name = "InvoiceProduct")
 public class InvoiceProduct {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "invoice_id")

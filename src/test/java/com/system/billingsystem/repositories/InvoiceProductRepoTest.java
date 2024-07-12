@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +26,7 @@ public class InvoiceProductRepoTest {
     @BeforeAll
     public static void setUp(){
         invoiceProduct = InvoiceProduct.builder()
-                .id(1L)
+                .id(new UUID(1,1))
                 .product(null)
                 .invoice(null)
                 .build();
@@ -70,7 +71,7 @@ public class InvoiceProductRepoTest {
     public void testFindAllInvoiceProduct(){
         invoiceProductRepo.save(invoiceProduct);
         InvoiceProduct newInvoiceProduct = InvoiceProduct.builder()
-                .id(3L)
+                .id(new UUID(2,2))
                 .product(null)
                 .invoice(null)
                 .build();
@@ -85,7 +86,7 @@ public class InvoiceProductRepoTest {
     @Test
     public void testSaveAllInvoiceProduct(){
         InvoiceProduct newInvoiceProduct = InvoiceProduct.builder()
-                .id(2L)
+                .id(new UUID(2,2))
                 .amount(200.0)
                 .product(null)
                 .invoice(null)

@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,7 +34,7 @@ public class CompanyService{
     }
 
     @Transactional
-    public CompanyDto delete(Long id) {
+    public CompanyDto delete(UUID id) {
         try {
             CompanyDto companyDto = this.findById(id);
             if (companyDto != null)
@@ -45,7 +46,7 @@ public class CompanyService{
         }
     }
 
-    public CompanyDto findById(Long id) {
+    public CompanyDto findById(UUID id) {
         try {
             Company company = this.companyRepository.findById(id).orElse(null);
             if (company != null)

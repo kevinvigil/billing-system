@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -83,7 +84,7 @@ public class InvoiceService{
     }
 
     @Transactional
-    public InvoiceDto deleteInvoice (@NotNull Long id){
+    public InvoiceDto deleteInvoice (@NotNull UUID id){
         try {
             InvoiceDto invoiceDto = this.findInvoiceById(id);
             if (invoiceDto != null)
@@ -96,7 +97,7 @@ public class InvoiceService{
     }
 
     @Transactional
-    public InvoiceDto findInvoiceById(@NotNull Long id){
+    public InvoiceDto findInvoiceById(@NotNull UUID id){
         try {
             Invoice invoice = invoiceRepository.findById(id).orElse(null);
             if (invoice!=null)
@@ -129,7 +130,7 @@ public class InvoiceService{
     }
 
     @Transactional
-    public ProductDto deleteProduct (@NotNull Long id){
+    public ProductDto deleteProduct (@NotNull UUID id){
         try{
             ProductDto productDto= this.findProductById(id);
             if (productDto != null)
@@ -141,7 +142,7 @@ public class InvoiceService{
         }
     }
 
-    public ProductDto findProductById (@NotNull Long id){
+    public ProductDto findProductById (@NotNull UUID id){
         try{
             Product product= this.productRepository.findById(id).orElse(null);
             if (product != null)

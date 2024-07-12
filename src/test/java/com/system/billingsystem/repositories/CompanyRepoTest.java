@@ -11,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,7 +27,7 @@ public class CompanyRepoTest {
     @BeforeAll
     public static void setUp() {
         company = Company.builder()
-                .id(1L)
+                .id(new UUID(1,1))
                 .name("company")
                 .cuit("1111")
                 .email("company@hotmail.com")
@@ -47,7 +48,7 @@ public class CompanyRepoTest {
         
         assertNotNull(newCompany);
 
-        assertTrue(newCompany.getId() > 0);
+        assertTrue(newCompany.getId().compareTo(new UUID(1,0)) > 0);
     }
 
     @Test
@@ -83,7 +84,7 @@ public class CompanyRepoTest {
     @Test
     public void testFindAll(){
         Company newCompany = Company.builder()
-                .id(1L)
+                .id(new UUID(2,2))
                 .name("company2")
                 .cuit("2222")
                 .email("company2@hotmail.com")
@@ -103,7 +104,7 @@ public class CompanyRepoTest {
 
     @Test
     public void testSaveAll(){
-        Company newCompany = new Company(2L);
+        Company newCompany = new Company(new UUID(2,2));
         newCompany.setCuit("2222");
         newCompany.setEmail("company2@hotmail.com");
         List<Company> companies = new ArrayList<>();

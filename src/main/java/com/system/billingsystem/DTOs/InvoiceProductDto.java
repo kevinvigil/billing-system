@@ -3,15 +3,16 @@ package com.system.billingsystem.DTOs;
 import com.system.billingsystem.entities.InvoiceProduct;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public record InvoiceProductDto (
-        Long id,
+        UUID id,
         String name,
         Double amount,
-        Long idProduct,
-        Long idInvoice ) {
+        UUID idProduct,
+        UUID idInvoice ) {
 
-    public InvoiceProductDto(Long id, String name, Double amount, Long idProduct, Long idInvoice) {
+    public InvoiceProductDto(UUID id, String name, Double amount, UUID idProduct, UUID idInvoice) {
         this.id = id;
         this.name = name;
         this.amount = amount;
@@ -42,7 +43,7 @@ public record InvoiceProductDto (
 
 
     @Override
-    public Long id() {
+    public UUID id() {
         return id;
     }
 
@@ -57,12 +58,12 @@ public record InvoiceProductDto (
     }
 
     @Override
-    public Long idProduct() {
+    public UUID idProduct() {
         return idProduct;
     }
 
     @Override
-    public Long idInvoice() {
+    public UUID idInvoice() {
         return idInvoice;
     }
 }

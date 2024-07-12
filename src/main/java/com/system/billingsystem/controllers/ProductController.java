@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Controller
 @RestController
 @RequestMapping("/api/product")
@@ -43,13 +45,13 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable UUID id){
         ProductDto productDto = invoiceService.deleteProduct(id);
         return ResponseEntity.ok().body(productDto);
     }
 
     @GetMapping("/{id}")
-    public  ResponseEntity<?> findById(@PathVariable Long id){
+    public  ResponseEntity<?> findById(@PathVariable UUID id){
         try {
             ProductDto productDto = invoiceService.findProductById(id);
             if (productDto != null)

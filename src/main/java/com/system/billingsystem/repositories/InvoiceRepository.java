@@ -8,9 +8,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 @Repository("InvoiceRepository")
-public interface InvoiceRepository extends BaseRepository<Invoice, Long> {
+public interface InvoiceRepository extends BaseRepository<Invoice, UUID> {
 
     @Modifying
     @Transactional
