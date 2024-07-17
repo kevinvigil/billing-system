@@ -1,6 +1,5 @@
 package com.system.billingsystem.services;
 
-import com.system.billingsystem.DTOs.*;
 import com.system.billingsystem.entities.*;
 import com.system.billingsystem.repositories.*;
 import org.junit.jupiter.api.AfterEach;
@@ -91,13 +90,13 @@ public class InvoiceServiceTest {
         when(invoiceRepository.save(any(Invoice.class))).thenReturn(this.invoice);
 
         // Llamar al método del servicio
-        InvoiceDto invoiceDto = invoiceService.saveInvoice(InvoiceDto.newInvoiceDto(invoice));
+        Invoice invoice1 = invoiceService.saveInvoice(invoice);
 
         // Verificar que el resultado no sea nulo
-        assertNotNull(invoiceDto);
+        assertNotNull(invoice);
 
         // Verificar que el resultado sea el esperado
-        assertEquals(InvoiceDto.newInvoiceDto(invoice), invoiceDto);
+        assertEquals(invoice1, invoice);
 
         verify(invoiceRepository, times(1)).save(any(Invoice.class));
     }

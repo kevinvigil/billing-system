@@ -1,6 +1,6 @@
 package com.system.billingsystem.controllers;
 
-import com.system.billingsystem.DTOs.ProductDto;
+import com.system.billingsystem.dto.dtosmappers.ProductDtoMapper;
 import com.system.billingsystem.entities.Product;
 import com.system.billingsystem.repositories.ProductRepository;
 import com.system.billingsystem.services.InvoiceService;
@@ -35,27 +35,27 @@ public class ProductController {
 
         boolean isNew = entity.getId() == null || !productRepository.existsById(entity.getId());
 
-        ProductDto productDto = invoiceService.saveProduct(entity);
+        Product product = invoiceService.saveProduct(entity);
 
         if (isNew) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(productDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(ProductDtoMapper.toDto(product));
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(productDto);
+            return ResponseEntity.status(HttpStatus.OK).body(ProductDtoMapper.toDto(product));
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id){
-        ProductDto productDto = invoiceService.deleteProduct(id);
-        return ResponseEntity.ok().body(productDto);
+        Product product = invoiceService.deleteProduct(id);
+        return ResponseEntity.ok().body(ProductDtoMapper.toDto(product));
     }
 
     @GetMapping("/{id}")
     public  ResponseEntity<?> findById(@PathVariable UUID id){
         try {
-            ProductDto productDto = invoiceService.findProductById(id);
-            if (productDto != null)
-                return ResponseEntity.ok().body(productDto);
+            Product product = invoiceService.findProductById(id);
+            if (product != null)
+                return ResponseEntity.ok().body(product);
             else
                 throw new EntityNotFoundException();
         } catch (Exception e){

@@ -1,7 +1,4 @@
-package com.system.billingsystem.DTOs;
-
-import com.system.billingsystem.entities.Product;
-import org.jetbrains.annotations.NotNull;
+package com.system.billingsystem.dto;
 
 import java.util.UUID;
 
@@ -16,10 +13,6 @@ public record ProductDto (
         this.name = name;
         this.description = description;
         this.price = price;
-    }
-
-    public ProductDto  (@NotNull Product p){
-        this (p.getId(), p.getName(), p.getDescription(), p.getPrice());
     }
 
     @Override

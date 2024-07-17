@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository("CompanyRepository")
-public interface CompanyRepository extends BaseRepository<Company, UUID>{}
+public interface CompanyRepository extends BaseRepository<Company, UUID>{
+
+}

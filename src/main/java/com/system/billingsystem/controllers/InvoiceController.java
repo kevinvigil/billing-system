@@ -1,6 +1,8 @@
 package com.system.billingsystem.controllers;
 
-import com.system.billingsystem.DTOs.InvoiceDto;
+import com.system.billingsystem.dto.InvoiceDto;
+import com.system.billingsystem.dto.dtosmappers.InvoiceDtoMapper;
+import com.system.billingsystem.entities.Invoice;
 import com.system.billingsystem.repositories.InvoiceRepository;
 import com.system.billingsystem.services.InvoiceService;
 import jakarta.persistence.EntityNotFoundException;
@@ -32,8 +34,8 @@ public class InvoiceController {
         if (entity == null)
             throw new IllegalArgumentException();
 
-        InvoiceDto invoiceDto = invoiceService.saveInvoice(entity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(invoiceDto);
+        Invoice invoice = invoiceService.saveInvoice(InvoiceDtoMapper.toDomain(entity));
+        return ResponseEntity.status(HttpStatus.CREATED).body(InvoiceDtoMapper.toDto(invoice));
     }
 
     @PutMapping("")
@@ -42,44 +44,39 @@ public class InvoiceController {
             throw new IllegalArgumentException();
 
         try {
-            InvoiceDto invoiceDto = invoiceService.findInvoiceById(entity.id());
-            if (invoiceDto != null){
-                if (!invoiceDto.invoiced() && !invoiceDto.paid())
-                    return ResponseEntity.ok().body(invoiceService.updateInvoice(entity));
-                else if (!invoiceDto.invoiced()){
-                    if (InvoiceDto.compareInvoices(invoiceDto, entity) && invoiceDto.invoiced() != entity.invoiced())
-                        return ResponseEntity.ok().body(invoiceService.updateInvoice(entity));
-                    else
-                        throw new UnsupportedOperationException("This invoice can change only to be invoiced" +
-                                " because it is already paid");
-                }
-                else
-                    throw new UnsupportedOperationException("This invoice can not be changed, " +
-                            "because it is already invoiced");
-            }
-            else
+            Invoice invoice = invoiceService.findInvoiceById(entity.id());
+            if (invoice == null)
                 throw new EntityNotFoundException();
+
+            if (!invoice.isInvoiced() && !invoice.isPaid())
+                return ResponseEntity.ok().body(invoiceService.updateInvoice(InvoiceDtoMapper.toDomain(entity)));
+            else if (!invoice.isInvoiced()) {
+                Invoice domain = InvoiceDtoMapper.toDomain(entity);
+                if ( invoice.equals(domain) && invoice.isInvoiced() != entity.invoiced())
+                    return ResponseEntity.ok().body(invoiceService.updateInvoice(domain));
+                else
+                    throw new UnsupportedOperationException("This invoice can change only to be invoiced" +
+                            " because it is already paid");
+            } else
+                throw new UnsupportedOperationException("This invoice can not be changed, " +
+                        "because it is already invoiced");
+
         } catch (Exception e){
             throw new InternalError();
         }
     }
 
-
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id){
-        InvoiceDto invoiceDto = invoiceService.deleteInvoice(id);
+        InvoiceDto invoiceDto = InvoiceDtoMapper.toDto(invoiceService.deleteInvoice(id));
         return ResponseEntity.ok().body(invoiceDto);
     }
 
     @GetMapping("/{id}")
     public  ResponseEntity<?> findById(@PathVariable UUID id){
         try{
-            InvoiceDto invoiceDto = invoiceService.findInvoiceById(id);
-            if (invoiceDto != null)
-                return ResponseEntity.ok().body(invoiceDto);
-            else
-                throw new EntityNotFoundException();
+            InvoiceDto invoiceDto = InvoiceDtoMapper.toDto(invoiceService.findInvoiceById(id)) ;
+            return ResponseEntity.ok().body(invoiceDto);
         } catch (Exception e){
             throw new InternalError();
         }

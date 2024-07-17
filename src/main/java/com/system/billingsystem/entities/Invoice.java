@@ -1,6 +1,5 @@
 package com.system.billingsystem.entities;
 
-import com.system.billingsystem.DTOs.InvoiceDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -55,18 +54,6 @@ public class Invoice {
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InvoiceProduct> products = new ArrayList<InvoiceProduct>();
 
-    public static Invoice newInvoice(InvoiceDto dto){
-        Invoice invoice = new Invoice();
-        invoice.setId(dto.id());
-        invoice.setPaid(dto.paid());
-        invoice.setInvoiced(dto.invoiced());
-        invoice.setTotal(dto.total());
-        invoice.setInvoiceVoucher(InvoiceVoucher.valueOf(dto.invoiceVoucher()));
-        invoice.setType(InvoiceType.valueOf(dto.type()));
-        invoice.setSellerCompany(new Company(dto.sellerCompany()));
-        invoice.setBuyerCompany(new Company(dto.buyerCompany()));
-        return invoice;
-    }
 
     public Invoice() {}
 

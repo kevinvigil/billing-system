@@ -5,3 +5,4 @@ public enum InvoiceType {
     B,
     C
 }
+

@@ -1,6 +1,5 @@
 package com.system.billingsystem.services;
 
-import com.system.billingsystem.DTOs.CustomerDto;
 import com.system.billingsystem.entities.Customer;
 import com.system.billingsystem.repositories.CustomerRepository;
 import jakarta.transaction.Transactional;
@@ -11,22 +10,22 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Service("UserService")
-public class UserService{
+@Service("CustomerService")
+public class CustomerService {
 
-    private static final Logger logger = Logger.getLogger(UserService.class.getName());
+    private static final Logger logger = Logger.getLogger(CustomerService.class.getName());
 
     private final CustomerRepository customerRepository;
 
     @Autowired
-    public UserService(CustomerRepository customerRepository){
+    public CustomerService(CustomerRepository customerRepository){
         this.customerRepository = customerRepository;
     }
 
     @Transactional
-    public CustomerDto save(Customer entity) {
+    public Customer save(Customer entity) {
         try {
-            return new CustomerDto (customerRepository.save(entity));
+            return customerRepository.save(entity);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on UserService method save" + entity.toString());
             throw e;
@@ -34,24 +33,21 @@ public class UserService{
     }
 
     @Transactional
-    public CustomerDto delete(UUID id) {
+    public Customer delete(UUID id) {
         try {
-            CustomerDto customerDto = this.findById(id);
-            if(customerDto != null)
+            Customer Customer = this.findById(id);
+            if(Customer != null)
                 customerRepository.deleteById(id);
-            return customerDto;
+            return Customer;
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error on UserService method delete, id:" + id);
             throw e;
         }
     }
 
-    public CustomerDto findById(UUID id) {
+    public Customer findById(UUID id) {
         try {
-            Customer user = customerRepository.findById(id).orElse(null);
-            if (user != null)
-                return new CustomerDto (user);
-            return null;
+            return customerRepository.findById(id).orElse(null);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on UserService method findById, id: " + id);
             throw e;

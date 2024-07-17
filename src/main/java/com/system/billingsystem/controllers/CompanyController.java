@@ -1,10 +1,10 @@
 package com.system.billingsystem.controllers;
 
-import com.system.billingsystem.DTOs.CompanyDto;
+import com.system.billingsystem.dto.CompanyDto;
+import com.system.billingsystem.dto.dtosmappers.CompanyDtoMapper;
 import com.system.billingsystem.entities.Company;
 import com.system.billingsystem.repositories.CompanyRepository;
 import com.system.billingsystem.services.CompanyService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,18 +45,15 @@ public class CompanyController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete (@PathVariable UUID id){
-        CompanyDto companyDto = companyService.delete(id);
+        CompanyDto companyDto = CompanyDtoMapper.toDto(companyService.delete(id)) ;
         return ResponseEntity.ok().body(companyDto);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById (@PathVariable UUID id){
         try {
-            CompanyDto companyDto = companyService.findById(id);
-            if (companyDto != null)
-                return ResponseEntity.ok().body(companyDto);
-            else
-                throw new EntityNotFoundException();
+            CompanyDto companyDto = CompanyDtoMapper.toDto(companyService.findById(id));
+            return ResponseEntity.ok().body(companyDto);
 
         } catch (Exception e){
             throw new InternalError();

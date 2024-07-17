@@ -1,7 +1,4 @@
-package com.system.billingsystem.DTOs;
-
-import com.system.billingsystem.entities.Customer;
-import org.jetbrains.annotations.NotNull;
+package com.system.billingsystem.dto;
 
 import java.util.UUID;
 
@@ -9,18 +6,16 @@ public record CustomerDto(
         UUID id,
         String name,
         String email,
+        String password,
         UUID company
 ) {
 
-    public CustomerDto(UUID id, String name, String email, UUID company) {
+    public CustomerDto(UUID id, String name, String email, String password, UUID company) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.password = password;
         this.company = company;
-    }
-
-    public CustomerDto (@NotNull Customer u){
-        this (u.getId(), u.getName(), u.getEmail(), u.getCompany().getId());
     }
 
     @Override

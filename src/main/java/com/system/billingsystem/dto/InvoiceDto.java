@@ -1,11 +1,6 @@
-package com.system.billingsystem.DTOs;
-
-import com.system.billingsystem.entities.Invoice;
-import com.system.billingsystem.entities.InvoiceProduct;
-import org.jetbrains.annotations.NotNull;
+package com.system.billingsystem.dto;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -35,19 +30,6 @@ public record InvoiceDto (
         this.sellerCompany = sellerCompany;
         this.buyerCompany = buyerCompany;
         this.products = products;
-    }
-
-    public static InvoiceDto newInvoiceDto (@NotNull Invoice i){
-        List<InvoiceProduct> productList = i.getProducts();
-        List<InvoiceProductDto> products = new ArrayList<InvoiceProductDto>();
-        if (productList != null && !productList.isEmpty()){
-            for (InvoiceProduct IP:productList) {
-                products.add(new InvoiceProductDto(IP));
-            }
-        }
-        return new InvoiceDto(i.getId(), i.getDate(), i.isPaid(), i.isInvoiced(),
-                i.getTotal(), i.getInvoiceVoucher().name(), i.getType().name(), i.getSellerCompany().getId(),
-                i.getBuyerCompany().getId(), products);
     }
 
     @Override

@@ -7,4 +7,5 @@ import java.util.UUID;
 
 @Repository("ProductRepository")
 public interface ProductRepository extends BaseRepository<Product, UUID>{
+
 }

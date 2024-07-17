@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CustomerRepoTest {
 
     @Autowired
-    private CustomerRepository userRepo;
+    private CustomerRepository customerRepository;
 
     private static Customer customer;
 
@@ -34,43 +34,43 @@ public class CustomerRepoTest {
 
     @AfterEach
     public void tearDown() {
-        userRepo.deleteAll();
+        customerRepository.deleteAll();
     }
 
     @Test
     public void testSaveUser() {
-        Customer newUser = userRepo.save(customer);
+        Customer newUser = customerRepository.save(customer);
         assertNotNull(newUser);
         assertEquals(customer.getEmail(), newUser.getEmail());
     }
 
     @Test
     public void testFindById() {
-        Customer newUser = userRepo.save(customer);
+        Customer newUser = customerRepository.save(customer);
         assertNotNull(newUser);
-        Customer foundUser = userRepo.findById(newUser.getId()).orElse(null);
+        Customer foundUser = customerRepository.findById(newUser.getId()).orElse(null);
         assertNotNull(foundUser);
         assertEquals(newUser.getId(), foundUser.getId());
     }
 
     @Test
     public void testDeleteUser() {
-        Customer newUser = userRepo.save(customer);
+        Customer newUser = customerRepository.save(customer);
         assertNotNull(newUser);
-        Customer foundUser = userRepo.findById(newUser.getId()).orElse(null);
+        Customer foundUser = customerRepository.findById(newUser.getId()).orElse(null);
         assertNotNull(foundUser);
         assertEquals(newUser.getId(), foundUser.getId());
-        userRepo.deleteById(newUser.getId());
-        assertNull(userRepo.findById(newUser.getId()).orElse(null));
+        customerRepository.deleteById(newUser.getId());
+        assertNull(customerRepository.findById(newUser.getId()).orElse(null));
     }
 
     @Test
     public void testUpdateUser() {
-        Customer newUser = userRepo.save(customer);
+        Customer newUser = customerRepository.save(customer);
         assertNotNull(newUser);
         newUser.setName("new name");
-        userRepo.save(newUser);
-        Customer foundUser = userRepo.findById(newUser.getId()).orElse(null);
+        customerRepository.save(newUser);
+        Customer foundUser = customerRepository.findById(newUser.getId()).orElse(null);
         assertNotNull(foundUser);
         assertEquals(newUser.getName(), foundUser.getName());
     }

@@ -1,6 +1,5 @@
 package com.system.billingsystem.entities;
 
-import com.system.billingsystem.DTOs.InvoiceProductDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,14 +28,6 @@ public class InvoiceProduct {
     private Double amount;
 
     public InvoiceProduct() {}
-
-    public InvoiceProduct(InvoiceProductDto in) {
-        this.id = in.id();
-        this.invoice = new Invoice(in.idInvoice());
-        this.product = new Product(in.idProduct());
-        this.amount = in.amount();
-    }
-
 
     @Override
     public String toString(){

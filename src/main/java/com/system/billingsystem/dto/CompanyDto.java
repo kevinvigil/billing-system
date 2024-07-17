@@ -1,8 +1,8 @@
-package com.system.billingsystem.DTOs;
+package com.system.billingsystem.dto;
 
-import com.system.billingsystem.entities.Company;
-import org.jetbrains.annotations.NotNull;
+import com.system.billingsystem.entities.Invoice;
 
+import java.util.List;
 import java.util.UUID;
 
 public record CompanyDto(
@@ -11,23 +11,23 @@ public record CompanyDto(
         String direction,
         String phone,
         String email,
-        String cuit ) {
+        String cuit,
+        List<Invoice> soldInvoices,
+        List<Invoice> purchasedInvoices ) {
 
-    public CompanyDto(UUID id, String name, String direction, String phone, String email, String cuit) {
+    public CompanyDto(UUID id, String name, String direction, String phone, String email, String cuit, List<Invoice> soldInvoices, List<Invoice> purchasedInvoices) {
         this.id = id;
         this.name = name;
         this.direction = direction;
         this.phone = phone;
         this.email = email;
         this.cuit = cuit;
+        this.soldInvoices = soldInvoices;
+        this.purchasedInvoices = purchasedInvoices;
     }
 
     public  CompanyDto (UUID id) {
-        this (id, null, null, null, null, null);
-    }
-
-    public CompanyDto (@NotNull Company c){
-        this (c.getId(), c.getName(), c.getCuit(), c.getEmail(), c.getPhone(), c.getDirection());
+        this (id, null, null, null, null, null, null, null);
     }
 
     @Override

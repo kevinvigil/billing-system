@@ -1,6 +1,5 @@
 package com.system.billingsystem.services;
 
-import com.system.billingsystem.DTOs.CompanyDto;
 import com.system.billingsystem.entities.Company;
 import com.system.billingsystem.repositories.CompanyRepository;
 import jakarta.transaction.Transactional;
@@ -24,9 +23,9 @@ public class CompanyService{
     }
 
     @Transactional
-    public CompanyDto save(Company entity) {
+    public Company save(Company entity) {
         try{
-            return new CompanyDto (companyRepository.save(entity));
+            return companyRepository.save(entity);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method save, User: " + entity.toString());
             throw e;
@@ -34,31 +33,24 @@ public class CompanyService{
     }
 
     @Transactional
-    public CompanyDto delete(UUID id) {
+    public Company delete(UUID id) {
         try {
-            CompanyDto companyDto = this.findById(id);
-            if (companyDto != null)
+            Company company = this.findById(id);
+            if (company != null)
                 this.companyRepository.deleteById(id);
-            return companyDto;
+            return company;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method delete, id: " + id);
             throw e;
         }
     }
 
-    public CompanyDto findById(UUID id) {
+    public Company findById(UUID id) {
         try {
-            Company company = this.companyRepository.findById(id).orElse(null);
-            if (company != null)
-                return new CompanyDto(company);
-            return null;
+            return this.companyRepository.findById(id).orElse(null);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method findById, id: " + id );
             throw e;
         }
     }
-
-
-
-
 }

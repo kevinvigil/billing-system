@@ -1,6 +1,4 @@
-package com.system.billingsystem.DTOs;
-
-import com.system.billingsystem.entities.InvoiceProduct;
+package com.system.billingsystem.dto;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -18,12 +16,6 @@ public record InvoiceProductDto (
         this.amount = amount;
         this.idProduct = idProduct;
         this.idInvoice = idInvoice;
-    }
-
-    public InvoiceProductDto (InvoiceProduct invoiceProduct){
-        this (invoiceProduct.getId(), invoiceProduct.getProduct().getName(),
-                invoiceProduct.getAmount(), invoiceProduct.getInvoice().getId(),
-                invoiceProduct.getProduct().getId());
     }
 
     public static boolean compareProducts(InvoiceProductDto product1, InvoiceProductDto product2) {
