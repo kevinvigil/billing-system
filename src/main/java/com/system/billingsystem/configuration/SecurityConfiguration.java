@@ -21,9 +21,13 @@ import org.zalando.problem.violations.ConstraintViolationProblemModule;
 @Import(SecurityProblemSupport.class)
 public class SecurityConfiguration {
 
-    @Autowired
     @Lazy
-    private SecurityProblemSupport problemSupport;
+    private final SecurityProblemSupport problemSupport;
+
+    @Autowired
+    public SecurityConfiguration(SecurityProblemSupport problemSupport){
+        this.problemSupport = problemSupport;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

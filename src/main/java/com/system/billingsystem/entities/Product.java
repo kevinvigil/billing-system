@@ -10,8 +10,8 @@ import java.util.UUID;
 @Entity
 @Data
 @Builder
-@AllArgsConstructor
 @Table(name = "Product")
+@AllArgsConstructor
 public class Product {
 
     @Id
@@ -42,5 +42,6 @@ public class Product {
                 ", Price: " + this.price +
                 " }");
     }
+
 }
 

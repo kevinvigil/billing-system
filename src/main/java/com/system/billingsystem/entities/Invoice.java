@@ -91,18 +91,18 @@ public class Invoice {
         || (!Objects.equals(id, invoice.id)) || (!Objects.equals(date, invoice.date)) || (invoiceVoucher != invoice.invoiceVoucher)
         || (type != invoice.type))return false;
 
-        if (this.sellerCompany != null && invoice.sellerCompany != null)
-            if (!Objects.equals(sellerCompany, invoice.sellerCompany))
+        if (this.sellerCompany != null && invoice.sellerCompany != null){
+            if (!Objects.equals(sellerCompany, invoice.sellerCompany)){
                 return false;
-            else ;
-        else if  (this.sellerCompany != null || invoice.sellerCompany != null)
+            }
+        }else if  (invoice.sellerCompany != null || this.sellerCompany != null)
             return false;
 
-        if (this.buyerCompany != null && invoice.buyerCompany != null)
-            if (!Objects.equals(buyerCompany, invoice.buyerCompany))
+        if (this.buyerCompany != null && invoice.buyerCompany != null){
+            if (!Objects.equals(buyerCompany, invoice.buyerCompany)){
                 return false;
-            else ;
-        else if (this.buyerCompany != null || invoice.buyerCompany != null)
+            }
+        }else if (this.buyerCompany != null || invoice.buyerCompany != null)
             return false;
 
         return Objects.equals(buyerCompany, invoice.buyerCompany);
