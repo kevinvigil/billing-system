@@ -1,30 +1,21 @@
 package com.system.billingsystem.entities;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 import java.util.UUID;
 
-@Entity
 @Data
 @Builder
-@Table(name = "Product")
 @AllArgsConstructor
 public class Product {
 
-    @Id
-    @Column(name = "product_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false)
     private String name;
-    @Column
     private String description;
 
-    @Column(nullable = false)
     private double price;
 
     public Product() {}

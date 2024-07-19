@@ -1,30 +1,57 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.*;
-import jakarta.transaction.Transactional;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.jooq.DSLContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository("InvoiceRepository")
-public interface InvoiceRepository extends BaseRepository<Invoice, UUID> {
+public class InvoiceRepository implements BaseRepository<Invoice, UUID> {
 
-    @Modifying
-    @Transactional
-    @Query("update Invoice i set i.date = :date, i.paid = :paid, i.invoiced=:invoiced, i.total=:total, " +
-            "i.invoiceVoucher=:invoiceVoucher, i.type = :type, i.sellerCompany = :sellerCompany, i.buyerCompany = :buyerCompany " +
-            "where i.id = :id")
-    void updateInvoiceById(@Param("id") Long id,
-                           @Param("date") OffsetDateTime date,
-                           @Param("paid") boolean paid,
-                           @Param("invoiced") boolean invoiced,
-                           @Param("total") double total,
-                           @Param("invoiceVoucher") InvoiceVoucher invoiceVoucher,
-                           @Param("type") InvoiceType type,
-                           @Param("sellerCompany") Company sellerCompany,
-                           @Param("buyerCompany") Company buyerCompany);
+    private final DSLContext dsl;
+
+    @Autowired
+    public InvoiceRepository(DSLContext dsl) {
+        this.dsl = dsl;
+    }
+
+    @Override
+    public Invoice save(Invoice persisted) {
+        return null;
+    }
+
+    @Override
+    public void saveAll(Iterable<Invoice> entities) {
+
+    }
+
+    @Override
+    public void deleteById(UUID uuid) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
+    public boolean existsById(UUID uuid) {
+        return false;
+    }
+
+    @Override
+    public List<Invoice> findAll() {
+        return List.of();
+    }
+
+    @Override
+    public Optional<Invoice> findById(UUID id) {
+        return Optional.empty();
+    }
 }

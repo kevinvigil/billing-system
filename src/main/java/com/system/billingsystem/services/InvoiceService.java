@@ -2,7 +2,6 @@ package com.system.billingsystem.services;
 
 import com.system.billingsystem.entities.*;
 import com.system.billingsystem.repositories.*;
-import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +35,6 @@ public class InvoiceService{
         this.companyRepository = companyRepository;
     }
 
-    @Transactional
     public Invoice saveInvoice(@NotNull Invoice invoice){
         try{
             List<InvoiceProduct> productList = invoice.getProducts();
@@ -59,7 +57,6 @@ public class InvoiceService{
     }
 
     // TODO refactor
-    @Transactional
     public Invoice updateInvoice (@NotNull Invoice invoice){
         try {
             this.deleteInvoice(invoice.getId());
@@ -74,7 +71,6 @@ public class InvoiceService{
         }
     }
 
-    @Transactional
     public Invoice deleteInvoice (@NotNull UUID id){
         try {
             Invoice invoice = this.findInvoiceById(id);
@@ -87,7 +83,6 @@ public class InvoiceService{
         }
     }
 
-    @Transactional
     public Invoice findInvoiceById(@NotNull UUID id){
         try {
             return invoiceRepository.findById(id).orElse(null);
@@ -97,7 +92,6 @@ public class InvoiceService{
         }
     }
 
-    @Transactional
     public void saveInvoiceProduct(@NotNull InvoiceProduct invoiceProduct){
         try{
             invoiceProductRepository.save(invoiceProduct);
@@ -107,7 +101,6 @@ public class InvoiceService{
         }
     }
 
-    @Transactional
     public Product saveProduct(@NotNull Product product){
         try{
             return productRepository.save(product);
@@ -117,7 +110,6 @@ public class InvoiceService{
         }
     }
 
-    @Transactional
     public Product deleteProduct (@NotNull UUID id){
         try{
             Product product= this.findProductById(id);

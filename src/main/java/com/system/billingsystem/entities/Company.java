@@ -1,6 +1,5 @@
 package com.system.billingsystem.entities;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,32 +9,22 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity
 @Data
 @Builder
-@Table(name = "Company")
 @AllArgsConstructor
 public class Company {
 
-    @Id
-    @Column(name = "company_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column
     private String name;
     private String direction;
     private String phone;
-    @Column(unique = true, nullable = false)
     private String cuit;
     @Email
-    @Column(unique = true, nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "sellerCompany")
     private List<Invoice> soldInvoices;
 
-    @OneToMany(mappedBy = "buyerCompany")
     private List<Invoice> purchasedInvoices;
 
     public Company() {}

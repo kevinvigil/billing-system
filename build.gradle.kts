@@ -26,19 +26,21 @@ repositories {
 }
 
 dependencies {
-	// Principal implementation
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter
 
-
-	implementation(versionCatalog.findLibrary("spring-boot-starter-data-jpa").get())
+	implementation(versionCatalog.findLibrary("spring-boot-starter-jooq").get())
 	implementation(versionCatalog.findLibrary("spring-boot-starter-security").get())
 	implementation(versionCatalog.findLibrary("spring-boot-starter-web").get())
 
 	implementation(versionCatalog.findLibrary("problem-spring-web-starter").get())
-//	implementation(versionCatalog.findLibrary("problem-spring-web").get())
+	implementation(versionCatalog.findLibrary("problem-spring-web").get())
 	implementation(versionCatalog.findLibrary("jackson-datatype-problem").get())
 	implementation(versionCatalog.findLibrary("jackson-datatype-jsr310").get())
 	implementation(versionCatalog.findLibrary("jetbrains-annotation").get())
+
+	// JOOQ
+	implementation(versionCatalog.findLibrary("jooq").get())
+	implementation(versionCatalog.findLibrary("jooq-codegen").get())
+	implementation(versionCatalog.findLibrary("jooq-meta").get())
 
 	// Development
 	developmentOnly(versionCatalog.findLibrary("spring-boot-devtools").get())

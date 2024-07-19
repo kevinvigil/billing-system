@@ -4,7 +4,6 @@ import com.system.billingsystem.dto.dtosmappers.ProductDtoMapper;
 import com.system.billingsystem.entities.Product;
 import com.system.billingsystem.repositories.ProductRepository;
 import com.system.billingsystem.services.InvoiceService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +56,7 @@ public class ProductController {
             if (product != null)
                 return ResponseEntity.ok().body(product);
             else
-                throw new EntityNotFoundException();
+                throw new Exception();// TODO
         } catch (Exception e){
             throw new InternalError();
         }

@@ -1,28 +1,19 @@
 package com.system.billingsystem.entities;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 import java.util.UUID;
 
-@Entity
 @Data
 @Builder
 @AllArgsConstructor
-@Table(name = "InvoiceProduct")
 public class InvoiceProduct {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "invoice_id")
     private Invoice invoice;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
     private Product product;
 
     private Double amount;

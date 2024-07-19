@@ -21,11 +21,10 @@ import org.zalando.problem.violations.ConstraintViolationProblemModule;
 @Import(SecurityProblemSupport.class)
 public class SecurityConfiguration {
 
-    @Lazy
     private final SecurityProblemSupport problemSupport;
 
     @Autowired
-    public SecurityConfiguration(SecurityProblemSupport problemSupport){
+    public SecurityConfiguration(@Lazy SecurityProblemSupport problemSupport){
         this.problemSupport = problemSupport;
     }
 

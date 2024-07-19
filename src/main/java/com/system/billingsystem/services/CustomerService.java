@@ -2,7 +2,6 @@ package com.system.billingsystem.services;
 
 import com.system.billingsystem.entities.Customer;
 import com.system.billingsystem.repositories.CustomerRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,6 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    @Transactional
     public Customer save(Customer entity) {
         try {
             return customerRepository.save(entity);
@@ -32,7 +30,6 @@ public class CustomerService {
         }
     }
 
-    @Transactional
     public Customer delete(UUID id) {
         try {
             Customer Customer = this.findById(id);

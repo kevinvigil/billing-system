@@ -5,7 +5,6 @@ import com.system.billingsystem.dto.dtosmappers.InvoiceDtoMapper;
 import com.system.billingsystem.entities.Invoice;
 import com.system.billingsystem.repositories.InvoiceRepository;
 import com.system.billingsystem.services.InvoiceService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +45,7 @@ public class InvoiceController {
         try {
             Invoice invoice = invoiceService.findInvoiceById(entity.id());
             if (invoice == null)
-                throw new EntityNotFoundException();
+                throw new Exception();// TODO
 
             if (!invoice.isInvoiced() && !invoice.isPaid())
                 return ResponseEntity.ok().body(invoiceService.updateInvoice(InvoiceDtoMapper.toDomain(entity)));

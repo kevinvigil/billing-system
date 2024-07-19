@@ -1,6 +1,5 @@
 package com.system.billingsystem.entities;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -13,46 +12,31 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static java.time.OffsetDateTime.now;
-
-@Entity
 @Data
 @AllArgsConstructor
 @Builder
-@Table(name = "Invoice")
 public class Invoice {
 
-    @Id
-    @Column(name = "invoice_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false)
-    private OffsetDateTime date = now();
-    private boolean paid = true;
-    private boolean invoiced = false;
-    private double total = 0;
+    private OffsetDateTime date;
+    private boolean paid;
+    private boolean invoiced;
+    private double total;
 
     @Max(100)
     @Min(0)
-    private Integer discount = 0;
+    private Integer discount;
 
-    @Enumerated(EnumType.STRING)
     private InvoiceVoucher invoiceVoucher;
 
-    @Enumerated(EnumType.STRING)
-    private InvoiceType type = InvoiceType.B;
+    private InvoiceType type;
 
-    @ManyToOne
-    @JoinColumn(name = "seller_company_id", referencedColumnName = "company_id")
     private Company sellerCompany;
 
-    @ManyToOne
-    @JoinColumn(name = "buyer_company_id", referencedColumnName = "company_id")
     private Company buyerCompany;
 
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<InvoiceProduct> products = new ArrayList<InvoiceProduct>();
+    private List<InvoiceProduct> products;
 
 
     public Invoice() {}
