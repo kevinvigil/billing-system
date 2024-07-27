@@ -1,2 +1,2 @@
-rootProject.name = "billingSystem"
+rootProject.name = "billingsystem"
 

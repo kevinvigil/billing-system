@@ -1,4 +1,4 @@
-package com.system.billingsystem.configuration;
+package com.system.billingsystem.configurations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -19,12 +19,12 @@ import org.zalando.problem.violations.ConstraintViolationProblemModule;
 @Configuration
 @EnableWebSecurity
 @Import(SecurityProblemSupport.class)
-public class SecurityConfiguration {
+public class SecurityConfig {
 
     private final SecurityProblemSupport problemSupport;
 
     @Autowired
-    public SecurityConfiguration(@Lazy SecurityProblemSupport problemSupport){
+    public SecurityConfig(@Lazy SecurityProblemSupport problemSupport){
         this.problemSupport = problemSupport;
     }
 

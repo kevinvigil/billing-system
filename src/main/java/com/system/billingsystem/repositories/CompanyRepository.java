@@ -5,9 +5,7 @@ import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository("CompanyRepository")
 public class CompanyRepository implements BaseRepository<Company, UUID> {

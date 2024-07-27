@@ -1,3 +1,5 @@
+USE billing_system;
+
 CREATE TABLE `COMPANY` (
         `company_id` BINARY(16) NOT NULL PRIMARY KEY,
         `cuit` varchar(255) NOT NULL,
