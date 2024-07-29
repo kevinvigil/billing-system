@@ -3,21 +3,21 @@ package com.system.billingsystem.dto;
 import java.util.UUID;
 
 public record ProductDto (
-        UUID id,
+        UUID productDto_id,
         String name,
         String description,
         double price ) {
 
-    public ProductDto(UUID id, String name, String description, double price) {
-        this.id = id;
+    public ProductDto(UUID productDto_id, String name, String description, double price) {
+        this.productDto_id = productDto_id;
         this.name = name;
         this.description = description;
         this.price = price;
     }
 
     @Override
-    public UUID id() {
-        return id;
+    public UUID productDto_id() {
+        return productDto_id;
     }
 
     @Override

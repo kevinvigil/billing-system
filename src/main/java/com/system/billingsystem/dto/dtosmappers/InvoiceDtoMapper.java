@@ -22,9 +22,9 @@ public class InvoiceDtoMapper {
         }
 
         return new InvoiceDto(
-                invoice.getId(), invoice.getDate(), invoice.isPaid(), invoice.isInvoiced(),
+                invoice.getInvoice_id(), invoice.getDate(), invoice.isPaid(), invoice.isInvoiced(),
                 invoice.getTotal(), invoice.getInvoiceVoucher().name(), invoice.getType().name(),
-                invoice.getSellerCompany().getId(), invoice.getBuyerCompany().getId(),
+                invoice.getSellerCompany().getCompany_id(), invoice.getBuyerCompany().getCompany_id(),
                 products
         );
     }
@@ -32,7 +32,7 @@ public class InvoiceDtoMapper {
     public static Invoice toDomain(InvoiceDto invoiceDto) {
         Invoice invoice = new Invoice();
 
-        invoice.setId(invoiceDto.id());
+        invoice.setInvoice_id(invoiceDto.invoiceDto_id());
         invoice.setPaid(invoiceDto.paid());
         invoice.setInvoiced(invoiceDto.invoiced());
         invoice.setTotal(invoiceDto.total());

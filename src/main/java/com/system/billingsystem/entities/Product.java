@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Product {
 
-    private UUID id;
+    private UUID product_id;
 
     private String name;
     private String description;
@@ -20,14 +20,14 @@ public class Product {
 
     public Product() {}
 
-    public Product(UUID id) {
-        this.id=id;
+    public Product(UUID product_id) {
+        this.product_id=product_id;
     }
 
     @Override
     public String toString(){
         return ("Product { " +
-                " id: " + this.id +
+                " product_id: " + this.product_id +
                 ", Name: " + this.name +
                 ", Description: " + this.description +
                 ", Price: " + this.price +

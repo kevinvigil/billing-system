@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,9 @@ import java.util.UUID;
 @Builder
 public class Invoice {
 
-    private UUID id;
+    private UUID invoice_id;
 
-    private OffsetDateTime date;
+    private Timestamp date;
     private boolean paid;
     private boolean invoiced;
     private double total;
@@ -41,8 +42,8 @@ public class Invoice {
 
     public Invoice() {}
 
-    public Invoice(UUID id) {
-        this.id = id;
+    public Invoice(UUID invoice_id) {
+        this.invoice_id = invoice_id;
     }
 
     public void addProduct(InvoiceProduct invoiceProduct){
@@ -52,15 +53,15 @@ public class Invoice {
     @Override
     public String toString() {
         return "Invoice{" +
-                "id=" + id +
+                "invoice_id=" + invoice_id +
                 ", date=" + date +
                 ", paid=" + paid +
                 ", invoiced=" + invoiced +
                 ", total=" + total +
                 ", invoiceVoucher='" + invoiceVoucher.name() + '\'' +
                 ", type='" + type.name() + '\'' +
-                ", company=" + ((sellerCompany != null) ? sellerCompany.getId() : "null") +
-                ", customer=" + ((buyerCompany != null) ? buyerCompany.getId() : "null") +
+                ", company=" + ((sellerCompany != null) ? sellerCompany.getCompany_id() : "null") +
+                ", customer=" + ((buyerCompany != null) ? buyerCompany.getCompany_id() : "null") +
                 '}';
     }
 
@@ -72,7 +73,7 @@ public class Invoice {
         Invoice invoice = (Invoice) o;
 
         if ( (Double.compare(invoice.total, total) != 0) || (paid != invoice.paid) || (invoiced != invoice.invoiced)
-        || (!Objects.equals(id, invoice.id)) || (!Objects.equals(date, invoice.date)) || (invoiceVoucher != invoice.invoiceVoucher)
+        || (!Objects.equals(invoice_id, invoice.invoice_id)) || (!Objects.equals(date, invoice.date)) || (invoiceVoucher != invoice.invoiceVoucher)
         || (type != invoice.type))return false;
 
         if (this.sellerCompany != null && invoice.sellerCompany != null){

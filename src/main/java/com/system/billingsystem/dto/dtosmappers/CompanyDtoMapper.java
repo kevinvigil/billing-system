@@ -13,7 +13,7 @@ public class CompanyDtoMapper {
     public static Company toDomain(@NotNull CompanyDto companyDto) {
         Company company = new Company();
 
-        company.setId(companyDto.id());
+        company.setCompany_id(companyDto.CompanyDto_id());
         company.setName(companyDto.name());
         company.setCuit(companyDto.cuit());
         company.setPhone(companyDto.phone());
@@ -28,7 +28,7 @@ public class CompanyDtoMapper {
 
     public static CompanyDto toDto(@NotNull Company company) {
         return new CompanyDto(
-                company.getId(),
+                company.getCompany_id(),
                 company.getName(),
                 company.getDirection(),
                 company.getPhone(),

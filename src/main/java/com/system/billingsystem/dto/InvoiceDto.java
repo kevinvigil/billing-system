@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public record InvoiceDto (
-        UUID id,
+        UUID invoiceDto_id,
         OffsetDateTime date,
         boolean paid,
         boolean invoiced,
@@ -17,10 +17,10 @@ public record InvoiceDto (
         UUID buyerCompany,
         List<InvoiceProductDto> products ) {
 
-    public InvoiceDto(UUID id, OffsetDateTime date, boolean paid, boolean invoiced, double total,
+    public InvoiceDto(UUID invoiceDto_id, OffsetDateTime date, boolean paid, boolean invoiced, double total,
                       String invoiceVoucher, String type, UUID sellerCompany, UUID buyerCompany,
                       List<InvoiceProductDto> products) {
-        this.id = id;
+        this.invoiceDto_id = invoiceDto_id;
         this.date = date;
         this.paid = paid;
         this.invoiced = invoiced;
@@ -35,7 +35,7 @@ public record InvoiceDto (
     @Override
     public String toString() {
         return "InvoiceDto{" +
-                "id=" + id +
+                "invoiceDto_id=" + invoiceDto_id +
                 ", date=" + date +
                 ", paid=" + paid +
                 ", invoiced=" + invoiced +
@@ -55,7 +55,7 @@ public record InvoiceDto (
             return false;
         }
 
-        return Objects.equals(invoice1.id(), invoice2.id())
+        return Objects.equals(invoice1.invoiceDto_id(), invoice2.invoiceDto_id())
                 && Objects.equals(invoice1.date(), invoice2.date())
                 && invoice1.paid() == invoice2.paid()
                 && Double.compare(invoice1.total(), invoice2.total()) == 0
@@ -84,8 +84,8 @@ public record InvoiceDto (
     }
 
     @Override
-    public UUID id() {
-        return id;
+    public UUID invoiceDto_id() {
+        return invoiceDto_id;
     }
 
     @Override

@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static domain.tables.Company.COMPANY;
 
 @Repository("CompanyRepository")
 public class CompanyRepository implements BaseRepository<Company, UUID> {
 
-    private final DSLContext dsl;
+    private DSLContext dsl;
 
     @Autowired
     public CompanyRepository(DSLContext dsl) {
@@ -44,7 +47,10 @@ public class CompanyRepository implements BaseRepository<Company, UUID> {
 
     @Override
     public List<Company> findAll() {
-        return List.of();
+
+        return dsl.select(COMPANY.COMPANY_ID, COMPANY.NAME)
+                .from(COMPANY)
+                .fetchInto(Company.class);
     }
 
     @Override

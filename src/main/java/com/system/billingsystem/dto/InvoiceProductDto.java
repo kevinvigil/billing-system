@@ -4,14 +4,14 @@ import java.util.Objects;
 import java.util.UUID;
 
 public record InvoiceProductDto (
-        UUID id,
+        UUID invoiceProductDto_id,
         String name,
         Double amount,
         UUID idProduct,
         UUID idInvoice ) {
 
-    public InvoiceProductDto(UUID id, String name, Double amount, UUID idProduct, UUID idInvoice) {
-        this.id = id;
+    public InvoiceProductDto(UUID invoiceProductDto_id, String name, Double amount, UUID idProduct, UUID idInvoice) {
+        this.invoiceProductDto_id = invoiceProductDto_id;
         this.name = name;
         this.amount = amount;
         this.idProduct = idProduct;
@@ -26,7 +26,7 @@ public record InvoiceProductDto (
             return false;
         }
 
-        return Objects.equals(product1.id(), product2.id())
+        return Objects.equals(product1.invoiceProductDto_id(), product2.invoiceProductDto_id())
                 && Objects.equals(product1.name(), product2.name())
                 && Double.compare(product1.amount(), product2.amount()) == 0
                 && Objects.equals(product1.idProduct(), product2.idProduct())
@@ -35,8 +35,8 @@ public record InvoiceProductDto (
 
 
     @Override
-    public UUID id() {
-        return id;
+    public UUID invoiceProductDto_id() {
+        return invoiceProductDto_id;
     }
 
     @Override

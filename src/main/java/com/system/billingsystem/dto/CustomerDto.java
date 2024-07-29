@@ -3,15 +3,15 @@ package com.system.billingsystem.dto;
 import java.util.UUID;
 
 public record CustomerDto(
-        UUID id,
+        UUID customerDto_id,
         String name,
         String email,
         String password,
         UUID company
 ) {
 
-    public CustomerDto(UUID id, String name, String email, String password, UUID company) {
-        this.id = id;
+    public CustomerDto(UUID customerDto_id, String name, String email, String password, UUID company) {
+        this.customerDto_id = customerDto_id;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -19,8 +19,8 @@ public record CustomerDto(
     }
 
     @Override
-    public UUID id() {
-        return id;
+    public UUID customerDto_id() {
+        return customerDto_id;
     }
 
     @Override

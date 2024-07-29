@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public record CompanyDto(
-        UUID id,
+        UUID CompanyDto_id,
         String name,
         String direction,
         String phone,
@@ -15,8 +15,8 @@ public record CompanyDto(
         List<Invoice> soldInvoices,
         List<Invoice> purchasedInvoices ) {
 
-    public CompanyDto(UUID id, String name, String direction, String phone, String email, String cuit, List<Invoice> soldInvoices, List<Invoice> purchasedInvoices) {
-        this.id = id;
+    public CompanyDto(UUID CompanyDto_id, String name, String direction, String phone, String email, String cuit, List<Invoice> soldInvoices, List<Invoice> purchasedInvoices) {
+        this.CompanyDto_id = CompanyDto_id;
         this.name = name;
         this.direction = direction;
         this.phone = phone;
@@ -26,13 +26,13 @@ public record CompanyDto(
         this.purchasedInvoices = purchasedInvoices;
     }
 
-    public  CompanyDto (UUID id) {
-        this (id, null, null, null, null, null, null, null);
+    public  CompanyDto (UUID CompanyDto_id) {
+        this (CompanyDto_id, null, null, null, null, null, null, null);
     }
 
     @Override
-    public UUID id() {
-        return id;
+    public UUID CompanyDto_id() {
+        return CompanyDto_id;
     }
 
     @Override

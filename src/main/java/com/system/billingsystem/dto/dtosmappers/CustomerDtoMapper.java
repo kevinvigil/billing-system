@@ -10,18 +10,18 @@ public class CustomerDtoMapper {
 
     public static CustomerDto toDto(Customer customer) {
         return new CustomerDto(
-                customer.getId(),
+                customer.getCustomer_id(),
                 customer.getName(),
                 customer.getEmail(),
                 customer.getPassword(),
-                customer.getCompany().getId()
+                customer.getCompany().getCompany_id()
         );
     }
 
     public static Customer toDomain(CustomerDto customerDto) {
         Customer customer = new Customer();
 
-        customer.setId(customerDto.id());
+        customer.setCustomer_id(customerDto.customerDto_id());
         customer.setName(customerDto.name());
         customer.setEmail(customerDto.email());
         customer.setPassword(customer.getPassword());

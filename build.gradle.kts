@@ -1,5 +1,4 @@
 
-
 val versionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 plugins {
@@ -8,14 +7,6 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.5"
 
 	id("dev.monosoul.jooq-docker") version "6.0.28"
-
-	val kotlinVersion = "1.7.22"
-	kotlin("jvm") version kotlinVersion
-	kotlin("plugin.spring") version kotlinVersion
-
-//	id("org.jooq.jooq-codegen-gradle") version "3.19.10"
-
-//	id("nu.studer.jooq") version "8.0"
 }
 
 group = "com.system"
@@ -68,26 +59,13 @@ dependencies {
 	compileOnly(versionCatalog.findLibrary("lombok").get())
 	annotationProcessor(versionCatalog.findLibrary("lombok").get())
 
-	// Kotlin
-	implementation(enforcedPlatform("org.jetbrains.kotlin:kotlin-bom"))
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
-//	jooqCodegen("org.postgresql:postgresql")
 	// JOOQ
-//	implementation(versionCatalog.findLibrary("jooq").get())
-//	jooqCodegen(versionCatalog.findLibrary("jooq-codegen").get())
-//	implementation(versionCatalog.findLibrary("jooq-meta").get())
-	jooqCodegen(versionCatalog.findLibrary("mysql-connector").get())
+	implementation("org.jooq:jooq-kotlin:3.19.10")
+	implementation(versionCatalog.findLibrary("jooq").get())
+	jooqCodegen(versionCatalog.findLibrary("jooq-codegen").get())
+	jooqCodegen("org.postgresql:postgresql:42.7.3")
 
-	implementation("org.flywaydb:flyway-mysql:10.16.0")
-
-//	implementation("org.postgresql:postgresql")
-	implementation("org.flywaydb:flyway-core")
-
-	// Data Base
-	implementation(versionCatalog.findLibrary("mysql-connector").get())
-//	jooqCodegen("jakarta.xml.bind:jakarta.xml.bind-api:4.0.0") // Spring tries to enforce an old version of this library
+	implementation("org.postgresql:postgresql:42.7.3")
 
 }
 
@@ -95,112 +73,12 @@ tasks.test {
 	useJUnitPlatform()
 }
 
-jooq {
-	withContainer {
-//		image {
-//			name = "mysql:latest"
-//			envVars = mapOf(
-//				"MYSQL_ROOT_PASSWORD" to "password",
-//				"MYSQL_DATABASE" to "billing-system"
-//			)
-//		}
-
-		db {
-			username = "root"
-			password = "password"
-			name = "billing-system"
-			port = 3306
-//			uri("jdbc:mysql://localhost:3306/billing-system")
-
-			jdbc {
-				schema = "billing-system:mysql"
-				driverClassName = "com.mysql.cj.jdbc.Driver"
-			}
-		}
+tasks {
+	generateJooqClasses {
+		schemas.set(listOf("public"))
+		basePackageName.set("domain")
+		migrationLocations.setFromFilesystem(
+			project.files("$projectDir/src/main/resources/db/migration"),
+		)
 	}
 }
-/*
-jooq{
-	configuration {
-		jdbc {
-			driver = "com.mysql.cj.jdbc.Driver"
-			url = "jdbc:mysql://localhost:3306/billingSystem"
-			user = "root"
-			password = "password"
-		}
-
-		generator {
-			database {
-				name = "org.jooq.meta.mysql.MySQLDatabase"
-
-				includes = ".*"
-			}
-
-			generate {
-
-			}
-
-			target {
-				packageName = "com.system.billingsystem.entities.domain"
-				directory = "src/main/java"
-			}
-		}
-	}
-}
-
-//
-//tasks.register<nu.studer.gradle.jooq.JooqGenerate>("generateJooq") {
-//	jooq {
-//		version.set("3.19.10") // Versión de jOOQ
-//		edition.set(nu.studer.gradle.jooq.JooqEdition.OSS) // Open Source Edition
-//		group = "jooq"
-//		description = "Generates jOOQ classes"
-//		inputs.files(file("src/main/resources/db/migration"))
-//		outputs.dir(file("src/main/java/com/system/billingsystem/entities"))
-//
-//
-//		configurations {
-//			create("main") {
-//				jooqConfiguration.apply {
-//					logging = org.jooq.meta.jaxb.Logging.WARN
-//					jdbc.apply {
-//						driver = "com.mysql.cj.jdbc.Driver"
-//						url = "jdbc:mysql://localhost:3306/billingSystem?createDatabaseIfNotExist=true"
-//						user = "root"
-//						password = "password"
-//					}
-//					generator.apply {
-//						name = "org.jooq.codegen.DefaultGenerator"
-//						database.apply {
-//							name = "org.jooq.meta.mysql.MySQLDatabase"
-//							inputSchema = "billingSystem"
-//						}
-//						generate.apply {
-//							isJavaTimeTypes = true
-//							isDeprecated = false
-//							isRecords = true
-//							isImmutablePojos = true
-//							isFluentSetters = true
-//						}
-//						target.apply {
-//							packageName = "com.system.billingsystem.entities"
-//							directory = "src/main/java"
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
-//}
-//
-//tasks.named<JavaCompile>("compileJava") {
-//	dependsOn(tasks.named("generateJooq"))
-//}
-//
-//tasks.register("generateJooq") {
-//	group = "jooq"
-//	description = "Generates jOOQ classes"
-//	doLast {
-//		println("Generating jOOQ classes")
-//	}
-//}

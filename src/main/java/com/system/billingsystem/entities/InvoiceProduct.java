@@ -10,22 +10,22 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 public class InvoiceProduct {
-    private UUID id;
+    private UUID invoiceProduct_id;
 
     private Invoice invoice;
 
     private Product product;
 
-    private Double amount;
+    private double amount;
 
     public InvoiceProduct() {}
 
     @Override
     public String toString(){
         return ("InvoiceProduct { " +
-                ", id: " + this.id +
-                ", invoice_id: " + this.invoice.getId() +
-                ", product_id: " + this.product.getId() +
+                ", invoiceProduct_id: " + this.invoiceProduct_id +
+                ", invoice_id: " + this.invoice.getInvoice_id() +
+                ", product_id: " + this.product.getProduct_id() +
                 ", amount: " + this.amount +
                 " }"
         );

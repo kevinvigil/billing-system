@@ -9,7 +9,7 @@ public class ProductDtoMapper {
 
     public static ProductDto toDto(Product product){
         return new ProductDto(
-                product.getId(),
+                product.getProduct_id(),
                 product.getName(),
                 product.getDescription(),
                 product.getPrice()
@@ -19,7 +19,7 @@ public class ProductDtoMapper {
     public static Product toDomain(ProductDto productDto){
         Product product = new Product();
 
-        product.setId(productDto.id());
+        product.setProduct_id(productDto.productDto_id());
         product.setName(productDto.name());
         product.setDescription(productDto.description());
         product.setPrice(productDto.price());

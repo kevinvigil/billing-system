@@ -13,13 +13,13 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 public class Company {
-
-    private UUID id;
-
-    private String name;
-    private String direction;
-    private String phone;
+    
+    private UUID company_id;
     private String cuit;
+    private String direction;
+    private String name;
+    private String phone;
+    
     @Email
     private String email;
 
@@ -29,15 +29,15 @@ public class Company {
 
     public Company() {}
 
-    public Company(UUID id) {
-        this.id = id;
+    public Company(UUID company_id) {
+        this.company_id = company_id;
     }
 
 
     @Override
     public String toString(){
         return ("Company { " +
-                ", id: " + this.id +
+                ", company_id: " + this.company_id +
                 ", name: " + this.name +
                 ", direction: " + this.direction +
                 ", phone: " + this.phone +
@@ -51,7 +51,7 @@ public class Company {
 
         Company company = (Company) o;
 
-        if ( (!Objects.equals(id, company.id)) || (!Objects.equals(name, company.name)) || (!Objects.equals(direction, company.direction))
+        if ( (!Objects.equals(company_id, company.company_id)) || (!Objects.equals(name, company.name)) || (!Objects.equals(direction, company.direction))
         || (!Objects.equals(phone, company.phone)) || (!Objects.equals(cuit, company.cuit)) ) return false;
 
         return Objects.equals(email, company.email);
