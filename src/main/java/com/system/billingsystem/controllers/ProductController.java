@@ -32,7 +32,7 @@ public class ProductController {
         if (entity == null)
             throw new IllegalArgumentException();
 
-        boolean isNew = entity.getId() == null || !productRepository.existsById(entity.getId());
+        boolean isNew = entity.getProduct_id() == null || !productRepository.existsById(entity.getProduct_id());
 
         Product product = invoiceService.saveProduct(entity);
 

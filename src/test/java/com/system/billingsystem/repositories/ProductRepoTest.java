@@ -26,7 +26,7 @@ public class ProductRepoTest {
     @BeforeAll
     public static void setUp(){
         product = Product.builder()
-                .id(new UUID(1,1))
+                .product_id(new UUID(1,1))
                 .name("Name Product")
                 .description("Description Product")
                 .price(100.0)
@@ -49,9 +49,9 @@ public class ProductRepoTest {
     public void testFindProductById(){
         Product savedProduct = productRepo.save(product);
         assertNotNull(savedProduct);
-        Product foundProduct = productRepo.findById(savedProduct.getId()).orElse(null);
+        Product foundProduct = productRepo.findById(savedProduct.getProduct_id())   ;
         assertNotNull(foundProduct);
-        assertEquals(savedProduct.getId(), foundProduct.getId());
+        assertEquals(savedProduct.getProduct_id(), foundProduct.getProduct_id());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class ProductRepoTest {
         assertNotNull(savedProduct);
         savedProduct.setName("Updated Name");
         productRepo.save(savedProduct);
-        Product updatedProduct = productRepo.findById(savedProduct.getId()).orElse(null);
+        Product updatedProduct = productRepo.findById(savedProduct.getProduct_id())   ;
         assertNotNull(updatedProduct);
         assertEquals(updatedProduct.getName(), savedProduct.getName());
     }
@@ -69,11 +69,11 @@ public class ProductRepoTest {
     public void testDeleteProduct(){
         Product savedProduct = productRepo.save(product);
         assertNotNull(savedProduct);
-        Product foundProduct = productRepo.findById(savedProduct.getId()).orElse(null);
+        Product foundProduct = productRepo.findById(savedProduct.getProduct_id())   ;
         assertNotNull(foundProduct);
-        assertEquals(savedProduct.getId(), foundProduct.getId());
-        productRepo.deleteById(savedProduct.getId());
-        assertNull(productRepo.findById(savedProduct.getId()).orElse(null));
+        assertEquals(savedProduct.getProduct_id(), foundProduct.getProduct_id());
+        productRepo.deleteById(savedProduct.getProduct_id());
+        assertNull(productRepo.findById(savedProduct.getProduct_id()));
     }
 
     @Test
@@ -81,7 +81,7 @@ public class ProductRepoTest {
         Product savedProduct = productRepo.save(product);
         assertNotNull(savedProduct);
         Product newProduct = Product.builder()
-                .id(new UUID(2,2))
+                .product_id(new UUID(2,2))
                 .name("Name Product 2")
                 .description("Description Product 2")
                 .price(200.0)
@@ -90,23 +90,5 @@ public class ProductRepoTest {
         List<Product> products = productRepo.findAll();
         assertNotNull(products);
         assertEquals(2, products.size());
-    }
-
-    @Test
-    public void testSaveAllProducts(){
-        Product newProduct = Product.builder()
-                .id(new UUID(2,2))
-                .name("Name Product 2")
-                .description("Description Product 2")
-                .price(200.0)
-                .build();
-
-        List<Product> products = new ArrayList<>();
-        products.add(product);
-        products.add(newProduct);
-        productRepo.saveAll(products);
-        List<Product> productsFounded = productRepo.findAll();
-        assertNotNull(productsFounded);
-        assertEquals(2, productsFounded.size());
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -33,7 +34,7 @@ public class CompanyController {
         if (company == null)
             throw new IllegalArgumentException();
 
-        boolean isNew = company.getId()  == null || !companyRepository.existsById(company.getId());
+        boolean isNew = company.getCompany_id()  == null || !companyRepository.existsById(company.getCompany_id());
 
         companyService.save(company);
 
@@ -53,6 +54,16 @@ public class CompanyController {
     public ResponseEntity<?> findById (@PathVariable UUID id){
         try {
             CompanyDto companyDto = CompanyDtoMapper.toDto(companyService.findById(id));
+            return ResponseEntity.ok().body(companyDto);
+        } catch (Exception e){
+            throw new InternalError();
+        }
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<?> findAll (){
+        try {
+            List<CompanyDto> companyDto = companyService.findAll().stream().map(CompanyDtoMapper::toDto).toList();
             return ResponseEntity.ok().body(companyDto);
 
         } catch (Exception e){

@@ -1,16 +1,17 @@
 package com.system.billingsystem.dto;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
 public record InvoiceProductDto (
         UUID invoiceProductDto_id,
         String name,
-        Double amount,
+        BigDecimal amount,
         UUID idProduct,
         UUID idInvoice ) {
 
-    public InvoiceProductDto(UUID invoiceProductDto_id, String name, Double amount, UUID idProduct, UUID idInvoice) {
+    public InvoiceProductDto(UUID invoiceProductDto_id, String name, BigDecimal amount, UUID idProduct, UUID idInvoice) {
         this.invoiceProductDto_id = invoiceProductDto_id;
         this.name = name;
         this.amount = amount;
@@ -28,7 +29,7 @@ public record InvoiceProductDto (
 
         return Objects.equals(product1.invoiceProductDto_id(), product2.invoiceProductDto_id())
                 && Objects.equals(product1.name(), product2.name())
-                && Double.compare(product1.amount(), product2.amount()) == 0
+                && product1.amount().compareTo(product2.amount()) == 0
                 && Objects.equals(product1.idProduct(), product2.idProduct())
                 && Objects.equals(product1.idInvoice(), product2.idInvoice());
     }
@@ -45,7 +46,7 @@ public record InvoiceProductDto (
     }
 
     @Override
-    public Double amount() {
+    public BigDecimal amount() {
         return amount;
     }
 

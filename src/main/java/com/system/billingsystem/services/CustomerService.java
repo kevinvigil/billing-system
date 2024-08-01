@@ -1,10 +1,12 @@
 package com.system.billingsystem.services;
 
+import com.system.billingsystem.entities.Company;
 import com.system.billingsystem.entities.Customer;
 import com.system.billingsystem.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,9 +46,18 @@ public class CustomerService {
 
     public Customer findById(UUID id) {
         try {
-            return customerRepository.findById(id).orElse(null);
+            return customerRepository.findById(id);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on UserService method findById, id: " + id);
+            throw e;
+        }
+    }
+
+    public List<Customer> findAll() {
+        try {
+            return this.customerRepository.findAll();
+        }catch (Exception e){
+            logger.log(Level.SEVERE, "Error in CompanyService on method findAll");
             throw e;
         }
     }

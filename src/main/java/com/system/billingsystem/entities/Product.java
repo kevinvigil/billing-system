@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
@@ -16,7 +17,7 @@ public class Product {
     private String name;
     private String description;
 
-    private double price;
+    private BigDecimal price;
 
     public Product() {}
 

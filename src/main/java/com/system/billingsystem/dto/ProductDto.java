@@ -1,14 +1,15 @@
 package com.system.billingsystem.dto;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public record ProductDto (
         UUID productDto_id,
         String name,
         String description,
-        double price ) {
+        BigDecimal price ) {
 
-    public ProductDto(UUID productDto_id, String name, String description, double price) {
+    public ProductDto(UUID productDto_id, String name, String description, BigDecimal price) {
         this.productDto_id = productDto_id;
         this.name = name;
         this.description = description;
@@ -31,7 +32,7 @@ public record ProductDto (
     }
 
     @Override
-    public double price() {
+    public BigDecimal price() {
         return price;
     }
 }

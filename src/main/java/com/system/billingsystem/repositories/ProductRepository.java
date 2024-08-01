@@ -1,13 +1,15 @@
 package com.system.billingsystem.repositories;
 
+import com.system.billingsystem.entities.Company;
 import com.system.billingsystem.entities.Product;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+
+import static domain.tables.Product.PRODUCT;
 
 @Repository("ProductRepository")
 public class ProductRepository implements BaseRepository<Product, UUID> {
@@ -21,36 +23,45 @@ public class ProductRepository implements BaseRepository<Product, UUID> {
 
     @Override
     public Product save(Product persisted) {
-        return null;
+        UUID id = UUID.randomUUID();
+
+        return dsl.insertInto(PRODUCT)
+                .set(PRODUCT.PRODUCT_ID, id)
+                .set(PRODUCT.DESCRIPTION, persisted.getDescription())
+                .set(PRODUCT.NAME, persisted.getName())
+                .set(PRODUCT.PRICE, persisted.getPrice())
+                .returning(PRODUCT).fetchOneInto(Product.class);
     }
 
-    @Override
-    public void saveAll(Iterable<Product> entities) {
-
-    }
-
-    @Override
-    public void deleteById(UUID uuid) {
-
+    public Product deleteById(UUID uuid) {
+        return dsl.deleteFrom(PRODUCT)
+                .where(PRODUCT.PRODUCT_ID.eq(uuid))
+                .returning(PRODUCT).fetchOneInto(Product.class);
     }
 
     @Override
     public void deleteAll() {
-
+        dsl.deleteFrom(PRODUCT).execute();
     }
 
     @Override
     public boolean existsById(UUID uuid) {
-        return false;
+        return dsl.fetchExists(
+                dsl.select(PRODUCT.PRODUCT_ID)
+                        .from(PRODUCT)
+                        .where(PRODUCT.PRODUCT_ID.eq(uuid)));
     }
 
     @Override
     public List<Product> findAll() {
-        return List.of();
+        return dsl.selectFrom(PRODUCT)
+                .fetchInto(Product.class);
     }
 
     @Override
-    public Optional<Product> findById(UUID id) {
-        return Optional.empty();
+    public Product findById(UUID id) {
+        return dsl.selectFrom(PRODUCT)
+                .where(PRODUCT.PRODUCT_ID.eq(id))
+                .fetchOneInto(Product.class);
     }
 }

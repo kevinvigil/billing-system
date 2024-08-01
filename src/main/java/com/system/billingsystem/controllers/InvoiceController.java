@@ -43,7 +43,7 @@ public class InvoiceController {
             throw new IllegalArgumentException();
 
         try {
-            Invoice invoice = invoiceService.findInvoiceById(entity.id());
+            Invoice invoice = invoiceService.findInvoiceById(entity.invoiceDto_id());
             if (invoice == null)
                 throw new Exception();// TODO
 

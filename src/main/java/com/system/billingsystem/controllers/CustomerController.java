@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -33,7 +34,7 @@ public class CustomerController {
         if (customer == null)
             throw new IllegalArgumentException();
 
-        boolean isNew = customer.getId() == null || !customerRepository.existsById(customer.getId());
+        boolean isNew = customer.getCustomer_id() == null || !customerRepository.existsById(customer.getCustomer_id());
 
         CustomerDto customerDto = CustomerDtoMapper.toDto(customerService.save(customer));
 
@@ -54,6 +55,16 @@ public class CustomerController {
         try {
             CustomerDto customerDto = CustomerDtoMapper.toDto(customerService.findById(id));
             return ResponseEntity.ok().body(customerDto);
+        } catch (Exception e){
+            throw new InternalError();
+        }
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<?> findAll (){
+        try {
+            List<CustomerDto> CustomerDto = customerService.findAll().stream().map(CustomerDtoMapper::toDto).toList();
+            return ResponseEntity.ok().body(CustomerDto);
         } catch (Exception e){
             throw new InternalError();
         }

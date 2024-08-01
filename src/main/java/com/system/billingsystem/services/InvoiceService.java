@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -43,12 +44,12 @@ public class InvoiceService{
                 for (InvoiceProduct invoiceProduct:productList) {
                     invoiceProduct.setInvoice(invoice);
 
-                    total += invoiceProduct.getAmount() * this.findProductById(invoiceProduct.getProduct().getId()).getPrice();
+                    total += invoiceProduct.getAmount().doubleValue() * this.findProductById(invoiceProduct.getProduct().getProduct_id()).getPrice().doubleValue();
 
                     saveInvoiceProduct(invoiceProduct);
                 }
             }
-            invoice.setTotal(total);
+            invoice.setTotal(new BigDecimal(total));
             return invoiceRepository.save(invoice);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method saveInvoice, message: " + e.getMessage());
@@ -59,7 +60,7 @@ public class InvoiceService{
     // TODO refactor
     public Invoice updateInvoice (@NotNull Invoice invoice){
         try {
-            this.deleteInvoice(invoice.getId());
+            this.deleteInvoice(invoice.getInvoice_id());
 
 //            InvoiceDto newInvoiceDto = new InvoiceDto(null, invoiceDto.date(), invoiceDto.paid(), invoiceDto.invoiced(), invoiceDto.total(),
 //                    invoiceDto.invoiceVoucher(), invoiceDto.type(), invoiceDto.sellerCompany(), invoiceDto.buyerCompany(), invoiceDto.products());
@@ -85,7 +86,7 @@ public class InvoiceService{
 
     public Invoice findInvoiceById(@NotNull UUID id){
         try {
-            return invoiceRepository.findById(id).orElse(null);
+            return invoiceRepository.findById(id);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findInvoiceById, message: " + e.getMessage());
             throw e;
@@ -124,7 +125,7 @@ public class InvoiceService{
 
     public Product findProductById (@NotNull UUID id){
         try{
-            return this.productRepository.findById(id).orElse(null);
+            return this.productRepository.findById(id);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findProductById, message: " + e.getMessage());
             throw e;

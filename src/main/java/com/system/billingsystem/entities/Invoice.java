@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class Invoice {
     private Timestamp date;
     private boolean paid;
     private boolean invoiced;
-    private double total;
+    private BigDecimal total;
 
     @Max(100)
     @Min(0)
@@ -72,7 +73,7 @@ public class Invoice {
 
         Invoice invoice = (Invoice) o;
 
-        if ( (Double.compare(invoice.total, total) != 0) || (paid != invoice.paid) || (invoiced != invoice.invoiced)
+        if ( (invoice.total.compareTo(total) != 0) || (paid != invoice.paid) || (invoiced != invoice.invoiced)
         || (!Objects.equals(invoice_id, invoice.invoice_id)) || (!Objects.equals(date, invoice.date)) || (invoiceVoucher != invoice.invoiceVoucher)
         || (type != invoice.type))return false;
 

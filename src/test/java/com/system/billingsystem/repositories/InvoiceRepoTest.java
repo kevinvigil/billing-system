@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,8 @@ public class InvoiceRepoTest {
     public static void setUp(){
         OffsetDateTime offsetDateTime = OffsetDateTime.now();
         invoice = Invoice.builder()
-                .id(new UUID(1,1))
-                .date(offsetDateTime)
+                .invoice_id(new UUID(1,1))
+                .date(new Timestamp(1L))
                 .invoiceVoucher(InvoiceVoucher.BILL)
                 .invoiced(false)
                 .paid(false)
@@ -49,16 +50,16 @@ public class InvoiceRepoTest {
     public void testCreateInvoice(){
         Invoice newInvoice = invoiceRepository.save(invoice);
         assertNotNull(newInvoice);
-        assertTrue(newInvoice.getId().compareTo(new UUID(1,0)) > 0 );
+        assertTrue(newInvoice.getInvoice_id().compareTo(new UUID(1,0)) > 0 );
     }
 
     @Test
     public void testFindById(){
         Invoice newInvoice = invoiceRepository.save(invoice);
         assertNotNull(newInvoice);
-        Invoice newInvoice2 = invoiceRepository.findById(newInvoice.getId()).orElse(null);
+        Invoice newInvoice2 = invoiceRepository.findById(newInvoice.getInvoice_id())  ;
         assertNotNull(newInvoice2);
-        assertEquals(newInvoice.getId(), newInvoice2.getId());
+        assertEquals(newInvoice.getInvoice_id(), newInvoice2.getInvoice_id());
     }
 
     @Test
@@ -68,7 +69,7 @@ public class InvoiceRepoTest {
 
         newInvoice.setTotal(123456);
         invoiceRepository.save(newInvoice);
-        Invoice newInvoice2 = invoiceRepository.findById(invoice.getId()).orElse(null);
+        Invoice newInvoice2 = invoiceRepository.findById(invoice.getInvoice_id())  ;
         assertNotNull(newInvoice2);
         assertEquals(123456, newInvoice2.getTotal());
     }
@@ -77,8 +78,8 @@ public class InvoiceRepoTest {
     public void testDelete(){
         Invoice newInvoice = invoiceRepository.save(invoice);
         assertNotNull(newInvoice);
-        invoiceRepository.deleteById(invoice.getId());
-        Invoice newInvoice2 = Optional.of(invoiceRepository.findById(invoice.getId())).get().orElse(null);
+        invoiceRepository.deleteById(invoice.getInvoice_id());
+        Invoice newInvoice2 = Optional.of(invoiceRepository.findById(invoice.getInvoice_id())).get()  ;
         assertNull(newInvoice2);
     }
 
@@ -86,8 +87,8 @@ public class InvoiceRepoTest {
     public void testFindAll(){
         OffsetDateTime offsetDateTime = OffsetDateTime.now();
         Invoice newInvoice = Invoice.builder()
-                .id(new UUID(2,2))
-                .date(offsetDateTime)
+                .invoice_id(new UUID(2,2))
+                .date(new Timestamp(2L))
                 .invoiceVoucher(InvoiceVoucher.REFERENCE)
                 .invoiced(true)
                 .paid(true)
@@ -95,33 +96,12 @@ public class InvoiceRepoTest {
                 .buyerCompany(null)
                 .sellerCompany(null)
                 .total(0).build();
-        List<Invoice> invoices = new ArrayList<>();
-        invoices.add(newInvoice);
-        invoices.add(invoice);
 
-        invoiceRepository.saveAll(invoices);
+        invoiceRepository.save(newInvoice);
+        invoiceRepository.save(invoice);
 
         List<Invoice> invoices2 = invoiceRepository.findAll();
         assertNotNull(invoices2);
         assertEquals(2, invoices2.size());
-    }
-
-    @Test
-    public void testSaveAll(){
-        Invoice newInvoice = new Invoice(new UUID(2,2));
-        Invoice newInvoice2 = new Invoice(new UUID(3,3));
-        Invoice newInvoice3 = new Invoice(new UUID(4,4));
-
-        List<Invoice> invoices = new ArrayList<>();
-        invoices.add(invoice);
-        invoices.add(newInvoice);
-        invoices.add(newInvoice2);
-        invoices.add(newInvoice3);
-
-        invoiceRepository.saveAll(invoices);
-
-        List<Invoice> newInvoices = invoiceRepository.findAll();
-        assertNotNull(newInvoices);
-        assertEquals(invoices.size(), newInvoices.size());
     }
 }

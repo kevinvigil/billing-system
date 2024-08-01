@@ -24,7 +24,7 @@ public class CustomerRepoTest {
     @BeforeAll
     public static void setUp() {
         customer = Customer.builder()
-                .id(new UUID(1,1))
+                .customer_id(new UUID(1,1))
                 .name("user name")
                 .email("user@hotmail.com")
                 .password("userPassword")
@@ -48,20 +48,20 @@ public class CustomerRepoTest {
     public void testFindById() {
         Customer newUser = customerRepository.save(customer);
         assertNotNull(newUser);
-        Customer foundUser = customerRepository.findById(newUser.getId()).orElse(null);
+        Customer foundUser = customerRepository.findById(newUser.getCustomer_id());
         assertNotNull(foundUser);
-        assertEquals(newUser.getId(), foundUser.getId());
+        assertEquals(newUser.getCustomer_id(), foundUser.getCustomer_id());
     }
 
     @Test
     public void testDeleteUser() {
         Customer newUser = customerRepository.save(customer);
         assertNotNull(newUser);
-        Customer foundUser = customerRepository.findById(newUser.getId()).orElse(null);
+        Customer foundUser = customerRepository.findById(newUser.getCustomer_id());
         assertNotNull(foundUser);
-        assertEquals(newUser.getId(), foundUser.getId());
-        customerRepository.deleteById(newUser.getId());
-        assertNull(customerRepository.findById(newUser.getId()).orElse(null));
+        assertEquals(newUser.getCustomer_id(), foundUser.getCustomer_id());
+        customerRepository.deleteById(newUser.getCustomer_id());
+        assertNull(customerRepository.findById(newUser.getCustomer_id()));
     }
 
     @Test
@@ -70,7 +70,7 @@ public class CustomerRepoTest {
         assertNotNull(newUser);
         newUser.setName("new name");
         customerRepository.save(newUser);
-        Customer foundUser = customerRepository.findById(newUser.getId()).orElse(null);
+        Customer foundUser = customerRepository.findById(newUser.getCustomer_id());
         assertNotNull(foundUser);
         assertEquals(newUser.getName(), foundUser.getName());
     }

@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -54,26 +55,26 @@ public class InvoiceServiceTest {
         autoCloseable = MockitoAnnotations.openMocks(this);
 
         this.sellerCompany = Company.builder()
-                .id(new UUID(1,1)) .name("Name Company") .cuit("Cuit Company")
+                .company_id(new UUID(1,1)) .name("Name Company") .cuit("Cuit Company")
                 .email("company@hotmail.com") .phone("2150556655") .direction("Company direction")
                 .build();
 
         this.buyerCompany = Company.builder()
-                .id(new UUID(1,1)) .name("Name Company") .cuit("Cuit Company")
+                .company_id(new UUID(1,1)) .name("Name Company") .cuit("Cuit Company")
                 .email("company@hotmail.com") .phone("2150556655") .direction("Company direction")
                 .build();
 
         this.product = Product.builder()
-                .id(new UUID(1,1)) .name("Name Product") .description("Description Product")
+                .product_id(new UUID(1,1)) .name("Name Product") .description("Description Product")
                 .price(100.0) .build();
 
         this.invoiceProduct = InvoiceProduct.builder()
-                .id(new UUID(1,1)) .product(null) .invoice(null)
+                .invoiceProduct_id(new UUID(1,1)) .product(null) .invoice(null)
                 .build();
 
         OffsetDateTime offsetDateTime = OffsetDateTime.now();
         this.invoice = Invoice.builder()
-                .id(new UUID(1,1)) .date(offsetDateTime) .invoiceVoucher(InvoiceVoucher.BILL)
+                .invoice_id(new UUID(1,1)) .date(new Timestamp(3L)) .invoiceVoucher(InvoiceVoucher.BILL)
                 .invoiced(false) .paid(false) .type(InvoiceType.A) .sellerCompany(this.sellerCompany)
                 .buyerCompany(this.buyerCompany) .total(0).build();
 

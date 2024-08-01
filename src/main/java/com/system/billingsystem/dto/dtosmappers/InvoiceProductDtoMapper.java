@@ -14,8 +14,8 @@ public class InvoiceProductDtoMapper {
                 invoiceProduct.getInvoiceProduct_id(),
                 invoiceProduct.getProduct().getName(),
                 invoiceProduct.getAmount(),
-                invoiceProduct.getProduct().getId(),
-                invoiceProduct.getInvoice().getId()
+                invoiceProduct.getProduct().getProduct_id(),
+                invoiceProduct.getInvoice().getInvoice_id()
         );
     }
 

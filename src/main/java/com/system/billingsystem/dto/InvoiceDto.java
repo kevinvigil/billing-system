@@ -1,5 +1,7 @@
 package com.system.billingsystem.dto;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -7,17 +9,17 @@ import java.util.UUID;
 
 public record InvoiceDto (
         UUID invoiceDto_id,
-        OffsetDateTime date,
+        Timestamp date,
         boolean paid,
         boolean invoiced,
-        double total,
+        BigDecimal total,
         String invoiceVoucher,
         String type,
         UUID sellerCompany,
         UUID buyerCompany,
         List<InvoiceProductDto> products ) {
 
-    public InvoiceDto(UUID invoiceDto_id, OffsetDateTime date, boolean paid, boolean invoiced, double total,
+    public InvoiceDto(UUID invoiceDto_id, Timestamp date, boolean paid, boolean invoiced, BigDecimal total,
                       String invoiceVoucher, String type, UUID sellerCompany, UUID buyerCompany,
                       List<InvoiceProductDto> products) {
         this.invoiceDto_id = invoiceDto_id;
@@ -58,7 +60,7 @@ public record InvoiceDto (
         return Objects.equals(invoice1.invoiceDto_id(), invoice2.invoiceDto_id())
                 && Objects.equals(invoice1.date(), invoice2.date())
                 && invoice1.paid() == invoice2.paid()
-                && Double.compare(invoice1.total(), invoice2.total()) == 0
+                && invoice1.total().compareTo(invoice2.total()) == 0
                 && Objects.equals(invoice1.invoiceVoucher(), invoice2.invoiceVoucher())
                 && Objects.equals(invoice1.type(), invoice2.type())
                 && Objects.equals(invoice1.sellerCompany(), invoice2.sellerCompany())
@@ -89,7 +91,7 @@ public record InvoiceDto (
     }
 
     @Override
-    public OffsetDateTime date() {
+    public Timestamp date() {
         return date;
     }
 
@@ -104,7 +106,7 @@ public record InvoiceDto (
     }
 
     @Override
-    public double total() {
+    public BigDecimal total() {
         return total;
     }
 

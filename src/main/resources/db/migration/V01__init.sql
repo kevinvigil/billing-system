@@ -27,8 +27,8 @@ CREATE TABLE PRODUCT (
 CREATE TABLE INVOICE (
     invoice_id uuid NOT NULL PRIMARY KEY,
     date TIMESTAMP NOT NULL,
-    discount INT DEFAULT NULL ,
-    invoice_voucher varchar(20) DEFAULT NULL,
+    discount INT DEFAULT NULL,
+    invoiceVoucher varchar(20) DEFAULT NULL,
     invoiced boolean NOT NULL,
     paid boolean NOT NULL,
     total decimal(10,2) NOT NULL,

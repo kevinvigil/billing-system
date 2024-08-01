@@ -26,7 +26,7 @@ public class InvoiceProductRepoTest {
     @BeforeAll
     public static void setUp(){
         invoiceProduct = InvoiceProduct.builder()
-                .id(new UUID(1,1))
+                .invoiceProduct_id(new UUID(1,1))
                 .product(null)
                 .invoice(null)
                 .build();
@@ -41,29 +41,29 @@ public class InvoiceProductRepoTest {
     public void testSaveInvoiceProduct(){
         InvoiceProduct newInvoiceProduct = invoiceProductRepo.save(invoiceProduct);
         assertNotNull(newInvoiceProduct);
-        InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(newInvoiceProduct.getId()).orElse(null);
+        InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(newInvoiceProduct.getInvoiceProduct_id()) ;
         assertNotNull(foundInvoiceProduct);
-        assertEquals(newInvoiceProduct.getId(), foundInvoiceProduct.getId());
+        assertEquals(newInvoiceProduct.getInvoiceProduct_id(), foundInvoiceProduct.getInvoiceProduct_id());
     }
 
     @Test
     public void testFindInvoiceProductById(){
         InvoiceProduct newInvoiceProduct = invoiceProductRepo.save(invoiceProduct);
         assertNotNull(newInvoiceProduct);
-        InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(newInvoiceProduct.getId()).orElse(null);
+        InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(newInvoiceProduct.getInvoiceProduct_id()) ;
         assertNotNull(foundInvoiceProduct);
-        assertEquals(newInvoiceProduct.getId(), foundInvoiceProduct.getId());
+        assertEquals(newInvoiceProduct.getInvoiceProduct_id(), foundInvoiceProduct.getInvoiceProduct_id());
     }
 
     @Test
     public void testDeleteInvoiceProduct(){
         InvoiceProduct newInvoiceProduct = invoiceProductRepo.save(invoiceProduct);
         assertNotNull(newInvoiceProduct);
-        InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(newInvoiceProduct.getId()).orElse(null);
+        InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(newInvoiceProduct.getInvoiceProduct_id()) ;
         assertNotNull(foundInvoiceProduct);
-        assertEquals(newInvoiceProduct.getId(), foundInvoiceProduct.getId());
-        invoiceProductRepo.deleteById(newInvoiceProduct.getId());
-        foundInvoiceProduct = invoiceProductRepo.findById(newInvoiceProduct.getId()).orElse(null);
+        assertEquals(newInvoiceProduct.getInvoiceProduct_id(), foundInvoiceProduct.getInvoiceProduct_id());
+        invoiceProductRepo.deleteById(newInvoiceProduct.getInvoiceProduct_id());
+        foundInvoiceProduct = invoiceProductRepo.findById(newInvoiceProduct.getInvoiceProduct_id()) ;
         assertNull(foundInvoiceProduct);
     }
 
@@ -71,7 +71,7 @@ public class InvoiceProductRepoTest {
     public void testFindAllInvoiceProduct(){
         invoiceProductRepo.save(invoiceProduct);
         InvoiceProduct newInvoiceProduct = InvoiceProduct.builder()
-                .id(new UUID(2,2))
+                .invoiceProduct_id(new UUID(2,2))
                 .product(null)
                 .invoice(null)
                 .build();
@@ -86,18 +86,17 @@ public class InvoiceProductRepoTest {
     @Test
     public void testSaveAllInvoiceProduct(){
         InvoiceProduct newInvoiceProduct = InvoiceProduct.builder()
-                .id(new UUID(2,2))
+                .invoiceProduct_id(new UUID(2,2))
                 .amount(200.0)
                 .product(null)
                 .invoice(null)
                 .build();
 
-        List<InvoiceProduct> invoiceProductList = new ArrayList<>();
-        invoiceProductList.add(invoiceProduct);
-        invoiceProductList.add(newInvoiceProduct);
-        invoiceProductRepo.saveAll(invoiceProductList);
+        invoiceProductRepo.save(newInvoiceProduct);
+        invoiceProductRepo.save(invoiceProduct);
+
         List<InvoiceProduct> invoiceProducts = invoiceProductRepo.findAll();
         assertNotNull(invoiceProducts);
-        assertEquals(invoiceProductList.size(), invoiceProducts.size());
+        assertEquals(2, invoiceProducts.size());
     }
 }

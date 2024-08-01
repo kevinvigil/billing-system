@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
@@ -16,7 +17,7 @@ public class InvoiceProduct {
 
     private Product product;
 
-    private double amount;
+    private BigDecimal amount;
 
     public InvoiceProduct() {}
 
