@@ -1,7 +1,10 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Company;
+import domain.tables.records.CompanyRecord;
 import org.jooq.DSLContext;
+import org.jooq.Field;
+import org.jooq.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -10,13 +13,11 @@ import java.util.*;
 import static domain.tables.Company.COMPANY;
 
 @Repository("CompanyRepository")
-public class CompanyRepository implements BaseRepository<Company, UUID> {
-
-    private final DSLContext dsl;
+public class CompanyRepository extends BaseRepository<CompanyRecord, Company> {
 
     @Autowired
-    public CompanyRepository(DSLContext dsl) {
-        this.dsl = dsl;
+    protected CompanyRepository(DSLContext dsl) {
+        super(dsl, COMPANY, Company.class);
     }
 
     @Override
@@ -33,35 +34,41 @@ public class CompanyRepository implements BaseRepository<Company, UUID> {
                 .returning(COMPANY).fetchOneInto(Company.class);
     }
 
-    public Company deleteById(UUID uuid) {
-        return dsl.deleteFrom(COMPANY)
-                .where(COMPANY.COMPANY_ID.eq(uuid))
-                .returning(COMPANY).fetchOneInto(Company.class);
+    @Override
+    protected Field<UUID> getIdField() {
+        return COMPANY.COMPANY_ID;
     }
 
-    @Override
-    public void deleteAll() {
-        dsl.deleteFrom(COMPANY).execute();
-    }
 
-    @Override
-    public boolean existsById(UUID uuid) {
-        return dsl.fetchExists(
-                dsl.select(COMPANY.COMPANY_ID)
-                        .from(COMPANY)
-                        .where(COMPANY.COMPANY_ID.eq(uuid)));
-    }
+//    public Company deleteById(UUID uuid) {
+//        return dsl.deleteFrom(COMPANY)
+//                .where(COMPANY.COMPANY_ID.eq(uuid))
+//                .returning(COMPANY).fetchOneInto(Company.class);
+//    }
 
-    @Override
-    public List<Company> findAll() {
-        return dsl.selectFrom(COMPANY)
-                .fetchInto(Company.class);
-    }
-
-    @Override
-    public Company findById(UUID id) {
-        return dsl.selectFrom(COMPANY)
-                .where(COMPANY.COMPANY_ID.eq(id))
-                .fetchOneInto(Company.class);
-    }
+//    @Override
+//    public void deleteAll() {
+//        dsl.deleteFrom(COMPANY).execute();
+//    }
+//
+//    @Override
+//    public boolean existsById(UUID uuid) {
+//        return dsl.fetchExists(
+//                dsl.select(COMPANY.COMPANY_ID)
+//                        .from(COMPANY)
+//                        .where(COMPANY.COMPANY_ID.eq(uuid)));
+//    }
+//
+//    @Override
+//    public List<Company> findAll() {
+//        return dsl.selectFrom(COMPANY)
+//                .fetchInto(Company.class);
+//    }
+//
+//    @Override
+//    public Company findById(UUID id) {
+//        return dsl.selectFrom(COMPANY)
+//                .where(COMPANY.COMPANY_ID.eq(id))
+//                .fetchOneInto(Company.class);
+//    }
 }
