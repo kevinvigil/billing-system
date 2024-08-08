@@ -60,8 +60,8 @@ public class Invoice {
                 ", total=" + total +
                 ", invoicevoucher='" + ((invoicevoucher == null)? null: invoicevoucher.name()) + '\'' +
                 ", type='" + type.name() + '\'' +
-                ", company=" + ((sellerCompany != null) ? sellerCompany.getCompany_id() : "null") +
-                ", customer=" + ((buyerCompany != null) ? buyerCompany.getCompany_id() : "null") +
+                ", company=" + ((sellerCompany != null) ? sellerCompany.getCompanyId() : "null") +
+                ", customer=" + ((buyerCompany != null) ? buyerCompany.getCompanyId() : "null") +
                 '}';
     }
 
