@@ -4,10 +4,12 @@ import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Table;
 import org.jooq.Record;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
 
+@Repository
 public abstract class BaseRepository<R extends Record, E> {
     
     protected final DSLContext dsl;
