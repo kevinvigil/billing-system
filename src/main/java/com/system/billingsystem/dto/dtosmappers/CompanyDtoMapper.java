@@ -8,17 +8,17 @@ public class CompanyDtoMapper {
 
     private CompanyDtoMapper() {}
 
-    
+
 
     public static Company toDomain(@NotNull CompanyDto companyDto) {
         Company company = new Company();
 
-        company.setCompany_id(companyDto.CompanyDto_id());
+        company.setCompanyId(companyDto.CompanyDto_id());
         company.setName(companyDto.name());
         company.setCuit(companyDto.cuit());
         company.setPhone(companyDto.phone());
         company.setEmail(companyDto.email());
-        company.setDirection(companyDto.direction());
+        company.setAddress(companyDto.direction());
 
         company.setSoldInvoices(companyDto.soldInvoices());
         company.setPurchasedInvoices(companyDto.purchasedInvoices());
@@ -28,9 +28,9 @@ public class CompanyDtoMapper {
 
     public static CompanyDto toDto(@NotNull Company company) {
         return new CompanyDto(
-                company.getCompany_id(),
+                company.getCompanyId(),
                 company.getName(),
-                company.getDirection(),
+                company.getAddress(),
                 company.getPhone(),
                 company.getEmail(),
                 company.getCuit(),
