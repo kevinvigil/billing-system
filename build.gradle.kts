@@ -1,4 +1,4 @@
-val versionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
+val catalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 plugins {
 	java
@@ -28,42 +28,62 @@ repositories {
 
 dependencies {
 
-	implementation(versionCatalog.findLibrary("spring-boot-starter-jooq").get())
-	implementation(versionCatalog.findLibrary("spring-boot-starter-security").get())
-	implementation(versionCatalog.findLibrary("spring-boot-starter-web").get())
+	implementation(catalog.findLibrary("spring-boot-starter-jooq").get())
+	implementation(catalog.findLibrary("spring-boot-starter-web").get())
 
-	implementation(versionCatalog.findLibrary("problem-spring-web-starter").get())
-	implementation(versionCatalog.findLibrary("problem-spring-web").get())
-	implementation(versionCatalog.findLibrary("jackson-datatype-problem").get())
-	implementation(versionCatalog.findLibrary("jackson-datatype-jsr310").get())
-	implementation(versionCatalog.findLibrary("jetbrains-annotation").get())
+	implementation(catalog.findLibrary("problem-spring-web-starter").get())
+	implementation(catalog.findLibrary("problem-spring-web").get())
+	implementation(catalog.findLibrary("jackson-datatype-problem").get())
+	implementation(catalog.findLibrary("jackson-datatype-jsr310").get())
+	implementation(catalog.findLibrary("jetbrains-annotation").get())
 
 
 	// Development
-	developmentOnly(versionCatalog.findLibrary("spring-boot-devtools").get())
+	developmentOnly(catalog.findLibrary("spring-boot-devtools").get())
 
 	// Testing
-	testImplementation(versionCatalog.findLibrary("spring-boot-starter-test").get())
-	testImplementation(versionCatalog.findLibrary("spring-security-test").get())
+	testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+	testImplementation("org.junit.platform:junit-platform-suite:1.10.3")
 
 
-	testImplementation(versionCatalog.findLibrary("junit-platform-runner").get())
-	testImplementation(versionCatalog.findLibrary("junit-jupiter-api").get())
-	testRuntimeOnly (versionCatalog.findLibrary("junit-jupiter-engine").get())
 
-	testImplementation(versionCatalog.findLibrary("h2-dataBase").get())
+	testImplementation(catalog.findLibrary("spring-boot-starter-test").get()) {
+		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+	}
+//	testImplementation( "spring-security-test")
+
+
+	testImplementation(catalog.findLibrary( "junit-platform-runner").get())
 
 	// Compile and annotations
-	compileOnly(versionCatalog.findLibrary("lombok").get())
-	annotationProcessor(versionCatalog.findLibrary("lombok").get())
+	compileOnly(catalog.findLibrary( "lombok").get())
+	annotationProcessor(catalog.findLibrary( "lombok").get())
 
 	// JOOQ
 	implementation("org.jooq:jooq-kotlin:3.19.10")
-	implementation(versionCatalog.findLibrary("jooq").get())
-	jooqCodegen(versionCatalog.findLibrary("jooq-codegen").get())
+	implementation(catalog.findLibrary( "jooq").get())
+	jooqCodegen(catalog.findLibrary( "jooq-codegen").get())
 	jooqCodegen("org.postgresql:postgresql:42.7.3")
 
+	// MySql
 	implementation("org.postgresql:postgresql:42.7.3")
+
+	// JWT
+	implementation(catalog.findLibrary("spring-boot-starter-security").get())
+
+	implementation("org.springframework.boot:spring-boot-starter-mail:3.3.0")
+
+	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
+
+	// https://mvnrepository.com/artifact/com.google.code.gson/gson
+	implementation("com.google.code.gson:gson:2.11.0")
+
+
+	implementation("com.vaadin.external.google:android-json:0.0.20131108.vaadin1")
+
+	implementation("org.apache.pdfbox:pdfbox:2.0.32")
 
 }
 
