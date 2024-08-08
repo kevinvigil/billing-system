@@ -1,8 +1,8 @@
-package com.system.billingsystem.dto.dtosmappers;
+package com.system.billingSystem.dto.dtosmappers;
 
-import com.system.billingsystem.dto.InvoiceDto;
-import com.system.billingsystem.dto.InvoiceProductDto;
-import com.system.billingsystem.entities.*;
+import com.system.billingSystem.dto.InvoiceDto;
+import com.system.billingSystem.dto.InvoiceProductDto;
+import com.system.billingSystem.entities.*;
 
 import java.util.ArrayList;
 import java.util.List;

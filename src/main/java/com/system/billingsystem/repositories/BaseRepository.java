@@ -1,4 +1,4 @@
-package com.system.billingsystem.repositories;
+package com.system.billingSystem.repositories;
 
 import org.jooq.DSLContext;
 import org.jooq.Field;

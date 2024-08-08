@@ -1,4 +1,4 @@
-package com.system.billingsystem;
+package com.system.billingSystem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

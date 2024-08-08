@@ -1,4 +1,4 @@
-package com.system.billingsystem.entities;
+package com.system.billingSystem.entities;
 
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;

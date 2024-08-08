@@ -1,7 +1,7 @@
-package com.system.billingsystem.services;
+package com.system.billingSystem.services;
 
-import com.system.billingsystem.entities.Customer;
-import com.system.billingsystem.repositories.CustomerRepository;
+import com.system.billingSystem.repositories.CustomerRepository;
+import com.system.billingSystem.entities.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

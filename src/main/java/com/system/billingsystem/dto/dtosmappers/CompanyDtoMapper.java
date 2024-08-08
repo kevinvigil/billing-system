@@ -1,7 +1,7 @@
-package com.system.billingsystem.dto.dtosmappers;
+package com.system.billingSystem.dto.dtosmappers;
 
-import com.system.billingsystem.dto.CompanyDto;
-import com.system.billingsystem.entities.Company;
+import com.system.billingSystem.dto.CompanyDto;
+import com.system.billingSystem.entities.Company;
 import jakarta.validation.constraints.NotNull;
 
 public class CompanyDtoMapper {

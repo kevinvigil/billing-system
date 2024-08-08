@@ -1,6 +1,6 @@
 package com.system.billingsystem.repositories;
 
-import com.system.billingsystem.entities.Company;
+import com.system.billingSystem.entities.Company;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

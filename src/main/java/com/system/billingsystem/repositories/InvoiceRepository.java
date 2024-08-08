@@ -1,6 +1,6 @@
-package com.system.billingsystem.repositories;
+package com.system.billingSystem.repositories;
 
-import com.system.billingsystem.entities.*;
+import com.system.billingSystem.entities.*;
 import domain.tables.records.InvoiceRecord;
 import org.jooq.DSLContext;
 import org.jooq.Field;

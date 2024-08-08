@@ -1,7 +1,7 @@
-package com.system.billingsystem.services;
+package com.system.billingSystem.services;
 
-import com.system.billingsystem.entities.*;
-import com.system.billingsystem.repositories.*;
+import com.system.billingSystem.entities.*;
+import com.system.billingSystem.repositories.*;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

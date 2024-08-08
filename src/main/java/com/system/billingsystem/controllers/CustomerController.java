@@ -1,9 +1,9 @@
-package com.system.billingsystem.controllers;
+package com.system.billingSystem.controllers;
 
-import com.system.billingsystem.dto.CustomerDto;
-import com.system.billingsystem.dto.dtosmappers.CustomerDtoMapper;
-import com.system.billingsystem.entities.Customer;
-import com.system.billingsystem.services.CustomerService;
+import com.system.billingSystem.dto.CustomerDto;
+import com.system.billingSystem.dto.dtosmappers.CustomerDtoMapper;
+import com.system.billingSystem.services.CustomerService;
+import com.system.billingSystem.entities.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

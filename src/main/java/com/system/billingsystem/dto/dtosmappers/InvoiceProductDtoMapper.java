@@ -1,9 +1,9 @@
-package com.system.billingsystem.dto.dtosmappers;
+package com.system.billingSystem.dto.dtosmappers;
 
-import com.system.billingsystem.dto.InvoiceProductDto;
-import com.system.billingsystem.entities.Invoice;
-import com.system.billingsystem.entities.InvoiceProduct;
-import com.system.billingsystem.entities.Product;
+import com.system.billingSystem.dto.InvoiceProductDto;
+import com.system.billingSystem.entities.Invoice;
+import com.system.billingSystem.entities.InvoiceProduct;
+import com.system.billingSystem.entities.Product;
 
 public class InvoiceProductDtoMapper {
 

@@ -1,8 +1,8 @@
 package com.system.billingsystem.repositories;
 
-import com.system.billingsystem.entities.Invoice;
-import com.system.billingsystem.entities.InvoiceProduct;
-import com.system.billingsystem.entities.Product;
+import com.system.billingSystem.entities.Invoice;
+import com.system.billingSystem.entities.InvoiceProduct;
+import com.system.billingSystem.entities.Product;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

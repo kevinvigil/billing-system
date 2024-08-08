@@ -1,7 +1,7 @@
 package com.system.billingsystem.services;
 
-import com.system.billingsystem.entities.Company;
-import com.system.billingsystem.repositories.CompanyRepository;
+import com.system.billingSystem.entities.Company;
+import com.system.billingSystem.repositories.CompanyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
