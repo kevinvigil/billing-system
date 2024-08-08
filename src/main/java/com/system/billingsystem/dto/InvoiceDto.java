@@ -42,7 +42,7 @@ public record InvoiceDto (
                 ", paid=" + paid +
                 ", invoiced=" + invoiced +
                 ", total=" + total +
-                ", invoiceVoucher='" + invoiceVoucher + '\'' +
+                ", invoicevoucher='" + invoiceVoucher + '\'' +
                 ", type='" + type + '\'' +
                 ", company=" + sellerCompany +
                 ", customer=" + buyerCompany +

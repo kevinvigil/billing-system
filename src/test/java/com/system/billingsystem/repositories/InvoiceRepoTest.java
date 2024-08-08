@@ -2,22 +2,20 @@ package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.*;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@SpringBootTest
 @ActiveProfiles("test")
 public class InvoiceRepoTest {
 
@@ -26,82 +24,69 @@ public class InvoiceRepoTest {
 
     private static Invoice invoice;
 
-    @BeforeAll
-    public static void setUp(){
-        OffsetDateTime offsetDateTime = OffsetDateTime.now();
+    private UUID baseId;
+    
+    @BeforeEach
+    public void setUp(){
         invoice = Invoice.builder()
-                .invoice_id(new UUID(1,1))
                 .date(new Timestamp(1L))
-                .invoiceVoucher(InvoiceVoucher.BILL)
+                .invoicevoucher(InvoiceVoucher.BILL)
                 .invoiced(false)
                 .paid(false)
                 .type(InvoiceType.A)
                 .buyerCompany(null)
                 .sellerCompany(null)
-                .total(0).build();
+                .total(BigDecimal.valueOf(0)).build();
+
+        baseId = invoiceRepository.save(invoice);
+        assertNotNull(baseId);
+        invoice.setInvoice_id(baseId);
     }
 
     @AfterEach
     void tearDown(){
-        invoiceRepository.deleteAll();
+        invoiceRepository.deleteById(baseId);
+        Invoice proof = invoiceRepository.findById(baseId);
+        assertNull(proof);
     }
-
-    @Test
-    public void testCreateInvoice(){
-        Invoice newInvoice = invoiceRepository.save(invoice);
-        assertNotNull(newInvoice);
-        assertTrue(newInvoice.getInvoice_id().compareTo(new UUID(1,0)) > 0 );
-    }
-
     @Test
     public void testFindById(){
-        Invoice newInvoice = invoiceRepository.save(invoice);
+        Invoice newInvoice = invoiceRepository.findById(baseId)  ;
         assertNotNull(newInvoice);
-        Invoice newInvoice2 = invoiceRepository.findById(newInvoice.getInvoice_id())  ;
-        assertNotNull(newInvoice2);
-        assertEquals(newInvoice.getInvoice_id(), newInvoice2.getInvoice_id());
+        assertEquals(baseId, newInvoice.getInvoice_id());
     }
 
     @Test
     public void testUpdateInvoice(){
-        Invoice newInvoice = invoiceRepository.save(invoice);
+        BigDecimal aux = BigDecimal.valueOf(123456);
+        invoice.setTotal(aux);
+        invoiceRepository.update(invoice);
+        Invoice newInvoice = invoiceRepository.findById(invoice.getInvoice_id())  ;
         assertNotNull(newInvoice);
-
-        newInvoice.setTotal(123456);
-        invoiceRepository.save(newInvoice);
-        Invoice newInvoice2 = invoiceRepository.findById(invoice.getInvoice_id())  ;
-        assertNotNull(newInvoice2);
-        assertEquals(123456, newInvoice2.getTotal());
-    }
-
-    @Test
-    public void testDelete(){
-        Invoice newInvoice = invoiceRepository.save(invoice);
-        assertNotNull(newInvoice);
-        invoiceRepository.deleteById(invoice.getInvoice_id());
-        Invoice newInvoice2 = Optional.of(invoiceRepository.findById(invoice.getInvoice_id())).get()  ;
-        assertNull(newInvoice2);
+        assertEquals(aux.doubleValue(), newInvoice.getTotal().doubleValue());
     }
 
     @Test
     public void testFindAll(){
-        OffsetDateTime offsetDateTime = OffsetDateTime.now();
         Invoice newInvoice = Invoice.builder()
-                .invoice_id(new UUID(2,2))
                 .date(new Timestamp(2L))
-                .invoiceVoucher(InvoiceVoucher.REFERENCE)
+                .invoicevoucher(InvoiceVoucher.REFERENCE)
                 .invoiced(true)
                 .paid(true)
                 .type(InvoiceType.B)
                 .buyerCompany(null)
                 .sellerCompany(null)
-                .total(0).build();
+                .total(BigDecimal.valueOf(0)).build();
 
-        invoiceRepository.save(newInvoice);
-        invoiceRepository.save(invoice);
+        assertNotNull(invoiceRepository.save(newInvoice));
 
-        List<Invoice> invoices2 = invoiceRepository.findAll();
-        assertNotNull(invoices2);
-        assertEquals(2, invoices2.size());
+        List<Invoice> invoices = invoiceRepository.findAll();
+        assertNotNull(invoices);
+        assertTrue(invoices.size()>1);
+    }
+
+    @Test
+    public void testExistById(){
+        assertTrue(invoiceRepository.existsById(baseId));
     }
 }

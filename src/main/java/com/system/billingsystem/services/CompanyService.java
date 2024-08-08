@@ -24,9 +24,24 @@ public class CompanyService{
 
     public Company save(Company entity) {
         try{
-            return companyRepository.save(entity);
+            UUID uuid = companyRepository.save(entity);
+            if(uuid != null)
+                return companyRepository.findById(uuid);
+            else
+                return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method save, User: " + entity.toString());
+            throw e;
+        }
+    }
+
+    public Company update(Company entity) {
+        try {
+            if (this.companyRepository.update(entity))
+                return this.companyRepository.findById(entity.getCompany_id());
+            return null;
+        }catch (Exception e){
+            logger.log(Level.SEVERE, "Error in CompanyService on method update, User: " + entity.toString());
             throw e;
         }
     }

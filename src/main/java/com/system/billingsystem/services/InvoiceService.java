@@ -19,21 +19,16 @@ public class InvoiceService{
 
     private final InvoiceRepository invoiceRepository;
 
-    private final CompanyRepository companyRepository;
-
     private final InvoiceProductRepository invoiceProductRepository;
 
     private final ProductRepository productRepository;
 
     @Autowired
-    public InvoiceService(ProductRepository productRepository,
-                          InvoiceRepository invoiceRepository,
-                          InvoiceProductRepository invoiceProductRepository,
-                          CompanyRepository companyRepository){
+    public InvoiceService(ProductRepository productRepository, InvoiceRepository invoiceRepository,
+                          InvoiceProductRepository invoiceProductRepository){
         this.productRepository = productRepository;
         this.invoiceProductRepository = invoiceProductRepository;
         this.invoiceRepository = invoiceRepository;
-        this.companyRepository = companyRepository;
     }
 
     public Invoice saveInvoice(@NotNull Invoice invoice){
@@ -44,28 +39,41 @@ public class InvoiceService{
                 for (InvoiceProduct invoiceProduct:productList) {
                     invoiceProduct.setInvoice(invoice);
 
-                    total += invoiceProduct.getAmount().doubleValue() * this.findProductById(invoiceProduct.getProduct().getProduct_id()).getPrice().doubleValue();
+                    Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProduct_id());
+                    total += invoiceProduct.getAmount() * currentProduct.getPrice().doubleValue();
 
                     saveInvoiceProduct(invoiceProduct);
                 }
             }
-            invoice.setTotal(new BigDecimal(total));
-            return invoiceRepository.save(invoice);
+            invoice.setTotal(BigDecimal.valueOf(total));
+            UUID uuid = invoiceRepository.save(invoice);
+            return invoiceRepository.findById(uuid);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method saveInvoice, message: " + e.getMessage());
             throw e;
         }
     }
 
-    // TODO refactor
     public Invoice updateInvoice (@NotNull Invoice invoice){
         try {
-            this.deleteInvoice(invoice.getInvoice_id());
+            double total = 0.0;
+            List<InvoiceProduct> productList = invoice.getProducts();
+            if (productList != null && !productList.isEmpty()){
+                for (InvoiceProduct invoiceProduct:productList) {
+                    invoiceProduct.setInvoice(invoice);
 
-//            InvoiceDto newInvoiceDto = new InvoiceDto(null, invoiceDto.date(), invoiceDto.paid(), invoiceDto.invoiced(), invoiceDto.total(),
-//                    invoiceDto.invoiceVoucher(), invoiceDto.type(), invoiceDto.sellerCompany(), invoiceDto.buyerCompany(), invoiceDto.products());
+                    Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProduct_id());
+                    total += invoiceProduct.getAmount() * currentProduct.getPrice().doubleValue();
 
-            return this.saveInvoice(invoice);
+                    this.updateInvoiceProduct(invoiceProduct);
+                }
+            }
+            invoice.setTotal(BigDecimal.valueOf(total));
+            if (this.invoiceRepository.update(invoice)){
+                return this.invoiceRepository.findById(invoice.getInvoice_id());
+            } else {
+                return null;
+            }
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method updateInvoiceById, message: " + e.getMessage());
             throw e;
@@ -93,18 +101,41 @@ public class InvoiceService{
         }
     }
 
+    public List<Invoice> findAllInvoices(){
+        try {
+            return this.invoiceRepository.findAll();
+        }catch (Exception e){
+            logger.log(Level.SEVERE, "Error on InvoiceService in the method findAllInvoices, message: " + e.getMessage());
+            throw e;
+        }
+    }
+
     public void saveInvoiceProduct(@NotNull InvoiceProduct invoiceProduct){
         try{
-            invoiceProductRepository.save(invoiceProduct);
+            if (invoiceProductRepository.save(invoiceProduct) == null)
+                logger.log(Level.SEVERE, "InvoiceProduct was not saved");
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method saveInvoiceProduct, message: " + e.getMessage());
             throw e;
         }
     }
 
-    public Product saveProduct(@NotNull Product product){
+    public void updateInvoiceProduct(@NotNull InvoiceProduct invoiceProduct){
         try{
-            return productRepository.save(product);
+            if (!this.invoiceProductRepository.update(invoiceProduct))
+                logger.log(Level.SEVERE, "InvoiceProduct was not updated");
+        }catch (Exception e){
+            logger.log(Level.SEVERE, "Error on InvoiceService in the method updateInvoiceProduct, message: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public Product saveProduct(@NotNull Product entity){
+        try{
+            UUID uuid = productRepository.save(entity);
+            if(uuid != null)
+                return productRepository.findById(uuid);
+            return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method saveProduct, message: " + e.getMessage());
             throw e;
@@ -125,6 +156,7 @@ public class InvoiceService{
 
     public Product findProductById (@NotNull UUID id){
         try{
+
             return this.productRepository.findById(id);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findProductById, message: " + e.getMessage());
@@ -132,9 +164,22 @@ public class InvoiceService{
         }
     }
 
+    public List<Product> findAllProducts(){
+        try {
+            List<Product> g = this.productRepository.findAll();
+            System.out.println(g.size());
+            return g;
+        }catch (Exception e){
+            logger.log(Level.SEVERE, "Error on InvoiceService in the method findAllInvoices, message: " + e.getMessage());
+            throw e;
+        }
+    }
+
     public Product updateProductById (@NotNull Product product){
         try{
-            return this.productRepository.save(product);
+            if (this.productRepository.update(product))
+                return this.productRepository.findById(product.getProduct_id());
+            return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findProductById, message: " + e.getMessage());
             throw e;

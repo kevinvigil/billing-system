@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 @Configuration
 public class JooqConfig {
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     @Autowired
     public JooqConfig(DataSource dataSource) {

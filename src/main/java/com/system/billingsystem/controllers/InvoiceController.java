@@ -3,7 +3,6 @@ package com.system.billingsystem.controllers;
 import com.system.billingsystem.dto.InvoiceDto;
 import com.system.billingsystem.dto.dtosmappers.InvoiceDtoMapper;
 import com.system.billingsystem.entities.Invoice;
-import com.system.billingsystem.repositories.InvoiceRepository;
 import com.system.billingsystem.services.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -20,15 +20,12 @@ public class InvoiceController {
 
     private final InvoiceService invoiceService;
 
-    private final InvoiceRepository invoiceRepository;
-
     @Autowired
-    public InvoiceController(InvoiceService invoiceService, InvoiceRepository invoiceRepository){
-        this.invoiceRepository = invoiceRepository;
+    public InvoiceController(InvoiceService invoiceService){
         this.invoiceService = invoiceService;
     }
 
-    @PostMapping()
+    @PostMapping("/")
     public ResponseEntity<?> save(@RequestBody InvoiceDto entity){
         if (entity == null)
             throw new IllegalArgumentException();
@@ -37,15 +34,13 @@ public class InvoiceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(InvoiceDtoMapper.toDto(invoice));
     }
 
-    @PutMapping("")
+    @PutMapping("/")
     public ResponseEntity<?> update(@RequestBody InvoiceDto entity) {
         if (entity == null)
             throw new IllegalArgumentException();
 
         try {
             Invoice invoice = invoiceService.findInvoiceById(entity.invoiceDto_id());
-            if (invoice == null)
-                throw new Exception();// TODO
 
             if (!invoice.isInvoiced() && !invoice.isPaid())
                 return ResponseEntity.ok().body(invoiceService.updateInvoice(InvoiceDtoMapper.toDomain(entity)));
@@ -76,6 +71,21 @@ public class InvoiceController {
         try{
             InvoiceDto invoiceDto = InvoiceDtoMapper.toDto(invoiceService.findInvoiceById(id)) ;
             return ResponseEntity.ok().body(invoiceDto);
+        } catch (Exception e){
+            throw new InternalError();
+        }
+    }
+
+    @GetMapping("/")
+    public  ResponseEntity<?> findAll(){
+        try{
+            List<Invoice> invoices = this.invoiceService.findAllInvoices();
+            System.out.println(invoices);
+            if (invoices != null){
+                List<InvoiceDto> invoiceDto = invoices.stream().map(InvoiceDtoMapper::toDto).toList();
+                return ResponseEntity.ok().body(invoiceDto);
+            }
+            return null;
         } catch (Exception e){
             throw new InternalError();
         }

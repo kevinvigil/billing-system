@@ -2,76 +2,88 @@ package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Customer;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@SpringBootTest
 @ActiveProfiles("test")
 public class CustomerRepoTest {
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     private static Customer customer;
 
-    @BeforeAll
-    public static void setUp() {
+    private static UUID baseId;
+
+    @Autowired
+    public CustomerRepoTest(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
+    @BeforeEach
+    public void setUp() {
         customer = Customer.builder()
-                .customer_id(new UUID(1,1))
                 .name("user name")
                 .email("user@hotmail.com")
                 .password("userPassword")
                 .company(null)
                 .build();
+        
+        baseId = customerRepository.save(customer);
+        assertNotNull(baseId);
+        customer.setCustomer_id(baseId);
     }
 
     @AfterEach
     public void tearDown() {
-        customerRepository.deleteAll();
-    }
-
-    @Test
-    public void testSaveUser() {
-        Customer newUser = customerRepository.save(customer);
-        assertNotNull(newUser);
-        assertEquals(customer.getEmail(), newUser.getEmail());
+        customerRepository.deleteById(baseId);
     }
 
     @Test
     public void testFindById() {
-        Customer newUser = customerRepository.save(customer);
-        assertNotNull(newUser);
-        Customer foundUser = customerRepository.findById(newUser.getCustomer_id());
-        assertNotNull(foundUser);
-        assertEquals(newUser.getCustomer_id(), foundUser.getCustomer_id());
-    }
-
-    @Test
-    public void testDeleteUser() {
-        Customer newUser = customerRepository.save(customer);
-        assertNotNull(newUser);
-        Customer foundUser = customerRepository.findById(newUser.getCustomer_id());
-        assertNotNull(foundUser);
-        assertEquals(newUser.getCustomer_id(), foundUser.getCustomer_id());
-        customerRepository.deleteById(newUser.getCustomer_id());
-        assertNull(customerRepository.findById(newUser.getCustomer_id()));
+        Customer foundCustomer = customerRepository.findById(baseId);
+        assertNotNull(foundCustomer);
+        assertEquals(baseId, foundCustomer.getCustomer_id());
     }
 
     @Test
     public void testUpdateUser() {
-        Customer newUser = customerRepository.save(customer);
-        assertNotNull(newUser);
-        newUser.setName("new name");
-        customerRepository.save(newUser);
-        Customer foundUser = customerRepository.findById(newUser.getCustomer_id());
-        assertNotNull(foundUser);
-        assertEquals(newUser.getName(), foundUser.getName());
+        customer.setName("new name");
+        assertTrue(customerRepository.update(customer));
+        Customer foundCustomer = customerRepository.findById(baseId);
+        assertNotNull(foundCustomer);
+        assertEquals(customer.getName(), foundCustomer.getName());
+    }
+
+    @Test
+    public void testFindAll(){
+        Customer newCustomer = Customer.builder()
+                .name("user2 name")
+                .email("user2@hotmail.com")
+                .password("user2Password")
+                .company(null)
+                .build();
+
+        UUID newId = customerRepository.save(newCustomer);
+        assertNotNull(newId);
+
+        List<Customer> foundCustomers = customerRepository.findAll();
+        System.out.println(foundCustomers);
+        assertNotNull(foundCustomers);
+        assertTrue(foundCustomers.size() > 1);
+        customerRepository.deleteById(newId);
+    }
+
+    @Test
+    public void testExistById(){
+        assertTrue(customerRepository.existsById(baseId));
     }
 }

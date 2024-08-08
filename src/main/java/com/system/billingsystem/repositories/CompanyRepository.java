@@ -4,7 +4,6 @@ import com.system.billingsystem.entities.Company;
 import domain.tables.records.CompanyRecord;
 import org.jooq.DSLContext;
 import org.jooq.Field;
-import org.jooq.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,54 +20,35 @@ public class CompanyRepository extends BaseRepository<CompanyRecord, Company> {
     }
 
     @Override
-    public Company save(Company persisted) {
+    public UUID save(Company persisted) {
         UUID id = UUID.randomUUID();
-
-        return dsl.insertInto(COMPANY)
+        int execution = dsl.insertInto(COMPANY)
                 .set(COMPANY.COMPANY_ID, id)
                 .set(COMPANY.CUIT, persisted.getCuit())
                 .set(COMPANY.DIRECTION, persisted.getDirection())
                 .set(COMPANY.EMAIL, persisted.getEmail())
                 .set(COMPANY.NAME, persisted.getName())
                 .set(COMPANY.PHONE, persisted.getPhone())
-                .returning(COMPANY).fetchOneInto(Company.class);
+                .execute();
+
+        return (execution == 1 ? id : null);
+    }
+
+    public boolean update(Company persisted){
+        int execution = dsl.update(COMPANY)
+                .set(COMPANY.CUIT, persisted.getCuit())
+                .set(COMPANY.DIRECTION, persisted.getDirection())
+                .set(COMPANY.EMAIL, persisted.getEmail())
+                .set(COMPANY.NAME, persisted.getName())
+                .set(COMPANY.PHONE, persisted.getPhone())
+                .where(COMPANY.COMPANY_ID.eq(persisted.getCompany_id()))
+                .execute();
+
+        return (execution == 1);
     }
 
     @Override
     protected Field<UUID> getIdField() {
         return COMPANY.COMPANY_ID;
     }
-
-
-//    public Company deleteById(UUID uuid) {
-//        return dsl.deleteFrom(COMPANY)
-//                .where(COMPANY.COMPANY_ID.eq(uuid))
-//                .returning(COMPANY).fetchOneInto(Company.class);
-//    }
-
-//    @Override
-//    public void deleteAll() {
-//        dsl.deleteFrom(COMPANY).execute();
-//    }
-//
-//    @Override
-//    public boolean existsById(UUID uuid) {
-//        return dsl.fetchExists(
-//                dsl.select(COMPANY.COMPANY_ID)
-//                        .from(COMPANY)
-//                        .where(COMPANY.COMPANY_ID.eq(uuid)));
-//    }
-//
-//    @Override
-//    public List<Company> findAll() {
-//        return dsl.selectFrom(COMPANY)
-//                .fetchInto(Company.class);
-//    }
-//
-//    @Override
-//    public Company findById(UUID id) {
-//        return dsl.selectFrom(COMPANY)
-//                .where(COMPANY.COMPANY_ID.eq(id))
-//                .fetchOneInto(Company.class);
-//    }
 }

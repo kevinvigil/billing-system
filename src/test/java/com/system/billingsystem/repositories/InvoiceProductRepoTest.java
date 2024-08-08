@@ -1,102 +1,89 @@
 package com.system.billingsystem.repositories;
 
+import com.system.billingsystem.entities.Invoice;
 import com.system.billingsystem.entities.InvoiceProduct;
+import com.system.billingsystem.entities.Product;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@SpringBootTest
 @ActiveProfiles("test")
 public class InvoiceProductRepoTest {
 
-    @Autowired
-    private InvoiceProductRepository invoiceProductRepo;
+    private final InvoiceProductRepository invoiceProductRepo;
 
     private static InvoiceProduct invoiceProduct;
 
-    @BeforeAll
-    public static void setUp(){
+    private UUID baseId;
+
+    @Autowired
+    public InvoiceProductRepoTest(InvoiceProductRepository invoiceProductRepo) {
+        this.invoiceProductRepo = invoiceProductRepo;
+    }
+
+    @BeforeEach
+    public void setUp(){
         invoiceProduct = InvoiceProduct.builder()
-                .invoiceProduct_id(new UUID(1,1))
-                .product(null)
-                .invoice(null)
+                .amount(0)
+                .product(new Product())
+                .invoice(new Invoice())
                 .build();
+
+        baseId = invoiceProductRepo.save(invoiceProduct);
+        assertNotNull(baseId);
+        invoiceProduct.setInvoiceproduct_id(baseId);
     }
 
     @AfterEach
     public void tearDown(){
-        invoiceProductRepo.deleteAll();
-    }
-
-    @Test
-    public void testSaveInvoiceProduct(){
-        InvoiceProduct newInvoiceProduct = invoiceProductRepo.save(invoiceProduct);
-        assertNotNull(newInvoiceProduct);
-        InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(newInvoiceProduct.getInvoiceProduct_id()) ;
-        assertNotNull(foundInvoiceProduct);
-        assertEquals(newInvoiceProduct.getInvoiceProduct_id(), foundInvoiceProduct.getInvoiceProduct_id());
+        invoiceProductRepo.deleteById(baseId);
+        InvoiceProduct proof = invoiceProductRepo.findById(baseId);
+        assertNull(proof);
     }
 
     @Test
     public void testFindInvoiceProductById(){
-        InvoiceProduct newInvoiceProduct = invoiceProductRepo.save(invoiceProduct);
-        assertNotNull(newInvoiceProduct);
-        InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(newInvoiceProduct.getInvoiceProduct_id()) ;
-        assertNotNull(foundInvoiceProduct);
-        assertEquals(newInvoiceProduct.getInvoiceProduct_id(), foundInvoiceProduct.getInvoiceProduct_id());
-    }
-
-    @Test
-    public void testDeleteInvoiceProduct(){
-        InvoiceProduct newInvoiceProduct = invoiceProductRepo.save(invoiceProduct);
-        assertNotNull(newInvoiceProduct);
-        InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(newInvoiceProduct.getInvoiceProduct_id()) ;
-        assertNotNull(foundInvoiceProduct);
-        assertEquals(newInvoiceProduct.getInvoiceProduct_id(), foundInvoiceProduct.getInvoiceProduct_id());
-        invoiceProductRepo.deleteById(newInvoiceProduct.getInvoiceProduct_id());
-        foundInvoiceProduct = invoiceProductRepo.findById(newInvoiceProduct.getInvoiceProduct_id()) ;
-        assertNull(foundInvoiceProduct);
+        InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(baseId);
+        assertNotNull(foundInvoiceProduct.getInvoiceproduct_id());
+        assertEquals(baseId, foundInvoiceProduct.getInvoiceproduct_id());
     }
 
     @Test
     public void testFindAllInvoiceProduct(){
-        invoiceProductRepo.save(invoiceProduct);
         InvoiceProduct newInvoiceProduct = InvoiceProduct.builder()
-                .invoiceProduct_id(new UUID(2,2))
                 .product(null)
                 .invoice(null)
                 .build();
 
-        invoiceProductRepo.save(newInvoiceProduct);
+        UUID newId = invoiceProductRepo.save(newInvoiceProduct);
+        assertNotNull(newId);
 
         List<InvoiceProduct> invoiceProducts = invoiceProductRepo.findAll();
+        System.out.println(invoiceProducts);
         assertNotNull(invoiceProducts);
-        assertEquals(2, invoiceProducts.size());
+        assertTrue(invoiceProducts.size() > 1);
     }
 
     @Test
-    public void testSaveAllInvoiceProduct(){
-        InvoiceProduct newInvoiceProduct = InvoiceProduct.builder()
-                .invoiceProduct_id(new UUID(2,2))
-                .amount(200.0)
-                .product(null)
-                .invoice(null)
-                .build();
+    public void testUpdateInvoiceProduct(){
+        invoiceProduct.setAmount(10);
+        invoiceProductRepo.update(invoiceProduct);
+        InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(baseId);
+        assertNotNull(foundInvoiceProduct);
+        assertEquals(invoiceProduct.getAmount().doubleValue(), foundInvoiceProduct.getAmount().doubleValue());
+    }
 
-        invoiceProductRepo.save(newInvoiceProduct);
-        invoiceProductRepo.save(invoiceProduct);
-
-        List<InvoiceProduct> invoiceProducts = invoiceProductRepo.findAll();
-        assertNotNull(invoiceProducts);
-        assertEquals(2, invoiceProducts.size());
+    @Test
+    public void testExistById(){
+        assertTrue(invoiceProductRepo.existsById(baseId));
     }
 }

@@ -8,7 +8,6 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +29,7 @@ public class Invoice {
     @Min(0)
     private Integer discount;
 
-    private InvoiceVoucher invoiceVoucher;
+    private InvoiceVoucher invoicevoucher;
 
     private InvoiceType type;
 
@@ -59,7 +58,7 @@ public class Invoice {
                 ", paid=" + paid +
                 ", invoiced=" + invoiced +
                 ", total=" + total +
-                ", invoiceVoucher='" + invoiceVoucher.name() + '\'' +
+                ", invoicevoucher='" + ((invoicevoucher == null)? null: invoicevoucher.name()) + '\'' +
                 ", type='" + type.name() + '\'' +
                 ", company=" + ((sellerCompany != null) ? sellerCompany.getCompany_id() : "null") +
                 ", customer=" + ((buyerCompany != null) ? buyerCompany.getCompany_id() : "null") +
@@ -73,9 +72,14 @@ public class Invoice {
 
         Invoice invoice = (Invoice) o;
 
-        if ( (invoice.total.compareTo(total) != 0) || (paid != invoice.paid) || (invoiced != invoice.invoiced)
-        || (!Objects.equals(invoice_id, invoice.invoice_id)) || (!Objects.equals(date, invoice.date)) || (invoiceVoucher != invoice.invoiceVoucher)
-        || (type != invoice.type))return false;
+        if (
+                (invoice.total.compareTo(total) != 0) ||
+                        (paid != invoice.paid) ||
+                        (invoiced != invoice.invoiced) ||
+                        (!Objects.equals(invoice_id, invoice.invoice_id)) ||
+                        (!Objects.equals(date, invoice.date)) ||
+                        (invoicevoucher != invoice.invoicevoucher) ||
+                        (type != invoice.type))return false;
 
         if (this.sellerCompany != null && invoice.sellerCompany != null){
             if (!Objects.equals(sellerCompany, invoice.sellerCompany)){

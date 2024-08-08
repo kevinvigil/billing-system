@@ -14,7 +14,7 @@ public class CustomerDtoMapper {
                 customer.getName(),
                 customer.getEmail(),
                 customer.getPassword(),
-                customer.getCompany().getCompany_id()
+                (customer.getCompany() == null)? null: customer.getCompany().getCompany_id()
         );
     }
 

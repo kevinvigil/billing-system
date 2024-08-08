@@ -1,6 +1,5 @@
 package com.system.billingsystem.services;
 
-import com.system.billingsystem.entities.Company;
 import com.system.billingsystem.entities.Customer;
 import com.system.billingsystem.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +24,24 @@ public class CustomerService {
 
     public Customer save(Customer entity) {
         try {
-            return customerRepository.save(entity);
+            UUID uuid = customerRepository.save(entity);
+            if(uuid != null)
+                return customerRepository.findById(uuid);
+            else
+                return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on UserService method save" + entity.toString());
+            throw e;
+        }
+    }
+
+    public Customer update(Customer entity) {
+        try {
+            if (this.customerRepository.update(entity))
+                return this.customerRepository.findById(entity.getCustomer_id());
+            return null;
+        }catch (Exception e){
+            logger.log(Level.SEVERE, "Error on UserService method update" + entity.toString());
             throw e;
         }
     }

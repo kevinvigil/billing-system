@@ -9,51 +9,41 @@ import org.jooq.impl.DSL;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class BaseRepository<R extends Record, entityClass> {
+public abstract class BaseRepository<R extends Record, E> {
     
     protected final DSLContext dsl;
     protected final Table<R> table;
-    private final Class<entityClass> entityClass;
+    private final Class<E> E;
 
-    protected BaseRepository(DSLContext dsl, Table<R> table, Class<entityClass> entityClass) {
+    protected BaseRepository(DSLContext dsl, Table<R> table, Class<E> E) {
         this.dsl = dsl;
         this.table = table;
-        this.entityClass = entityClass;
+        this.E = E;
     }
 
-    public abstract entityClass save(entityClass persisted);
+    public abstract UUID save(E persisted);
+    public abstract boolean update(E persisted);
     protected abstract Field<UUID> getIdField();
 
-    public List<entityClass> findAll() {
-        return dsl.selectFrom(table).fetchInto(entityClass);
+    public List<E> findAll() {
+        return dsl.selectFrom(table).fetchInto(E);
     }
 
-    public entityClass findById(UUID id) {
+    public E findById(UUID id) {
         return dsl.selectFrom(table)
                 .where(getIdField().eq(id))
-                .fetchOneInto(entityClass);
+                .fetchOneInto(E);
     }
 
-    public void deleteAll(){
-        dsl.deleteFrom(table).execute();
-    }
-
-    public entityClass deleteById(UUID id) {
+    public E deleteById(UUID id) {
         return dsl.deleteFrom(table)
                 .where(getIdField().eq(id))
-                .returning().fetchOneInto(entityClass);
+                .returning().fetchOneInto(E);
     }
 
     public boolean existsById(UUID uuid){
         return dsl.fetchExists(dsl.select()
                 .from(table).where(getIdField().eq(uuid)));
     }
-
-//    entityClass save(entityClass persisted);
-//    entityClass deleteById(ID id);
-//    void deleteAll();
-//    boolean existsById(ID id);
-//    List<entityClass> findAll();
-//    entityClass findById(UUID id);
 
 }

@@ -22,9 +22,15 @@ public class InvoiceDtoMapper {
         }
 
         return new InvoiceDto(
-                invoice.getInvoice_id(), invoice.getDate(), invoice.isPaid(), invoice.isInvoiced(),
-                invoice.getTotal(), invoice.getInvoiceVoucher().name(), invoice.getType().name(),
-                invoice.getSellerCompany().getCompany_id(), invoice.getBuyerCompany().getCompany_id(),
+                invoice.getInvoice_id(),
+                invoice.getDate(),
+                invoice.isPaid(),
+                invoice.isInvoiced(),
+                invoice.getTotal(),
+                (invoice.getInvoicevoucher() == null)? null:invoice.getInvoicevoucher().name(),
+                (invoice.getType() == null)? null : invoice.getType().name(),
+                (invoice.getSellerCompany() == null)? null : invoice.getSellerCompany().getCompany_id(),
+                (invoice.getBuyerCompany() == null)? null : invoice.getBuyerCompany().getCompany_id(),
                 products
         );
     }
@@ -36,7 +42,7 @@ public class InvoiceDtoMapper {
         invoice.setPaid(invoiceDto.paid());
         invoice.setInvoiced(invoiceDto.invoiced());
         invoice.setTotal(invoiceDto.total());
-        invoice.setInvoiceVoucher(InvoiceVoucher.valueOf(invoiceDto.invoiceVoucher()));
+        invoice.setInvoicevoucher(InvoiceVoucher.valueOf(invoiceDto.invoiceVoucher()));
         invoice.setType(InvoiceType.valueOf(invoiceDto.type()));
         invoice.setSellerCompany(new Company(invoiceDto.sellerCompany()));
         invoice.setBuyerCompany(new Company(invoiceDto.buyerCompany()));

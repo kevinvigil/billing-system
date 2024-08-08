@@ -1,11 +1,9 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Company;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -13,70 +11,57 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@SpringBootTest
 @ActiveProfiles("test")
 public class CompanyRepoTest {
 
-    @Autowired
-    private CompanyRepository companyRepository;
+    private final CompanyRepository companyRepository;
 
     private static Company company;
 
-    @BeforeAll
-    public static void setUp() {
+    private static UUID baseId;
+
+    @Autowired
+    public CompanyRepoTest(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
+    }
+
+    @BeforeEach
+    public void setUp() {
         company = Company.builder()
-                .company_id(new UUID(1,1))
                 .name("company")
                 .cuit("1111")
                 .email("company@hotmail.com")
                 .phone("1111")
                 .direction("hello world")
                 .build();
+
+        baseId = companyRepository.save(company);
+        assertNotNull(baseId);
+        company.setCompany_id(baseId);
     }
 
     @AfterEach
     void tearDown(){
-        companyRepository.deleteAll();
-    }
-
-    @Test
-    public void testCreateCompany() {
-
-        Company newCompany = companyRepository.save(company);
-        
-        assertNotNull(newCompany);
-
-        assertTrue(newCompany.getCompany_id().compareTo(new UUID(1,0)) > 0);
+        companyRepository.deleteById(baseId);
+        Company proof = companyRepository.findById(baseId);
+        assertNull(proof);
     }
 
     @Test
     public void testFindById() {
-        Company newCompany = companyRepository.save(company);
+        Company newCompany = companyRepository.findById(baseId);
         assertNotNull(newCompany);
-        Company newCompany2 = companyRepository.findById(newCompany.getCompany_id());
-        assertNotNull(newCompany2);
-        assertEquals("company", newCompany2.getName());
+        assertEquals("company", newCompany.getName());
     }
 
     @Test
     public void testUpdateCompany() {
-        Company newCompany = companyRepository.save(company);
+        company.setName("updatedCompany");
+        assertTrue(companyRepository.update(company));
+        Company newCompany = companyRepository.findById(baseId);
         assertNotNull(newCompany);
-
-        newCompany.setName("updatedCompany");
-        companyRepository.save(newCompany);
-        Company newCompany2 = companyRepository.findById(newCompany.getCompany_id());
-        assertNotNull(newCompany2);
-
-        assertEquals("updatedCompany", newCompany2.getName());
-    }
-
-    @Test
-    public void testDeleteCompany() {
-        Company newCompany = companyRepository.save(company);
-        assertNotNull(newCompany);
-        companyRepository.deleteById(newCompany.getCompany_id());
-        assertNull(companyRepository.findById(newCompany.getCompany_id()));
+        assertEquals("updatedCompany", newCompany.getName());
     }
 
     @Test
@@ -90,11 +75,17 @@ public class CompanyRepoTest {
                 .direction("hello world2")
                 .build();
 
-        companyRepository.save(newCompany);
-        companyRepository.save(company);
+        UUID newCompanyId = companyRepository.save(newCompany);
+        assertNotNull(newCompanyId);
 
-        List<Company> companies2 = companyRepository.findAll();
-        assertNotNull(companies2);
-        assertEquals(2, companies2.size());
+        List<Company> companies = companyRepository.findAll();
+        assertNotNull(companies);
+        assertTrue(companies.size() > 1);
+        companyRepository.deleteById(newCompanyId);
+    }
+
+    @Test
+    public void testExistsById(){
+        assertTrue(companyRepository.existsById(baseId));
     }
 }

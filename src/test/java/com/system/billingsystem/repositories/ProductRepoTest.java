@@ -2,19 +2,19 @@ package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Product;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@SpringBootTest
 @ActiveProfiles("test")
 public class ProductRepoTest {
 
@@ -22,73 +22,62 @@ public class ProductRepoTest {
     private ProductRepository productRepo;
 
     private static Product product;
+    
+    private UUID baseId;
 
-    @BeforeAll
-    public static void setUp(){
+    @BeforeEach
+    public void setUp(){
         product = Product.builder()
-                .product_id(new UUID(1,1))
                 .name("Name Product")
                 .description("Description Product")
-                .price(100.0)
+                .price(BigDecimal.valueOf(100.0))
                 .build();
+
+        baseId = productRepo.save(product);
+        assertNotNull(baseId);
+        product.setProduct_id(baseId);
     }
 
     @AfterEach
     public void tearDown(){
-        productRepo.deleteAll();
+        productRepo.deleteById(baseId);
+        Product proof = productRepo.findById(baseId);
+        assertNull(proof);
     }
-
-    @Test
-    public void testSaveProduct(){
-        Product savedProduct = productRepo.save(product);
-        assertNotNull(savedProduct);
-        assertEquals(savedProduct.getName(), product.getName());
-    }
-
+    
     @Test
     public void testFindProductById(){
-        Product savedProduct = productRepo.save(product);
-        assertNotNull(savedProduct);
-        Product foundProduct = productRepo.findById(savedProduct.getProduct_id())   ;
+        Product foundProduct = productRepo.findById(baseId)   ;
         assertNotNull(foundProduct);
-        assertEquals(savedProduct.getProduct_id(), foundProduct.getProduct_id());
+        assertEquals(baseId, foundProduct.getProduct_id());
     }
 
     @Test
     public void testUpdateProduct(){
-        Product savedProduct = productRepo.save(product);
-        assertNotNull(savedProduct);
-        savedProduct.setName("Updated Name");
-        productRepo.save(savedProduct);
-        Product updatedProduct = productRepo.findById(savedProduct.getProduct_id())   ;
+        product.setName("Updated Name");
+        productRepo.update(product);
+        Product updatedProduct = productRepo.findById(baseId)   ;
         assertNotNull(updatedProduct);
-        assertEquals(updatedProduct.getName(), savedProduct.getName());
-    }
-
-    @Test
-    public void testDeleteProduct(){
-        Product savedProduct = productRepo.save(product);
-        assertNotNull(savedProduct);
-        Product foundProduct = productRepo.findById(savedProduct.getProduct_id())   ;
-        assertNotNull(foundProduct);
-        assertEquals(savedProduct.getProduct_id(), foundProduct.getProduct_id());
-        productRepo.deleteById(savedProduct.getProduct_id());
-        assertNull(productRepo.findById(savedProduct.getProduct_id()));
+        assertEquals(updatedProduct.getName(), product.getName());
     }
 
     @Test
     public void testFindAllProducts(){
-        Product savedProduct = productRepo.save(product);
-        assertNotNull(savedProduct);
         Product newProduct = Product.builder()
-                .product_id(new UUID(2,2))
                 .name("Name Product 2")
                 .description("Description Product 2")
-                .price(200.0)
+                .price(BigDecimal.valueOf(200.0))
                 .build();
-        productRepo.save(newProduct);
+
+        assertNotNull(productRepo.save(newProduct));
+
         List<Product> products = productRepo.findAll();
         assertNotNull(products);
-        assertEquals(2, products.size());
+        assertTrue(products.size()>1);
+    }
+
+    @Test
+    public void testExistById(){
+        assertTrue(productRepo.existsById(baseId));
     }
 }

@@ -7,11 +7,11 @@ import java.util.UUID;
 public record InvoiceProductDto (
         UUID invoiceProductDto_id,
         String name,
-        BigDecimal amount,
+        Integer amount,
         UUID idProduct,
         UUID idInvoice ) {
 
-    public InvoiceProductDto(UUID invoiceProductDto_id, String name, BigDecimal amount, UUID idProduct, UUID idInvoice) {
+    public InvoiceProductDto(UUID invoiceProductDto_id, String name, Integer amount, UUID idProduct, UUID idInvoice) {
         this.invoiceProductDto_id = invoiceProductDto_id;
         this.name = name;
         this.amount = amount;
@@ -46,7 +46,7 @@ public record InvoiceProductDto (
     }
 
     @Override
-    public BigDecimal amount() {
+    public Integer amount() {
         return amount;
     }
 

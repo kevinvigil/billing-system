@@ -3,7 +3,6 @@ package com.system.billingsystem.controllers;
 import com.system.billingsystem.dto.CompanyDto;
 import com.system.billingsystem.dto.dtosmappers.CompanyDtoMapper;
 import com.system.billingsystem.entities.Company;
-import com.system.billingsystem.repositories.CompanyRepository;
 import com.system.billingsystem.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,27 +20,29 @@ public class CompanyController {
 
     private final CompanyService companyService;
 
-    private final CompanyRepository companyRepository;
-
     @Autowired
-    public CompanyController(CompanyService companyService, CompanyRepository companyRepository){
-        this.companyRepository = companyRepository;
+    public CompanyController(CompanyService companyService){
         this.companyService = companyService;
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody Company company){
-        if (company == null)
+    public ResponseEntity<?> save(@RequestBody CompanyDto companyDto){
+        if (companyDto == null)
             throw new IllegalArgumentException();
 
-        boolean isNew = company.getCompany_id()  == null || !companyRepository.existsById(company.getCompany_id());
+        Company company = companyService.save(CompanyDtoMapper.toDomain(companyDto));
 
-        companyService.save(company);
+        return ResponseEntity.status(HttpStatus.CREATED).body(CompanyDtoMapper.toDto(company));
+    }
 
-        if (isNew)
-            return ResponseEntity.status(HttpStatus.CREATED).body(company);
-        else
-            return ResponseEntity.ok().body(company);
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody CompanyDto companyDto){
+        if (companyDto == null)
+            throw new IllegalArgumentException();
+
+        Company company = this.companyService.update(CompanyDtoMapper.toDomain(companyDto));
+
+        return ResponseEntity.status(HttpStatus.OK).body(CompanyDtoMapper.toDto(company));
     }
 
     @DeleteMapping("/{id}")

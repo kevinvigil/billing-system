@@ -3,7 +3,6 @@ package com.system.billingsystem.controllers;
 import com.system.billingsystem.dto.CustomerDto;
 import com.system.billingsystem.dto.dtosmappers.CustomerDtoMapper;
 import com.system.billingsystem.entities.Customer;
-import com.system.billingsystem.repositories.CustomerRepository;
 import com.system.billingsystem.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,32 +15,34 @@ import java.util.UUID;
 
 @Controller
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/customer")
 public class CustomerController {
 
     private final CustomerService customerService;
 
-    private final CustomerRepository customerRepository;
-
     @Autowired
-    public CustomerController(CustomerService customerService, CustomerRepository customerRepository){
+    public CustomerController(CustomerService customerService){
         this.customerService = customerService;
-        this.customerRepository = customerRepository;
     }
 
-    @PostMapping()
-    public ResponseEntity<?> save(@RequestBody Customer customer){
-        if (customer == null)
+    @PostMapping("/")
+    public ResponseEntity<?> save(@RequestBody CustomerDto customerDto){
+        if (customerDto == null)
             throw new IllegalArgumentException();
 
-        boolean isNew = customer.getCustomer_id() == null || !customerRepository.existsById(customer.getCustomer_id());
+        Customer customer = this.customerService.save(CustomerDtoMapper.toDomain(customerDto));
 
-        CustomerDto customerDto = CustomerDtoMapper.toDto(customerService.save(customer));
+        return ResponseEntity.status(HttpStatus.CREATED).body(CustomerDtoMapper.toDto(customer));
+    }
 
-        if (isNew)
-            return ResponseEntity.status(HttpStatus.CREATED).body(customerDto);
-        else
-            return ResponseEntity.status(HttpStatus.OK).body(customerDto);
+    @PutMapping("/")
+    public ResponseEntity<?> update(@RequestBody CustomerDto customerDto){
+        if (customerDto == null)
+            throw new IllegalArgumentException();
+
+        Customer customer = this.customerService.update(CustomerDtoMapper.toDomain(customerDto));
+
+        return ResponseEntity.ok(CustomerDtoMapper.toDto(customer));
     }
 
     @DeleteMapping("/{id}")
