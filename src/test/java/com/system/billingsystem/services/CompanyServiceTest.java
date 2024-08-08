@@ -1,7 +1,7 @@
 package com.system.billingsystem.services;
 
-import com.system.billingSystem.entities.Company;
-import com.system.billingSystem.repositories.CompanyRepository;
+import com.system.billingsystem.entities.Company;
+import com.system.billingsystem.repositories.CompanyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -29,7 +29,7 @@ public class CompanyServiceTest {
     @BeforeEach
     void setUp(){
          company = Company.builder()
-                 .company_id(UUID.randomUUID())
+                 .companyId(UUID.randomUUID())
                 .name("company")
                 .cuit("1111")
                 .email("company@hotmail.com")
@@ -40,7 +40,7 @@ public class CompanyServiceTest {
 
     @Test
     public void testFindById(){
-        Mockito.when(companyRepository.findById(company.getCompany_id())).thenReturn(company);
-        assertNotNull(companyService.findById(company.getCompany_id()));
+        Mockito.when(companyRepository.findById(company.getCompanyId())).thenReturn(company);
+        assertNotNull(companyService.findById(company.getCompanyId()));
     }
 }

@@ -40,7 +40,7 @@ public class InvoiceRepoTest {
 
         baseId = invoiceRepository.save(invoice);
         assertNotNull(baseId);
-        invoice.setInvoice_id(baseId);
+        invoice.setInvoiceId(baseId);
     }
 
     @AfterEach
@@ -53,7 +53,7 @@ public class InvoiceRepoTest {
     public void testFindById(){
         Invoice newInvoice = invoiceRepository.findById(baseId)  ;
         assertNotNull(newInvoice);
-        assertEquals(baseId, newInvoice.getInvoice_id());
+        assertEquals(baseId, newInvoice.getInvoiceId());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class InvoiceRepoTest {
         BigDecimal aux = BigDecimal.valueOf(123456);
         invoice.setTotal(aux);
         invoiceRepository.update(invoice);
-        Invoice newInvoice = invoiceRepository.findById(invoice.getInvoice_id())  ;
+        Invoice newInvoice = invoiceRepository.findById(invoice.getInvoiceId())  ;
         assertNotNull(newInvoice);
         assertEquals(aux.doubleValue(), newInvoice.getTotal().doubleValue());
     }

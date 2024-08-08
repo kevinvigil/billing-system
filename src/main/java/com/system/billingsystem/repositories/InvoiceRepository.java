@@ -1,6 +1,6 @@
-package com.system.billingSystem.repositories;
+package com.system.billingsystem.repositories;
 
-import com.system.billingSystem.entities.*;
+import com.system.billingsystem.entities.*;
 import domain.tables.records.InvoiceRecord;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -31,8 +31,8 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
                 .set(INVOICE.PAID, persisted.isPaid())
                 .set(INVOICE.TOTAL, persisted.getTotal())
                 .set(INVOICE.TYPE, persisted.getType().name())
-                .set(INVOICE.BUYER_COMPANY_ID, (persisted.getBuyerCompany() != null)? persisted.getBuyerCompany().getCompany_id(): null)
-                .set(INVOICE.SELLER_COMPANY_ID, (persisted.getSellerCompany() != null)? persisted.getSellerCompany().getCompany_id(): null)
+                .set(INVOICE.BUYER_COMPANY_ID, (persisted.getBuyerCompany() != null)? persisted.getBuyerCompany().getCompanyId(): null)
+                .set(INVOICE.SELLER_COMPANY_ID, (persisted.getSellerCompany() != null)? persisted.getSellerCompany().getCompanyId(): null)
                 .execute();
 
         return (execution == 1 ? id : null);
@@ -48,9 +48,9 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
                 .set(INVOICE.PAID, persisted.isPaid())
                 .set(INVOICE.TOTAL, persisted.getTotal())
                 .set(INVOICE.TYPE, persisted.getType().name())
-                .set(INVOICE.BUYER_COMPANY_ID, (persisted.getBuyerCompany() != null)? persisted.getBuyerCompany().getCompany_id(): null)
-                .set(INVOICE.SELLER_COMPANY_ID, (persisted.getSellerCompany() != null)? persisted.getSellerCompany().getCompany_id(): null)
-                .where(INVOICE.INVOICE_ID.eq(persisted.getInvoice_id()))
+                .set(INVOICE.BUYER_COMPANY_ID, (persisted.getBuyerCompany() != null)? persisted.getBuyerCompany().getCompanyId(): null)
+                .set(INVOICE.SELLER_COMPANY_ID, (persisted.getSellerCompany() != null)? persisted.getSellerCompany().getCompanyId(): null)
+                .where(INVOICE.INVOICE_ID.eq(persisted.getInvoiceId()))
                 .execute();
 
         return (execution == 1);

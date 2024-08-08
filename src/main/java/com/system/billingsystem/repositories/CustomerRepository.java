@@ -1,6 +1,6 @@
-package com.system.billingSystem.repositories;
+package com.system.billingsystem.repositories;
 
-import com.system.billingSystem.entities.Customer;
+import com.system.billingsystem.entities.Customer;
 import domain.tables.records.CustomerRecord;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -39,7 +39,7 @@ public class CustomerRepository extends BaseRepository<CustomerRecord, Customer>
                 .set(CUSTOMER.EMAIL, persisted.getEmail())
                 .set(CUSTOMER.NAME, persisted.getName())
                 .set(CUSTOMER.PASSWORD, persisted.getPassword())
-                .where(CUSTOMER.CUSTOMER_ID.eq(persisted.getCustomer_id()))
+                .where(CUSTOMER.CUSTOMER_ID.eq(persisted.getCustomerId()))
                 .execute();
 
         return (execution == 1);

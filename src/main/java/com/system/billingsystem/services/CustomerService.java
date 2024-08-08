@@ -1,7 +1,7 @@
-package com.system.billingSystem.services;
+package com.system.billingsystem.services;
 
-import com.system.billingSystem.repositories.CustomerRepository;
-import com.system.billingSystem.entities.Customer;
+import com.system.billingsystem.repositories.CustomerRepository;
+import com.system.billingsystem.entities.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +38,7 @@ public class CustomerService {
     public Customer update(Customer entity) {
         try {
             if (this.customerRepository.update(entity))
-                return this.customerRepository.findById(entity.getCustomer_id());
+                return this.customerRepository.findById(entity.getCustomerId());
             return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on UserService method update" + entity.toString());

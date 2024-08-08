@@ -1,4 +1,4 @@
-package com.system.billingSystem.configurations;
+package com.system.billingsystem.configurations;
 
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;

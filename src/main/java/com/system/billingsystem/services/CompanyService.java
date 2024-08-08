@@ -1,7 +1,7 @@
-package com.system.billingSystem.services;
+package com.system.billingsystem.services;
 
-import com.system.billingSystem.entities.Company;
-import com.system.billingSystem.repositories.CompanyRepository;
+import com.system.billingsystem.entities.Company;
+import com.system.billingsystem.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +38,7 @@ public class CompanyService{
     public Company update(Company entity) {
         try {
             if (this.companyRepository.update(entity))
-                return this.companyRepository.findById(entity.getCompany_id());
+                return this.companyRepository.findById(entity.getCompanyId());
             return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method update, User: " + entity.toString());

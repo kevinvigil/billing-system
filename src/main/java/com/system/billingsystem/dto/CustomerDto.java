@@ -1,26 +1,25 @@
-package com.system.billingSystem.dto;
+package com.system.billingsystem.dto;
 
 import java.util.UUID;
 
 public record CustomerDto(
-        UUID customerDto_id,
+        UUID customerDtoId,
         String name,
         String email,
         String password,
         UUID company
 ) {
 
-    public CustomerDto(UUID customerDto_id, String name, String email, String password, UUID company) {
-        this.customerDto_id = customerDto_id;
+    public CustomerDto(UUID customerDtoId, String name, String email, String password, UUID company) {
+        this.customerDtoId = customerDtoId;
         this.name = name;
         this.email = email;
         this.password = password;
         this.company = company;
     }
 
-    @Override
-    public UUID customerDto_id() {
-        return customerDto_id;
+    public UUID customerDtoId() {
+        return customerDtoId;
     }
 
     @Override

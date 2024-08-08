@@ -1,6 +1,6 @@
 package com.system.billingsystem.repositories;
 
-import com.system.billingSystem.entities.Company;
+import com.system.billingsystem.entities.Company;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,7 +38,7 @@ public class CompanyRepoTest {
 
         baseId = companyRepository.save(company);
         assertNotNull(baseId);
-        company.setCompany_id(baseId);
+        company.setCompanyId(baseId);
     }
 
     @AfterEach
@@ -67,7 +67,7 @@ public class CompanyRepoTest {
     @Test
     public void testFindAll(){
         Company newCompany = Company.builder()
-                .company_id(new UUID(2,2))
+                .companyId(new UUID(2,2))
                 .name("company2")
                 .cuit("2222")
                 .email("company2@hotmail.com")

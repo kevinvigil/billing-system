@@ -1,4 +1,4 @@
-package com.system.billingSystem.entities;
+package com.system.billingsystem.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Product {
 
-    private UUID product_id;
+    private UUID productId;
 
     private String name;
     private String description;
@@ -21,14 +21,14 @@ public class Product {
 
     public Product() {}
 
-    public Product(UUID product_id) {
-        this.product_id=product_id;
+    public Product(UUID productId) {
+        this.productId = productId;
     }
 
     @Override
     public String toString(){
         return ("Product { " +
-                " product_id: " + this.product_id +
+                " product_id: " + this.productId +
                 ", Name: " + this.name +
                 ", Description: " + this.description +
                 ", Price: " + this.price +

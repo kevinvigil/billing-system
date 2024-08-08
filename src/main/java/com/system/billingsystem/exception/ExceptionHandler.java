@@ -1,4 +1,4 @@
-package com.system.billingSystem.exception;
+package com.system.billingsystem.exception;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;

@@ -1,6 +1,6 @@
-package com.system.billingSystem.repositories;
+package com.system.billingsystem.repositories;
 
-import com.system.billingSystem.entities.Company;
+import com.system.billingsystem.entities.Company;
 import domain.tables.records.CompanyRecord;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -41,7 +41,7 @@ public class CompanyRepository extends BaseRepository<CompanyRecord, Company> {
                 .set(COMPANY.EMAIL, persisted.getEmail())
                 .set(COMPANY.NAME, persisted.getName())
                 .set(COMPANY.PHONE, persisted.getPhone())
-                .where(COMPANY.COMPANY_ID.eq(persisted.getCompany_id()))
+                .where(COMPANY.COMPANY_ID.eq(persisted.getCompanyId()))
                 .execute();
 
         return (execution == 1);

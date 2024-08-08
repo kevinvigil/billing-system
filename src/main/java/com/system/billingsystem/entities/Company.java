@@ -1,4 +1,4 @@
-package com.system.billingSystem.entities;
+package com.system.billingsystem.entities;
 
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Company {
     
-    private UUID company_id;
+    private UUID companyId;
     private String cuit;
     private String direction;
     private String name;
@@ -29,15 +29,15 @@ public class Company {
 
     public Company() {}
 
-    public Company(UUID company_id) {
-        this.company_id = company_id;
+    public Company(UUID companyId) {
+        this.companyId = companyId;
     }
 
 
     @Override
     public String toString(){
         return ("Company { " +
-                ", company_id: " + this.company_id +
+                ", company_id: " + this.companyId +
                 ", name: " + this.name +
                 ", direction: " + this.direction +
                 ", phone: " + this.phone +
@@ -51,7 +51,7 @@ public class Company {
 
         Company company = (Company) o;
 
-        if ( (!Objects.equals(company_id, company.company_id)) || (!Objects.equals(name, company.name)) || (!Objects.equals(direction, company.direction))
+        if ( (!Objects.equals(companyId, company.companyId)) || (!Objects.equals(name, company.name)) || (!Objects.equals(direction, company.direction))
         || (!Objects.equals(phone, company.phone)) || (!Objects.equals(cuit, company.cuit)) ) return false;
 
         return Objects.equals(email, company.email);

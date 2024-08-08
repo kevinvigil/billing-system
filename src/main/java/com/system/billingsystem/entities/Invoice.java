@@ -1,4 +1,4 @@
-package com.system.billingSystem.entities;
+package com.system.billingsystem.entities;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @Builder
 public class Invoice {
 
-    private UUID invoice_id;
+    private UUID invoiceId;
 
     private Timestamp date;
     private boolean paid;
@@ -42,8 +42,8 @@ public class Invoice {
 
     public Invoice() {}
 
-    public Invoice(UUID invoice_id) {
-        this.invoice_id = invoice_id;
+    public Invoice(UUID invoiceId) {
+        this.invoiceId = invoiceId;
     }
 
     public void addProduct(InvoiceProduct invoiceProduct){
@@ -53,15 +53,15 @@ public class Invoice {
     @Override
     public String toString() {
         return "Invoice{" +
-                "invoice_id=" + invoice_id +
+                "invoice_id=" + invoiceId +
                 ", date=" + date +
                 ", paid=" + paid +
                 ", invoiced=" + invoiced +
                 ", total=" + total +
-                ", invoicevoucher='" + ((invoicevoucher == null)? null: invoicevoucher.name()) + '\'' +
+                ", invoice voucher='" + ((invoicevoucher == null)? null: invoicevoucher.name()) + '\'' +
                 ", type='" + type.name() + '\'' +
-                ", company=" + ((sellerCompany != null) ? sellerCompany.getCompany_id() : "null") +
-                ", customer=" + ((buyerCompany != null) ? buyerCompany.getCompany_id() : "null") +
+                ", company=" + ((sellerCompany != null) ? sellerCompany.getCompanyId() : "null") +
+                ", customer=" + ((buyerCompany != null) ? buyerCompany.getCompanyId() : "null") +
                 '}';
     }
 
@@ -76,7 +76,7 @@ public class Invoice {
                 (invoice.total.compareTo(total) != 0) ||
                         (paid != invoice.paid) ||
                         (invoiced != invoice.invoiced) ||
-                        (!Objects.equals(invoice_id, invoice.invoice_id)) ||
+                        (!Objects.equals(invoiceId, invoice.invoiceId)) ||
                         (!Objects.equals(date, invoice.date)) ||
                         (invoicevoucher != invoice.invoicevoucher) ||
                         (type != invoice.type))return false;

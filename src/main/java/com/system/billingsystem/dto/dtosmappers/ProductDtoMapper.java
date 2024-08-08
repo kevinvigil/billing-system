@@ -1,7 +1,7 @@
-package com.system.billingSystem.dto.dtosmappers;
+package com.system.billingsystem.dto.dtosmappers;
 
-import com.system.billingSystem.dto.ProductDto;
-import com.system.billingSystem.entities.Product;
+import com.system.billingsystem.dto.ProductDto;
+import com.system.billingsystem.entities.Product;
 
 public class ProductDtoMapper {
 
@@ -9,7 +9,7 @@ public class ProductDtoMapper {
 
     public static ProductDto toDto(Product product){
         return new ProductDto(
-                product.getProduct_id(),
+                product.getProductId(),
                 product.getName(),
                 product.getDescription(),
                 product.getPrice()
@@ -19,7 +19,7 @@ public class ProductDtoMapper {
     public static Product toDomain(ProductDto productDto){
         Product product = new Product();
 
-        product.setProduct_id(productDto.productDto_id());
+        product.setProductId(productDto.productDtoId());
         product.setName(productDto.name());
         product.setDescription(productDto.description());
         product.setPrice(productDto.price());
