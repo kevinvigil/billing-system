@@ -9,9 +9,11 @@ h2-dataBase = "2.2.224"
 zalando = "0.29.1"
 jackson-datatype-problem = "0.27.1"
 jackson-datatype-jsr310 = "2.17.1"
+jooq = "3.19.10"
 
 [libraries]
-spring-boot-starter-data-jpa = {module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "spring-framework"}
+
+spring-boot-starter-jooq = {module ="org.springframework.boot:spring-boot-starter-jooq" , version.ref = "spring-framework"}
 spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security", version.ref = "spring-framework"}
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring-framework"}
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools", version.ref = "spring-framework"}
@@ -28,9 +30,16 @@ junit-platform-runner = {module = "org.junit.platform:junit-platform-runner", ve
 junit-jupiter-api = {module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter"}
 junit-jupiter-engine = {module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter"}
 
-
 problem-spring-web-starter = {module = "org.zalando:problem-spring-web-starter", version.ref = "zalando"}
 problem-spring-web = {module = "org.zalando:problem-spring-web", version.ref = "zalando"}
+
 jackson-datatype-problem = { module = "org.zalando:jackson-datatype-problem", version.ref = "jackson-datatype-problem" }
 jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson-datatype-jsr310" }
 
+# JOOQ
+jooq = {module ="org.jooq:jooq" , version.ref = "jooq"}
+jooq-codegen = {module ="org.jooq:jooq-codegen" , version.ref = "jooq"}
+jooq-meta = {module ="org.jooq:jooq-meta" , version.ref = "jooq"}
+
+# Unused
+spring-boot-starter-data-jpa = {module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "spring-framework"}
