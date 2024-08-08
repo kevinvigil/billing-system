@@ -1,6 +1,6 @@
 package com.system.billingsystem.repositories;
 
-import com.system.billingSystem.entities.Product;
+import com.system.billingsystem.entities.Product;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ public class ProductRepoTest {
 
         baseId = productRepo.save(product);
         assertNotNull(baseId);
-        product.setProduct_id(baseId);
+        product.setProductId(baseId);
     }
 
     @AfterEach
@@ -49,7 +49,7 @@ public class ProductRepoTest {
     public void testFindProductById(){
         Product foundProduct = productRepo.findById(baseId)   ;
         assertNotNull(foundProduct);
-        assertEquals(baseId, foundProduct.getProduct_id());
+        assertEquals(baseId, foundProduct.getProductId());
     }
 
     @Test

@@ -1,12 +1,12 @@
-package com.system.billingSystem.dto;
+package com.system.billingsystem.dto;
 
-import com.system.billingSystem.entities.Invoice;
+import com.system.billingsystem.entities.Invoice;
 
 import java.util.List;
 import java.util.UUID;
 
 public record CompanyDto(
-        UUID CompanyDto_id,
+        UUID companyDtoId,
         String name,
         String direction,
         String phone,
@@ -15,8 +15,8 @@ public record CompanyDto(
         List<Invoice> soldInvoices,
         List<Invoice> purchasedInvoices ) {
 
-    public CompanyDto(UUID CompanyDto_id, String name, String direction, String phone, String email, String cuit, List<Invoice> soldInvoices, List<Invoice> purchasedInvoices) {
-        this.CompanyDto_id = CompanyDto_id;
+    public CompanyDto(UUID companyDtoId, String name, String direction, String phone, String email, String cuit, List<Invoice> soldInvoices, List<Invoice> purchasedInvoices) {
+        this.companyDtoId = companyDtoId;
         this.name = name;
         this.direction = direction;
         this.phone = phone;
@@ -30,9 +30,8 @@ public record CompanyDto(
         this (CompanyDto_id, null, null, null, null, null, null, null);
     }
 
-    @Override
-    public UUID CompanyDto_id() {
-        return CompanyDto_id;
+    public UUID companyDtoId() {
+        return companyDtoId;
     }
 
     @Override

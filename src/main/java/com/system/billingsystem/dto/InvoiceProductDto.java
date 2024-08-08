@@ -1,17 +1,17 @@
-package com.system.billingSystem.dto;
+package com.system.billingsystem.dto;
 
 import java.util.Objects;
 import java.util.UUID;
 
 public record InvoiceProductDto (
-        UUID invoiceProductDto_id,
+        UUID invoiceProductDtoId,
         String name,
         Integer amount,
         UUID idProduct,
         UUID idInvoice ) {
 
-    public InvoiceProductDto(UUID invoiceProductDto_id, String name, Integer amount, UUID idProduct, UUID idInvoice) {
-        this.invoiceProductDto_id = invoiceProductDto_id;
+    public InvoiceProductDto(UUID invoiceProductDtoId, String name, Integer amount, UUID idProduct, UUID idInvoice) {
+        this.invoiceProductDtoId = invoiceProductDtoId;
         this.name = name;
         this.amount = amount;
         this.idProduct = idProduct;
@@ -26,7 +26,7 @@ public record InvoiceProductDto (
             return false;
         }
 
-        return Objects.equals(product1.invoiceProductDto_id(), product2.invoiceProductDto_id())
+        return Objects.equals(product1.invoiceProductDtoId(), product2.invoiceProductDtoId())
                 && Objects.equals(product1.name(), product2.name())
                 && product1.amount().compareTo(product2.amount()) == 0
                 && Objects.equals(product1.idProduct(), product2.idProduct())
@@ -34,9 +34,8 @@ public record InvoiceProductDto (
     }
 
 
-    @Override
-    public UUID invoiceProductDto_id() {
-        return invoiceProductDto_id;
+    public UUID invoiceProductDtoId() {
+        return invoiceProductDtoId;
     }
 
     @Override

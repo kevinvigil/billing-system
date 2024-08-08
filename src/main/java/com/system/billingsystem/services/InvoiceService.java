@@ -1,7 +1,7 @@
-package com.system.billingSystem.services;
+package com.system.billingsystem.services;
 
-import com.system.billingSystem.entities.*;
-import com.system.billingSystem.repositories.*;
+import com.system.billingsystem.entities.*;
+import com.system.billingsystem.repositories.*;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class InvoiceService{
                 for (InvoiceProduct invoiceProduct:productList) {
                     invoiceProduct.setInvoice(invoice);
 
-                    Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProduct_id());
+                    Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProductId());
                     total += invoiceProduct.getAmount() * currentProduct.getPrice().doubleValue();
 
                     saveInvoiceProduct(invoiceProduct);
@@ -62,7 +62,7 @@ public class InvoiceService{
                 for (InvoiceProduct invoiceProduct:productList) {
                     invoiceProduct.setInvoice(invoice);
 
-                    Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProduct_id());
+                    Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProductId());
                     total += invoiceProduct.getAmount() * currentProduct.getPrice().doubleValue();
 
                     this.updateInvoiceProduct(invoiceProduct);
@@ -70,7 +70,7 @@ public class InvoiceService{
             }
             invoice.setTotal(BigDecimal.valueOf(total));
             if (this.invoiceRepository.update(invoice)){
-                return this.invoiceRepository.findById(invoice.getInvoice_id());
+                return this.invoiceRepository.findById(invoice.getInvoiceId());
             } else {
                 return null;
             }
@@ -178,7 +178,7 @@ public class InvoiceService{
     public Product updateProductById (@NotNull Product product){
         try{
             if (this.productRepository.update(product))
-                return this.productRepository.findById(product.getProduct_id());
+                return this.productRepository.findById(product.getProductId());
             return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findProductById, message: " + e.getMessage());

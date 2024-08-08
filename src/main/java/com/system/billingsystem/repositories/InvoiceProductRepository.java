@@ -1,6 +1,6 @@
-package com.system.billingSystem.repositories;
+package com.system.billingsystem.repositories;
 
-import com.system.billingSystem.entities.InvoiceProduct;
+import com.system.billingsystem.entities.InvoiceProduct;
 import domain.tables.records.InvoiceProductRecord;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -24,8 +24,8 @@ public class InvoiceProductRepository extends BaseRepository<InvoiceProductRecor
         UUID id = UUID.randomUUID();
         int execution =  dsl.insertInto(INVOICE_PRODUCT)
                 .set(INVOICE_PRODUCT.INVOICEPRODUCT_ID, id)
-                .set(INVOICE_PRODUCT.INVOICE_ID, (persisted.getInvoice() == null)? null:persisted.getInvoice().getInvoice_id())
-                .set(INVOICE_PRODUCT.PRODUCT_ID, (persisted.getProduct() == null)? null:persisted.getProduct().getProduct_id())
+                .set(INVOICE_PRODUCT.INVOICE_ID, (persisted.getInvoice() == null)? null:persisted.getInvoice().getInvoiceId())
+                .set(INVOICE_PRODUCT.PRODUCT_ID, (persisted.getProduct() == null)? null:persisted.getProduct().getProductId())
                 .set(INVOICE_PRODUCT.AMOUNT, persisted.getAmount())
                 .execute();
 
@@ -35,10 +35,10 @@ public class InvoiceProductRepository extends BaseRepository<InvoiceProductRecor
     @Override
     public boolean update(InvoiceProduct persisted) {
         int execution = dsl.update(INVOICE_PRODUCT)
-                .set(INVOICE_PRODUCT.INVOICE_ID, (persisted.getInvoice() == null)? null:persisted.getInvoice().getInvoice_id())
-                .set(INVOICE_PRODUCT.PRODUCT_ID, (persisted.getProduct() == null)? null:persisted.getProduct().getProduct_id())
+                .set(INVOICE_PRODUCT.INVOICE_ID, (persisted.getInvoice() == null)? null:persisted.getInvoice().getInvoiceId())
+                .set(INVOICE_PRODUCT.PRODUCT_ID, (persisted.getProduct() == null)? null:persisted.getProduct().getProductId())
                 .set(INVOICE_PRODUCT.AMOUNT, persisted.getAmount())
-                .where(INVOICE_PRODUCT.INVOICEPRODUCT_ID.eq(persisted.getInvoiceproduct_id()))
+                .where(INVOICE_PRODUCT.INVOICEPRODUCT_ID.eq(persisted.getInvoiceproductId()))
                 .execute();
 
         return (execution == 1);

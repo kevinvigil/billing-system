@@ -1,6 +1,6 @@
-package com.system.billingSystem.repositories;
+package com.system.billingsystem.repositories;
 
-import com.system.billingSystem.entities.Product;
+import com.system.billingsystem.entities.Product;
 import domain.tables.records.ProductRecord;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -38,7 +38,7 @@ public class ProductRepository extends BaseRepository<ProductRecord, Product> {
                 .set(PRODUCT.DESCRIPTION, persisted.getDescription())
                 .set(PRODUCT.NAME, persisted.getName())
                 .set(PRODUCT.PRICE, persisted.getPrice())
-                .where(PRODUCT.PRODUCT_ID.eq(persisted.getProduct_id()))
+                .where(PRODUCT.PRODUCT_ID.eq(persisted.getProductId()))
                 .execute();
 
         return (execution == 1);

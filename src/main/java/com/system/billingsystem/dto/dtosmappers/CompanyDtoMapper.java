@@ -1,7 +1,7 @@
-package com.system.billingSystem.dto.dtosmappers;
+package com.system.billingsystem.dto.dtosmappers;
 
-import com.system.billingSystem.dto.CompanyDto;
-import com.system.billingSystem.entities.Company;
+import com.system.billingsystem.dto.CompanyDto;
+import com.system.billingsystem.entities.Company;
 import jakarta.validation.constraints.NotNull;
 
 public class CompanyDtoMapper {
@@ -13,7 +13,7 @@ public class CompanyDtoMapper {
     public static Company toDomain(@NotNull CompanyDto companyDto) {
         Company company = new Company();
 
-        company.setCompany_id(companyDto.CompanyDto_id());
+        company.setCompanyId(companyDto.companyDtoId());
         company.setName(companyDto.name());
         company.setCuit(companyDto.cuit());
         company.setPhone(companyDto.phone());
@@ -28,7 +28,7 @@ public class CompanyDtoMapper {
 
     public static CompanyDto toDto(@NotNull Company company) {
         return new CompanyDto(
-                company.getCompany_id(),
+                company.getCompanyId(),
                 company.getName(),
                 company.getDirection(),
                 company.getPhone(),
