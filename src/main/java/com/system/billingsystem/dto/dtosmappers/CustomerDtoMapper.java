@@ -21,7 +21,7 @@ public class CustomerDtoMapper {
     public static Customer toDomain(CustomerDto customerDto) {
         Customer customer = new Customer();
 
-        customer.setCustomerId(customerDto.customerDtoId());
+        customer.setCustomerId(customerDto.customerId());
         customer.setName(customerDto.name());
         customer.setEmail(customerDto.email());
         customer.setPassword(customer.getPassword());

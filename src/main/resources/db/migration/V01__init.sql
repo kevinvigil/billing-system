@@ -28,7 +28,7 @@ CREATE TABLE INVOICE (
     invoice_id uuid NOT NULL PRIMARY KEY,
     date TIMESTAMP NOT NULL,
     discount INT DEFAULT NULL,
-    invoicevoucher varchar(30) DEFAULT NULL,
+    invoice_voucher varchar(30) DEFAULT NULL,
     invoiced boolean NOT NULL,
     paid boolean NOT NULL,
     total decimal(10,2) NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE INVOICE (
     CONSTRAINT INVOICE_foreign_key_buyer_company_id FOREIGN KEY (buyer_company_id) REFERENCES COMPANY (company_id),
     CONSTRAINT INVOICE_foreign_key_seller_company_id FOREIGN KEY (seller_company_id) REFERENCES COMPANY (company_id),
     CONSTRAINT INVOICE_type__restriction CHECK ( type in ('A', 'B', 'C', 'M', 'T', 'E')),
-    CONSTRAINT INVOICE_type_restriction CHECK ( invoiceVoucher in ('REFERENCE', 'BILL', 'CASH'))
+    CONSTRAINT INVOICE_type_restriction CHECK ( INVOICE.invoice_voucher in ('REFERENCE', 'BILL', 'CASH'))
 );
 
 CREATE TABLE INVOICE_PRODUCT (

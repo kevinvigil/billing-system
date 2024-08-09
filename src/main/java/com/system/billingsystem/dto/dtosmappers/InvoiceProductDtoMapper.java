@@ -11,9 +11,9 @@ public class InvoiceProductDtoMapper {
 
     public static InvoiceProductDto toDto(InvoiceProduct invoiceProduct) {
         return new InvoiceProductDto(
-                invoiceProduct.getInvoiceproductId(),
+                invoiceProduct.getInvoiceProductId(),
                 invoiceProduct.getProduct().getName(),
-                invoiceProduct.getAmount(),
+                invoiceProduct.getCount(),
                 invoiceProduct.getProduct().getProductId(),
                 invoiceProduct.getInvoice().getInvoiceId()
         );
@@ -22,11 +22,11 @@ public class InvoiceProductDtoMapper {
     public static InvoiceProduct toDomain(InvoiceProductDto invoiceProductDto) {
         InvoiceProduct invoiceProduct = new InvoiceProduct();
 
-        invoiceProduct.setInvoiceproductId(invoiceProductDto.invoiceProductDtoId());
-        invoiceProduct.setAmount(invoiceProduct.getAmount());
+        invoiceProduct.setInvoiceProductId(invoiceProductDto.invoiceProductId());
+        invoiceProduct.setCount(invoiceProduct.getCount());
 
-        invoiceProduct.setProduct(new Product(invoiceProductDto.idProduct()));
-        invoiceProduct.setInvoice(new Invoice(invoiceProductDto.idInvoice()));
+        invoiceProduct.setProduct(new Product(invoiceProductDto.productId()));
+        invoiceProduct.setInvoice(new Invoice(invoiceProductDto.invoiceId()));
 
         return invoiceProduct;
     }

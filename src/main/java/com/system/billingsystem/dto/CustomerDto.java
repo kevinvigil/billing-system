@@ -3,23 +3,23 @@ package com.system.billingsystem.dto;
 import java.util.UUID;
 
 public record CustomerDto(
-        UUID customerDtoId,
+        UUID customerId,
         String name,
         String email,
         String password,
         UUID company
 ) {
 
-    public CustomerDto(UUID customerDtoId, String name, String email, String password, UUID company) {
-        this.customerDtoId = customerDtoId;
+    public CustomerDto(UUID customerId, String name, String email, String password, UUID company) {
+        this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.password = password;
         this.company = company;
     }
 
-    public UUID customerDtoId() {
-        return customerDtoId;
+    public UUID customerId() {
+        return customerId;
     }
 
     @Override

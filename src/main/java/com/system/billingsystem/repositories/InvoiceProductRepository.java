@@ -26,7 +26,7 @@ public class InvoiceProductRepository extends BaseRepository<InvoiceProductRecor
                 .set(INVOICE_PRODUCT.INVOICEPRODUCT_ID, id)
                 .set(INVOICE_PRODUCT.INVOICE_ID, (persisted.getInvoice() == null)? null:persisted.getInvoice().getInvoiceId())
                 .set(INVOICE_PRODUCT.PRODUCT_ID, (persisted.getProduct() == null)? null:persisted.getProduct().getProductId())
-                .set(INVOICE_PRODUCT.AMOUNT, persisted.getAmount())
+                .set(INVOICE_PRODUCT.AMOUNT, persisted.getCount())
                 .execute();
 
         return (execution == 1 ? id : null);
@@ -37,8 +37,8 @@ public class InvoiceProductRepository extends BaseRepository<InvoiceProductRecor
         int execution = dsl.update(INVOICE_PRODUCT)
                 .set(INVOICE_PRODUCT.INVOICE_ID, (persisted.getInvoice() == null)? null:persisted.getInvoice().getInvoiceId())
                 .set(INVOICE_PRODUCT.PRODUCT_ID, (persisted.getProduct() == null)? null:persisted.getProduct().getProductId())
-                .set(INVOICE_PRODUCT.AMOUNT, persisted.getAmount())
-                .where(INVOICE_PRODUCT.INVOICEPRODUCT_ID.eq(persisted.getInvoiceproductId()))
+                .set(INVOICE_PRODUCT.AMOUNT, persisted.getCount())
+                .where(INVOICE_PRODUCT.INVOICEPRODUCT_ID.eq(persisted.getInvoiceProductId()))
                 .execute();
 
         return (execution == 1);

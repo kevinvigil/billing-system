@@ -38,7 +38,7 @@ public class InvoiceDtoMapper {
     public static Invoice toDomain(InvoiceDto invoiceDto) {
         Invoice invoice = new Invoice();
 
-        invoice.setInvoiceId(invoiceDto.invoiceDtoId());
+        invoice.setInvoiceId(invoiceDto.invoiceId());
         invoice.setPaid(invoiceDto.paid());
         invoice.setInvoiced(invoiceDto.invoiced());
         invoice.setTotal(invoiceDto.total());

@@ -39,7 +39,7 @@ public class InvoiceController {
             throw new IllegalArgumentException();
 
         try {
-            Invoice invoice = invoiceService.findInvoiceById(entity.invoiceDtoId());
+            Invoice invoice = invoiceService.findInvoiceById(entity.invoiceId());
 
             if (!invoice.isInvoiced() && !invoice.isPaid())
                 return ResponseEntity.ok().body(invoiceService.updateInvoice(InvoiceDtoMapper.toDomain(entity)));

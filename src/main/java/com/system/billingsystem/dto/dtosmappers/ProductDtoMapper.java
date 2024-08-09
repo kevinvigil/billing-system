@@ -19,7 +19,7 @@ public class ProductDtoMapper {
     public static Product toDomain(ProductDto productDto){
         Product product = new Product();
 
-        product.setProductId(productDto.productDtoId());
+        product.setProductId(productDto.productId());
         product.setName(productDto.name());
         product.setDescription(productDto.description());
         product.setPrice(productDto.price());

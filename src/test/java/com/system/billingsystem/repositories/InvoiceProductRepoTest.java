@@ -33,14 +33,14 @@ public class InvoiceProductRepoTest {
     @BeforeEach
     public void setUp(){
         invoiceProduct = InvoiceProduct.builder()
-                .amount(0)
+                .count(0)
                 .product(new Product())
                 .invoice(new Invoice())
                 .build();
 
         baseId = invoiceProductRepo.save(invoiceProduct);
         assertNotNull(baseId);
-        invoiceProduct.setInvoiceproductId(baseId);
+        invoiceProduct.setInvoiceProductId(baseId);
     }
 
     @AfterEach
@@ -53,8 +53,8 @@ public class InvoiceProductRepoTest {
     @Test
     public void testFindInvoiceProductById(){
         InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(baseId);
-        assertNotNull(foundInvoiceProduct.getInvoiceproductId());
-        assertEquals(baseId, foundInvoiceProduct.getInvoiceproductId());
+        assertNotNull(foundInvoiceProduct.getInvoiceProductId());
+        assertEquals(baseId, foundInvoiceProduct.getInvoiceProductId());
     }
 
     @Test
@@ -75,11 +75,11 @@ public class InvoiceProductRepoTest {
 
     @Test
     public void testUpdateInvoiceProduct(){
-        invoiceProduct.setAmount(10);
+        invoiceProduct.setCount(10);
         invoiceProductRepo.update(invoiceProduct);
         InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(baseId);
         assertNotNull(foundInvoiceProduct);
-        assertEquals(invoiceProduct.getAmount().doubleValue(), foundInvoiceProduct.getAmount().doubleValue());
+        assertEquals(invoiceProduct.getCount().doubleValue(), foundInvoiceProduct.getCount().doubleValue());
     }
 
     @Test

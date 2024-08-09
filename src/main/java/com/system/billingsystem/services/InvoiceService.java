@@ -40,7 +40,7 @@ public class InvoiceService{
                     invoiceProduct.setInvoice(invoice);
 
                     Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProductId());
-                    total += invoiceProduct.getAmount() * currentProduct.getPrice().doubleValue();
+                    total += invoiceProduct.getCount() * currentProduct.getPrice().doubleValue();
 
                     saveInvoiceProduct(invoiceProduct);
                 }
@@ -63,7 +63,7 @@ public class InvoiceService{
                     invoiceProduct.setInvoice(invoice);
 
                     Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProductId());
-                    total += invoiceProduct.getAmount() * currentProduct.getPrice().doubleValue();
+                    total += invoiceProduct.getCount() * currentProduct.getPrice().doubleValue();
 
                     this.updateInvoiceProduct(invoiceProduct);
                 }

@@ -4,18 +4,18 @@ import java.util.Objects;
 import java.util.UUID;
 
 public record InvoiceProductDto (
-        UUID invoiceProductDtoId,
+        UUID invoiceProductId,
         String name,
         Integer amount,
-        UUID idProduct,
-        UUID idInvoice ) {
+        UUID productId,
+        UUID invoiceId) {
 
-    public InvoiceProductDto(UUID invoiceProductDtoId, String name, Integer amount, UUID idProduct, UUID idInvoice) {
-        this.invoiceProductDtoId = invoiceProductDtoId;
+    public InvoiceProductDto(UUID invoiceProductId, String name, Integer amount, UUID productId, UUID invoiceId) {
+        this.invoiceProductId = invoiceProductId;
         this.name = name;
         this.amount = amount;
-        this.idProduct = idProduct;
-        this.idInvoice = idInvoice;
+        this.productId = productId;
+        this.invoiceId = invoiceId;
     }
 
     public static boolean compareProducts(InvoiceProductDto product1, InvoiceProductDto product2) {
@@ -26,16 +26,16 @@ public record InvoiceProductDto (
             return false;
         }
 
-        return Objects.equals(product1.invoiceProductDtoId(), product2.invoiceProductDtoId())
+        return Objects.equals(product1.invoiceProductId(), product2.invoiceProductId())
                 && Objects.equals(product1.name(), product2.name())
                 && product1.amount().compareTo(product2.amount()) == 0
-                && Objects.equals(product1.idProduct(), product2.idProduct())
-                && Objects.equals(product1.idInvoice(), product2.idInvoice());
+                && Objects.equals(product1.productId(), product2.productId())
+                && Objects.equals(product1.invoiceId(), product2.invoiceId());
     }
 
 
-    public UUID invoiceProductDtoId() {
-        return invoiceProductDtoId;
+    public UUID invoiceProductId() {
+        return invoiceProductId;
     }
 
     @Override
@@ -48,13 +48,11 @@ public record InvoiceProductDto (
         return amount;
     }
 
-    @Override
-    public UUID idProduct() {
-        return idProduct;
+    public UUID productId() {
+        return productId;
     }
 
-    @Override
-    public UUID idInvoice() {
-        return idInvoice;
+    public UUID invoiceId() {
+        return invoiceId;
     }
 }
