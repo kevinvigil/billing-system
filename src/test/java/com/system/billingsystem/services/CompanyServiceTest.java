@@ -34,7 +34,7 @@ public class CompanyServiceTest {
                 .cuit("1111")
                 .email("company@hotmail.com")
                 .phone("1111")
-                .direction("hello world")
+                .address("hello world")
                 .build();
     }
 

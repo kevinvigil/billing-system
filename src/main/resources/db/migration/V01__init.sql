@@ -1,8 +1,7 @@
-
 CREATE TABLE COMPANY (
     company_id uuid NOT NULL PRIMARY KEY,
     cuit varchar(255) NOT NULL UNIQUE,
-    direction varchar(255) DEFAULT NULL,
+    address varchar(255) DEFAULT NULL,
     email varchar(255) NOT NULL UNIQUE,
     name varchar(255) DEFAULT NULL,
     phone varchar(255) DEFAULT NULL
@@ -32,18 +31,18 @@ CREATE TABLE INVOICE (
     invoiced boolean NOT NULL,
     paid boolean NOT NULL,
     total decimal(10,2) NOT NULL,
-    type varchar(2) DEFAULT NULL,
+    category varchar(2) DEFAULT NULL,
     buyer_company_id uuid DEFAULT NULL,
     seller_company_id uuid DEFAULT NULL,
     CONSTRAINT INVOICE_foreign_key_buyer_company_id FOREIGN KEY (buyer_company_id) REFERENCES COMPANY (company_id),
     CONSTRAINT INVOICE_foreign_key_seller_company_id FOREIGN KEY (seller_company_id) REFERENCES COMPANY (company_id),
-    CONSTRAINT INVOICE_type__restriction CHECK ( type in ('A', 'B', 'C', 'M', 'T', 'E')),
-    CONSTRAINT INVOICE_type_restriction CHECK ( INVOICE.invoice_voucher in ('REFERENCE', 'BILL', 'CASH'))
+    CONSTRAINT INVOICE_category_restriction CHECK ( category in ('A', 'B', 'C', 'M', 'T', 'E')),
+    CONSTRAINT INVOICE_voucher_restriction CHECK ( INVOICE.invoice_voucher in ('REFERENCE', 'BILL', 'CASH'))
 );
 
 CREATE TABLE INVOICE_PRODUCT (
     invoiceProduct_id uuid NOT NULL PRIMARY KEY,
-    amount INT DEFAULT NULL,
+    count INT DEFAULT NULL,
     invoice_id uuid DEFAULT NULL,
     product_id uuid DEFAULT NULL,
     CONSTRAINT INVOICE_PRODUCT_foreign_key_product_id FOREIGN KEY (product_id) REFERENCES product (product_id),

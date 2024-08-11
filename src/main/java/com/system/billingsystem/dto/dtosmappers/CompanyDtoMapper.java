@@ -18,7 +18,7 @@ public class CompanyDtoMapper {
         company.setCuit(companyDto.cuit());
         company.setPhone(companyDto.phone());
         company.setEmail(companyDto.email());
-        company.setDirection(companyDto.direction());
+        company.setAddress(companyDto.direction());
 
         company.setSoldInvoices(companyDto.soldInvoices());
         company.setPurchasedInvoices(companyDto.purchasedInvoices());
@@ -30,7 +30,7 @@ public class CompanyDtoMapper {
         return new CompanyDto(
                 company.getCompanyId(),
                 company.getName(),
-                company.getDirection(),
+                company.getAddress(),
                 company.getPhone(),
                 company.getEmail(),
                 company.getCuit(),

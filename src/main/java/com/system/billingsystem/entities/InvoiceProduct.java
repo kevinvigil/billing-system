@@ -16,6 +16,12 @@ public class InvoiceProduct {
 
     private Product product;
 
+    public InvoiceProduct(UUID invoiceProductId, Integer count, Product product) {
+        this.invoiceProductId = invoiceProductId;
+        this.count = count;
+        this.product = product;
+    }
+
     private Integer count;
 
     public InvoiceProduct() {}
@@ -26,7 +32,7 @@ public class InvoiceProduct {
                 ", invoiceProduct_id: " + this.invoiceProductId +
                 ", invoice_id: " + ((this.invoice == null)? null:this.invoice.getInvoiceId()) +
                 ", product_id: " + ((this.product == null)? null: this.product.getProductId()) +
-                ", amount: " + this.count +
+                ", count: " + this.count +
                 " }"
         );
     }

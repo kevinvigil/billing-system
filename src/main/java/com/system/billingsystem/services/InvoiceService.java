@@ -94,7 +94,15 @@ public class InvoiceService{
 
     public Invoice findInvoiceById(@NotNull UUID id){
         try {
-            return invoiceRepository.findById(id);
+            Invoice invoice = invoiceRepository.findById(id);
+            System.out.println("estoy bien               tttttttt");
+            List<InvoiceProduct> invoiceProductList = invoiceProductRepository.findByInvoiceId(id);
+            System.out.println(invoiceProductList);
+//                    .stream()
+//                    .peek(ip -> ip.setInvoice(invoice)).toList();
+
+            invoice.setProducts(invoiceProductList);
+            return invoice;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findInvoiceById, message: " + e.getMessage());
             throw e;

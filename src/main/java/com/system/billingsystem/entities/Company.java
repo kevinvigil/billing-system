@@ -16,10 +16,20 @@ public class Company {
     
     private UUID companyId;
     private String cuit;
-    private String direction;
+    private String address;
     private String name;
     private String phone;
-    
+
+    public Company(UUID companyId, String email, String phone,
+                   String name, String address, String cuit) {
+        this.companyId = companyId;
+        this.email = email;
+        this.phone = phone;
+        this.name = name;
+        this.address = address;
+        this.cuit = cuit;
+    }
+
     @Email
     private String email;
 
@@ -39,7 +49,7 @@ public class Company {
         return ("Company { " +
                 ", company_id: " + this.companyId +
                 ", name: " + this.name +
-                ", direction: " + this.direction +
+                ", direction: " + this.address +
                 ", phone: " + this.phone +
                 " }");
     }
@@ -51,7 +61,7 @@ public class Company {
 
         Company company = (Company) o;
 
-        if ( (!Objects.equals(companyId, company.companyId)) || (!Objects.equals(name, company.name)) || (!Objects.equals(direction, company.direction))
+        if ( (!Objects.equals(companyId, company.companyId)) || (!Objects.equals(name, company.name)) || (!Objects.equals(address, company.address))
         || (!Objects.equals(phone, company.phone)) || (!Objects.equals(cuit, company.cuit)) ) return false;
 
         return Objects.equals(email, company.email);

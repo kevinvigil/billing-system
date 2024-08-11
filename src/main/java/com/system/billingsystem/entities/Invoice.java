@@ -31,9 +31,24 @@ public class Invoice {
 
     private InvoiceVoucher invoicevoucher;
 
-    private InvoiceType type;
+    private InvoiceCategory category;
 
     private Company sellerCompany;
+
+    public Invoice(UUID invoiceId, Timestamp date, boolean paid, boolean invoiced, BigDecimal total,
+                   Integer discount, InvoiceVoucher invoicevoucher, InvoiceCategory category,
+                   Company sellerCompany, Company buyerCompany) {
+        this.invoiceId = invoiceId;
+        this.date = date;
+        this.paid = paid;
+        this.invoiced = invoiced;
+        this.total = total;
+        this.discount = discount;
+        this.invoicevoucher = invoicevoucher;
+        this.category = category;
+        this.sellerCompany = sellerCompany;
+        this.buyerCompany = buyerCompany;
+    }
 
     private Company buyerCompany;
 
@@ -59,7 +74,7 @@ public class Invoice {
                 ", invoiced=" + invoiced +
                 ", total=" + total +
                 ", invoice voucher='" + ((invoicevoucher == null)? null: invoicevoucher.name()) + '\'' +
-                ", type='" + type.name() + '\'' +
+                ", type='" + category.name() + '\'' +
                 ", company=" + ((sellerCompany != null) ? sellerCompany.getCompanyId() : "null") +
                 ", customer=" + ((buyerCompany != null) ? buyerCompany.getCompanyId() : "null") +
                 '}';
@@ -79,7 +94,7 @@ public class Invoice {
                         (!Objects.equals(invoiceId, invoice.invoiceId)) ||
                         (!Objects.equals(date, invoice.date)) ||
                         (invoicevoucher != invoice.invoicevoucher) ||
-                        (type != invoice.type))return false;
+                        (category != invoice.category))return false;
 
         if (this.sellerCompany != null && invoice.sellerCompany != null){
             if (!Objects.equals(sellerCompany, invoice.sellerCompany)){

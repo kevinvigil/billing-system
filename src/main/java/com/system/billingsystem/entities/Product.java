@@ -13,10 +13,8 @@ import java.util.UUID;
 public class Product {
 
     private UUID productId;
-
     private String name;
     private String description;
-
     private BigDecimal price;
 
     public Product() {}
@@ -34,6 +32,5 @@ public class Product {
                 ", Price: " + this.price +
                 " }");
     }
-
 }
 

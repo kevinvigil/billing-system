@@ -33,7 +33,7 @@ public class InvoiceRepoTest {
                 .invoicevoucher(InvoiceVoucher.BILL)
                 .invoiced(false)
                 .paid(false)
-                .type(InvoiceType.A)
+                .category(InvoiceCategory.A)
                 .buyerCompany(null)
                 .sellerCompany(null)
                 .total(BigDecimal.valueOf(0)).build();
@@ -51,6 +51,7 @@ public class InvoiceRepoTest {
     }
     @Test
     public void testFindById(){
+//        baseId = UUID.fromString("04c7d09a-0b61-4b79-bf44-f79271eaeeea");
         Invoice newInvoice = invoiceRepository.findById(baseId)  ;
         assertNotNull(newInvoice);
         assertEquals(baseId, newInvoice.getInvoiceId());
@@ -73,7 +74,7 @@ public class InvoiceRepoTest {
                 .invoicevoucher(InvoiceVoucher.REFERENCE)
                 .invoiced(true)
                 .paid(true)
-                .type(InvoiceType.B)
+                .category(InvoiceCategory.B)
                 .buyerCompany(null)
                 .sellerCompany(null)
                 .total(BigDecimal.valueOf(0)).build();

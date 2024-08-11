@@ -1,5 +1,6 @@
 package com.system.billingsystem.dto.dtosmappers;
 
+import com.system.billingsystem.dto.CompanyDto;
 import com.system.billingsystem.dto.InvoiceDto;
 import com.system.billingsystem.dto.InvoiceProductDto;
 import com.system.billingsystem.entities.*;
@@ -21,6 +22,15 @@ public class InvoiceDtoMapper {
             }
         }
 
+        CompanyDto sellerCompany = null;
+        CompanyDto buyerCompany = null;
+
+        if (invoice.getSellerCompany() != null)
+            sellerCompany = CompanyDtoMapper.toDto(invoice.getSellerCompany());
+
+        if (invoice.getBuyerCompany() != null)
+            buyerCompany = CompanyDtoMapper.toDto(invoice.getBuyerCompany());
+
         return new InvoiceDto(
                 invoice.getInvoiceId(),
                 invoice.getDate(),
@@ -28,9 +38,9 @@ public class InvoiceDtoMapper {
                 invoice.isInvoiced(),
                 invoice.getTotal(),
                 (invoice.getInvoicevoucher() == null)? null:invoice.getInvoicevoucher().name(),
-                (invoice.getType() == null)? null : invoice.getType().name(),
-                (invoice.getSellerCompany() == null)? null : invoice.getSellerCompany().getCompanyId(),
-                (invoice.getBuyerCompany() == null)? null : invoice.getBuyerCompany().getCompanyId(),
+                (invoice.getCategory() == null)? null : invoice.getCategory().name(),
+                sellerCompany,
+                buyerCompany,
                 products
         );
     }
@@ -43,10 +53,9 @@ public class InvoiceDtoMapper {
         invoice.setInvoiced(invoiceDto.invoiced());
         invoice.setTotal(invoiceDto.total());
         invoice.setInvoicevoucher(InvoiceVoucher.valueOf(invoiceDto.invoiceVoucher()));
-        invoice.setType(InvoiceType.valueOf(invoiceDto.type()));
-        invoice.setSellerCompany(new Company(invoiceDto.sellerCompany()));
-        invoice.setBuyerCompany(new Company(invoiceDto.buyerCompany()));
-
+        invoice.setCategory(InvoiceCategory.valueOf(invoiceDto.type()));
+        invoice.setSellerCompany(CompanyDtoMapper.toDomain(invoiceDto.sellerCompany()));
+        invoice.setBuyerCompany(CompanyDtoMapper.toDomain(invoiceDto.buyerCompany()));
 
         return invoice;
     }

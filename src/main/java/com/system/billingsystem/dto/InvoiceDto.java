@@ -1,5 +1,7 @@
 package com.system.billingsystem.dto;
 
+import com.system.billingsystem.entities.Company;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
@@ -14,12 +16,12 @@ public record InvoiceDto (
         BigDecimal total,
         String invoiceVoucher,
         String type,
-        UUID sellerCompany,
-        UUID buyerCompany,
+        CompanyDto sellerCompany,
+        CompanyDto buyerCompany,
         List<InvoiceProductDto> products ) {
 
     public InvoiceDto(UUID invoiceId, Timestamp date, boolean paid, boolean invoiced, BigDecimal total,
-                      String invoiceVoucher, String type, UUID sellerCompany, UUID buyerCompany,
+                      String invoiceVoucher, String type, CompanyDto sellerCompany, CompanyDto buyerCompany,
                       List<InvoiceProductDto> products) {
         this.invoiceId = invoiceId;
         this.date = date;
@@ -118,12 +120,12 @@ public record InvoiceDto (
     }
 
     @Override
-    public UUID sellerCompany() {
+    public CompanyDto sellerCompany() {
         return sellerCompany;
     }
 
     @Override
-    public UUID buyerCompany() {
+    public CompanyDto buyerCompany() {
         return buyerCompany;
     }
 

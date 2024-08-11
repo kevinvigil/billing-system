@@ -1,8 +1,11 @@
 package com.system.billingsystem.entities;
 
-public enum InvoiceType {
+public enum InvoiceCategory {
     A,
     B,
-    C
+    C,
+    M,
+    T,
+    E
 }
 

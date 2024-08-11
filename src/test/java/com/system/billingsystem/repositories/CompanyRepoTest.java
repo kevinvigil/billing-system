@@ -33,7 +33,7 @@ public class CompanyRepoTest {
                 .cuit("1111")
                 .email("company@hotmail.com")
                 .phone("1111")
-                .direction("hello world")
+                .address("hello world")
                 .build();
 
         baseId = companyRepository.save(company);
@@ -72,7 +72,7 @@ public class CompanyRepoTest {
                 .cuit("2222")
                 .email("company2@hotmail.com")
                 .phone("1111")
-                .direction("hello world2")
+                .address("hello world2")
                 .build();
 
         UUID newCompanyId = companyRepository.save(newCompany);

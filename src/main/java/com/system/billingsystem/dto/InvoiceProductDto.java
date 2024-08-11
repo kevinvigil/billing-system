@@ -1,21 +1,16 @@
 package com.system.billingsystem.dto;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public record InvoiceProductDto (
         UUID invoiceProductId,
-        String name,
-        Integer amount,
-        UUID productId,
-        UUID invoiceId) {
+        Integer count,
+        ProductDto product) {
 
-    public InvoiceProductDto(UUID invoiceProductId, String name, Integer amount, UUID productId, UUID invoiceId) {
+    public InvoiceProductDto(UUID invoiceProductId, Integer count, ProductDto product) {
         this.invoiceProductId = invoiceProductId;
-        this.name = name;
-        this.amount = amount;
-        this.productId = productId;
-        this.invoiceId = invoiceId;
+        this.count = count;
+        this.product = product;
     }
 
     public static boolean compareProducts(InvoiceProductDto product1, InvoiceProductDto product2) {
@@ -26,33 +21,15 @@ public record InvoiceProductDto (
             return false;
         }
 
-        return Objects.equals(product1.invoiceProductId(), product2.invoiceProductId())
-                && Objects.equals(product1.name(), product2.name())
-                && product1.amount().compareTo(product2.amount()) == 0
-                && Objects.equals(product1.productId(), product2.productId())
-                && Objects.equals(product1.invoiceId(), product2.invoiceId());
+        return product1.count().compareTo(product2.count()) == 0
+                && product1.product.equals(product2.product);
     }
 
-
-    public UUID invoiceProductId() {
-        return invoiceProductId;
+    public Integer count() {
+        return count;
     }
 
-    @Override
-    public String name() {
-        return name;
-    }
-
-    @Override
-    public Integer amount() {
-        return amount;
-    }
-
-    public UUID productId() {
-        return productId;
-    }
-
-    public UUID invoiceId() {
-        return invoiceId;
+    public ProductDto getProduct() {
+        return product;
     }
 }
