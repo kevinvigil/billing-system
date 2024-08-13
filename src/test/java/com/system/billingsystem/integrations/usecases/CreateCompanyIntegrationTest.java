@@ -2,8 +2,7 @@ package com.system.billingsystem.integrations.usecases;
 
 import com.system.billingsystem.integrations.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.http.MediaType;
 
 import java.util.UUID;
 
@@ -32,6 +31,7 @@ public class CreateCompanyIntegrationTest extends BaseIntegrationTest {
         // When
         var response = webTestClient.post()
                 .uri("/api/company")
+                .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(requestBody)
                 .exchange();
 

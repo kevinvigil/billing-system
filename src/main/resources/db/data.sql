@@ -1,4 +1,4 @@
-INSERT INTO company (company_id ,cuit, direction, email, name, phone) VALUES
+INSERT INTO company (company_id ,cuit, address, email, name, phone) VALUES
 ('0da5b779-832e-4c97-8080-ddb08de8a309','20-12345678-1', 'Calle Falsa 123', 'company1@example.com', 'Company One', '1234567890'),
 ('5b7eac09-48ef-4b5e-9710-9ce715c90ae3','30-23456789-2', 'Avenida Siempre Viva 456', 'company2@example.com', 'Company Two', '0987654321'),
 ('6af58f1e-9ba1-477d-a828-53f00285fe9e','40-34567890-3', 'Boulevard Industrias 789', 'company3@example.com', 'Company Three', '1122334455'),

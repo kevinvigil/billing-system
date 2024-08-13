@@ -13,12 +13,12 @@ public class CompanyDtoMapper {
     public static Company toDomain(@NotNull CompanyDto companyDto) {
         Company company = new Company();
 
-        company.setCompanyId(companyDto.CompanyDto_id());
+        company.setCompanyId(companyDto.companyId());
         company.setName(companyDto.name());
         company.setCuit(companyDto.cuit());
         company.setPhone(companyDto.phone());
         company.setEmail(companyDto.email());
-        company.setAddress(companyDto.direction());
+        company.setAddress(companyDto.address());
 
         company.setSoldInvoices(companyDto.soldInvoices());
         company.setPurchasedInvoices(companyDto.purchasedInvoices());

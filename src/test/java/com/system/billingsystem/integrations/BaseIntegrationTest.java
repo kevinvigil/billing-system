@@ -58,10 +58,10 @@ public class BaseIntegrationTest {
         wiremockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort());
         wiremockServer.start();
 
-        postgreSQLContainer = new PostgreSQLContainer<>("postgres:15")
-                .withDatabaseName("billing_system")
-                .withUsername("postgres")
-                .withPassword("postgres")
+        postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest")
+                .withDatabaseName("billingSystemTest")
+                .withUsername("root")
+                .withPassword("password")
                 .withReuse(true);
 
         // Start the containers

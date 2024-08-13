@@ -2,7 +2,7 @@
 CREATE TABLE COMPANY (
     company_id uuid NOT NULL PRIMARY KEY,
     cuit varchar(255) NOT NULL UNIQUE,
-    direction varchar(255) DEFAULT NULL,
+    address varchar(255) DEFAULT NULL,
     email varchar(255) NOT NULL UNIQUE,
     name varchar(255) DEFAULT NULL,
     phone varchar(255) DEFAULT NULL

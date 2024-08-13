@@ -25,7 +25,7 @@ public class CompanyRepository extends BaseRepository<CompanyRecord, Company> {
         int execution = dsl.insertInto(COMPANY)
                 .set(COMPANY.COMPANY_ID, id)
                 .set(COMPANY.CUIT, persisted.getCuit())
-                .set(COMPANY.DIRECTION, persisted.getAddress())
+                .set(COMPANY.ADDRESS, persisted.getAddress())
                 .set(COMPANY.EMAIL, persisted.getEmail())
                 .set(COMPANY.NAME, persisted.getName())
                 .set(COMPANY.PHONE, persisted.getPhone())
@@ -37,7 +37,7 @@ public class CompanyRepository extends BaseRepository<CompanyRecord, Company> {
     public boolean update(Company persisted){
         int execution = dsl.update(COMPANY)
                 .set(COMPANY.CUIT, persisted.getCuit())
-                .set(COMPANY.DIRECTION, persisted.getAddress())
+                .set(COMPANY.ADDRESS, persisted.getAddress())
                 .set(COMPANY.EMAIL, persisted.getEmail())
                 .set(COMPANY.NAME, persisted.getName())
                 .set(COMPANY.PHONE, persisted.getPhone())
