@@ -1,8 +1,8 @@
-package com.system.billingSystem.dto.dtosmappers;
+package com.system.billingsystem.dto.dtosmappers;
 
-import com.system.billingSystem.dto.InvoiceDto;
-import com.system.billingSystem.dto.InvoiceProductDto;
-import com.system.billingSystem.entities.*;
+import com.system.billingsystem.dto.InvoiceDto;
+import com.system.billingsystem.dto.InvoiceProductDto;
+import com.system.billingsystem.entities.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +29,8 @@ public class InvoiceDtoMapper {
                 invoice.getTotal(),
                 (invoice.getInvoicevoucher() == null)? null:invoice.getInvoicevoucher().name(),
                 (invoice.getType() == null)? null : invoice.getType().name(),
-                (invoice.getSellerCompany() == null)? null : invoice.getSellerCompany().getCompany_id(),
-                (invoice.getBuyerCompany() == null)? null : invoice.getBuyerCompany().getCompany_id(),
+                (invoice.getSellerCompany() == null)? null : invoice.getSellerCompany().getCompanyId(),
+                (invoice.getBuyerCompany() == null)? null : invoice.getBuyerCompany().getCompanyId(),
                 products
         );
     }

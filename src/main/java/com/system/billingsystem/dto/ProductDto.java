@@ -1,4 +1,4 @@
-package com.system.billingSystem.dto;
+package com.system.billingsystem.dto;
 
 import java.math.BigDecimal;
 import java.util.UUID;

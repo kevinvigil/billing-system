@@ -1,4 +1,4 @@
-package com.system.billingSystem.entities;
+package com.system.billingsystem.entities;
 
 public enum InvoiceType {
     A,

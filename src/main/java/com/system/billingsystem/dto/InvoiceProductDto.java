@@ -1,4 +1,4 @@
-package com.system.billingSystem.dto;
+package com.system.billingsystem.dto;
 
 import java.util.Objects;
 import java.util.UUID;

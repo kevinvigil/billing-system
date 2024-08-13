@@ -45,6 +45,10 @@ dependencies {
 	testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
 	testImplementation("org.junit.platform:junit-platform-suite:1.10.3")
 
+	testImplementation(catalog.findLibrary("testcontainers").get())
+	testImplementation(catalog.findLibrary("testcontainers-junit-jupiter").get())
+	testImplementation(catalog.findLibrary("testcontainers-postgresql").get())
+	testImplementation(catalog.findLibrary("spring-cloud-contract-wiremock").get())
 
 
 	testImplementation(catalog.findLibrary("spring-boot-starter-test").get()) {

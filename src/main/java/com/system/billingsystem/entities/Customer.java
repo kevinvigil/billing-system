@@ -1,4 +1,4 @@
-package com.system.billingSystem.entities;
+package com.system.billingsystem.entities;
 
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Customer {
 
-    private UUID customer_id;
+    private UUID customerId;
     private String name;
     private String password;
     
@@ -26,7 +26,7 @@ public class Customer {
     @Override
     public String toString(){
         return ("Customer { " +
-                ", customer_id: " + this.customer_id +
+                ", customer_id: " + this.customerId +
                 ", Name: " + this.name +
                 " }"
         );

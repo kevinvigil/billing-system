@@ -1,4 +1,4 @@
-package com.system.billingSystem.entities;
+package com.system.billingsystem.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

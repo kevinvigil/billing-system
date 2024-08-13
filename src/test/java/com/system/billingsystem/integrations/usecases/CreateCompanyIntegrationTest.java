@@ -31,7 +31,7 @@ public class CreateCompanyIntegrationTest extends BaseIntegrationTest {
 
         // When
         var response = webTestClient.post()
-                .uri("/company")
+                .uri("/api/company")
                 .bodyValue(requestBody)
                 .exchange();
 

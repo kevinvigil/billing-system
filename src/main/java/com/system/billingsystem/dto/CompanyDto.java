@@ -1,6 +1,6 @@
-package com.system.billingSystem.dto;
+package com.system.billingsystem.dto;
 
-import com.system.billingSystem.entities.Invoice;
+import com.system.billingsystem.entities.Invoice;
 
 import java.util.List;
 import java.util.UUID;
