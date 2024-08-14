@@ -1,6 +1,7 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Company;
+import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import domain.tables.records.CompanyRecord;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -20,7 +21,7 @@ public class CompanyRepository extends BaseRepository<CompanyRecord, Company> {
     }
 
     @Override
-    public UUID save(Company persisted) {
+    public CompanyId save(Company persisted) {
         UUID id = UUID.randomUUID();
         int execution = dsl.insertInto(COMPANY)
                 .set(COMPANY.COMPANY_ID, id)
@@ -31,7 +32,7 @@ public class CompanyRepository extends BaseRepository<CompanyRecord, Company> {
                 .set(COMPANY.PHONE, persisted.getPhone())
                 .execute();
 
-        return (execution == 1 ? id : null);
+        return (execution == 1 ? new CompanyId(id) : null);
     }
 
     public boolean update(Company persisted){
@@ -41,7 +42,7 @@ public class CompanyRepository extends BaseRepository<CompanyRecord, Company> {
                 .set(COMPANY.EMAIL, persisted.getEmail())
                 .set(COMPANY.NAME, persisted.getName())
                 .set(COMPANY.PHONE, persisted.getPhone())
-                .where(COMPANY.COMPANY_ID.eq(persisted.getCompanyId()))
+                .where(COMPANY.COMPANY_ID.eq(persisted.getCompanyId().getValue()))
                 .execute();
 
         return (execution == 1);

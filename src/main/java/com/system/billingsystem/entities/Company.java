@@ -1,5 +1,6 @@
 package com.system.billingsystem.entities;
 
+import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,13 +15,14 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Company {
     
-    private UUID companyId;
+    private CompanyId companyId;
+
     private String cuit;
     private String address;
     private String name;
     private String phone;
 
-    public Company(UUID companyId, String email, String phone,
+    public Company(CompanyId companyId, String email, String phone,
                    String name, String address, String cuit) {
         this.companyId = companyId;
         this.email = email;
@@ -39,7 +41,7 @@ public class Company {
 
     public Company() {}
 
-    public Company(UUID companyId) {
+    public Company(CompanyId companyId) {
         this.companyId = companyId;
     }
 

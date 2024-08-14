@@ -4,6 +4,8 @@ import com.system.billingsystem.dto.CompanyDto;
 import com.system.billingsystem.dto.InvoiceDto;
 import com.system.billingsystem.dto.InvoiceProductDto;
 import com.system.billingsystem.entities.*;
+import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
+import com.system.billingsystem.entities.microtypes.prices.InvoicePrice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +34,11 @@ public class InvoiceDtoMapper {
             buyerCompany = CompanyDtoMapper.toDto(invoice.getBuyerCompany());
 
         return new InvoiceDto(
-                invoice.getInvoiceId(),
+                invoice.getInvoiceId().getValue(),
                 invoice.getDate(),
                 invoice.isPaid(),
                 invoice.isInvoiced(),
-                invoice.getTotal(),
+                invoice.getInvoicePrice().getValue(),
                 (invoice.getInvoicevoucher() == null)? null:invoice.getInvoicevoucher().name(),
                 (invoice.getCategory() == null)? null : invoice.getCategory().name(),
                 sellerCompany,
@@ -48,10 +50,10 @@ public class InvoiceDtoMapper {
     public static Invoice toDomain(InvoiceDto invoiceDto) {
         Invoice invoice = new Invoice();
 
-        invoice.setInvoiceId(invoiceDto.invoiceId());
+        invoice.setInvoiceId(new InvoiceId(invoiceDto.invoiceId()));
         invoice.setPaid(invoiceDto.paid());
         invoice.setInvoiced(invoiceDto.invoiced());
-        invoice.setTotal(invoiceDto.total());
+        invoice.setInvoicePrice(new InvoicePrice(invoiceDto.total()));
         invoice.setInvoicevoucher(InvoiceVoucher.valueOf(invoiceDto.invoiceVoucher()));
         invoice.setCategory(InvoiceCategory.valueOf(invoiceDto.type()));
         invoice.setSellerCompany(CompanyDtoMapper.toDomain(invoiceDto.sellerCompany()));

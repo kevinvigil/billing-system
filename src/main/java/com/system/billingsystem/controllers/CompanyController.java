@@ -2,6 +2,7 @@ package com.system.billingsystem.controllers;
 
 import com.system.billingsystem.dto.CompanyDto;
 import com.system.billingsystem.dto.dtosmappers.CompanyDtoMapper;
+import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.services.CompanyService;
 import com.system.billingsystem.entities.Company;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,12 @@ public class CompanyController {
     public ResponseEntity<?> save(@RequestBody CompanyDto companyDto){
         if (companyDto == null)
             throw new IllegalArgumentException();
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(companyService.save(CompanyDtoMapper.toDomain(companyDto)));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
 
-        Company company = companyService.save(CompanyDtoMapper.toDomain(companyDto));
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(CompanyDtoMapper.toDto(company));
     }
 
     @PutMapping("/api/company/")
@@ -46,14 +49,14 @@ public class CompanyController {
 
     @DeleteMapping("/api/company/{id}")
     public ResponseEntity<?> delete (@PathVariable UUID id){
-        CompanyDto companyDto = CompanyDtoMapper.toDto(companyService.delete(id)) ;
+        CompanyDto companyDto = CompanyDtoMapper.toDto(companyService.delete(new CompanyId(id))) ;
         return ResponseEntity.ok().body(companyDto);
     }
 
     @GetMapping("/api/company/{id}")
     public ResponseEntity<?> findById (@PathVariable UUID id){
         try {
-            CompanyDto companyDto = CompanyDtoMapper.toDto(companyService.findById(id));
+            CompanyDto companyDto = CompanyDtoMapper.toDto(companyService.findById(new CompanyId(id)));
             return ResponseEntity.ok().body(companyDto);
         } catch (Exception e){
             throw new InternalError();

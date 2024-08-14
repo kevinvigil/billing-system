@@ -1,6 +1,7 @@
 package com.system.billingsystem.services;
 
 import com.system.billingsystem.entities.Company;
+import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.repositories.CompanyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ public class CompanyServiceTest {
     @BeforeEach
     void setUp(){
          company = Company.builder()
-                 .companyId(UUID.randomUUID())
+                 .companyId(new CompanyId(UUID.randomUUID()))
                 .name("company")
                 .cuit("1111")
                 .email("company@hotmail.com")

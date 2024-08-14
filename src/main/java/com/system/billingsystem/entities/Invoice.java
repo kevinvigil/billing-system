@@ -1,7 +1,8 @@
 package com.system.billingsystem.entities;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import com.system.billingsystem.entities.microtypes.Discount;
+import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
+import com.system.billingsystem.entities.microtypes.prices.InvoicePrice;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,16 +19,14 @@ import java.util.UUID;
 @Builder
 public class Invoice {
 
-    private UUID invoiceId;
+    private InvoiceId invoiceId;
 
     private Timestamp date;
     private boolean paid;
     private boolean invoiced;
-    private BigDecimal total;
+    private InvoicePrice invoicePrice;
 
-    @Max(100)
-    @Min(0)
-    private Integer discount;
+    private Discount discount;
 
     private InvoiceVoucher invoicevoucher;
 
@@ -35,15 +34,15 @@ public class Invoice {
 
     private Company sellerCompany;
 
-    public Invoice(UUID invoiceId, Timestamp date, boolean paid, boolean invoiced, BigDecimal total,
+    public Invoice(InvoiceId invoiceId, Timestamp date, boolean paid, boolean invoiced, BigDecimal invoicePrice,
                    Integer discount, InvoiceVoucher invoicevoucher, InvoiceCategory category,
                    Company sellerCompany, Company buyerCompany) {
         this.invoiceId = invoiceId;
         this.date = date;
         this.paid = paid;
         this.invoiced = invoiced;
-        this.total = total;
-        this.discount = discount;
+        this.invoicePrice = new InvoicePrice(invoicePrice);
+        this.discount = new Discount((discount==null||discount<=0)?0:discount);
         this.invoicevoucher = invoicevoucher;
         this.category = category;
         this.sellerCompany = sellerCompany;
@@ -57,7 +56,7 @@ public class Invoice {
 
     public Invoice() {}
 
-    public Invoice(UUID invoiceId) {
+    public Invoice(InvoiceId invoiceId) {
         this.invoiceId = invoiceId;
     }
 
@@ -72,11 +71,11 @@ public class Invoice {
                 ", date=" + date +
                 ", paid=" + paid +
                 ", invoiced=" + invoiced +
-                ", total=" + total +
+                ", total=" + invoicePrice +
                 ", invoice voucher='" + ((invoicevoucher == null)? null: invoicevoucher.name()) + '\'' +
                 ", type='" + category.name() + '\'' +
-                ", company=" + ((sellerCompany != null) ? sellerCompany.getCompanyId() : "null") +
-                ", customer=" + ((buyerCompany != null) ? buyerCompany.getCompanyId() : "null") +
+                ", company=" + ((sellerCompany != null) ? sellerCompany.getCompanyId().getValue() : "null") +
+                ", customer=" + ((buyerCompany != null) ? buyerCompany.getCompanyId().getValue() : "null") +
                 '}';
     }
 
@@ -88,7 +87,7 @@ public class Invoice {
         Invoice invoice = (Invoice) o;
 
         if (
-                (invoice.total.compareTo(total) != 0) ||
+                (invoice.invoicePrice.compareTo(invoicePrice) != 0) ||
                         (paid != invoice.paid) ||
                         (invoiced != invoice.invoiced) ||
                         (!Objects.equals(invoiceId, invoice.invoiceId)) ||

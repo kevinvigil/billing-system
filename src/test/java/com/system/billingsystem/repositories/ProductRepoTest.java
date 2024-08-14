@@ -1,6 +1,8 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Product;
+import com.system.billingsystem.entities.microtypes.ids.ProductId;
+import com.system.billingsystem.entities.microtypes.prices.ProductPrice;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +12,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,14 +24,14 @@ public class ProductRepoTest {
 
     private static Product product;
     
-    private UUID baseId;
+    private ProductId baseId;
 
     @BeforeEach
     public void setUp(){
         product = Product.builder()
                 .name("Name Product")
                 .description("Description Product")
-                .price(BigDecimal.valueOf(100.0))
+                .price(new ProductPrice(BigDecimal.valueOf(100.0)))
                 .build();
 
         baseId = productRepo.save(product);
@@ -66,7 +67,7 @@ public class ProductRepoTest {
         Product newProduct = Product.builder()
                 .name("Name Product 2")
                 .description("Description Product 2")
-                .price(BigDecimal.valueOf(200.0))
+                .price(new ProductPrice(BigDecimal.valueOf(200.0)))
                 .build();
 
         assertNotNull(productRepo.save(newProduct));

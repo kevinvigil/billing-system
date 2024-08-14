@@ -3,6 +3,7 @@ package com.system.billingsystem.repositories;
 import com.system.billingsystem.entities.Invoice;
 import com.system.billingsystem.entities.InvoiceProduct;
 import com.system.billingsystem.entities.Product;
+import com.system.billingsystem.entities.microtypes.ids.InvoiceProductId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +23,7 @@ public class InvoiceProductRepoTest {
 
     private static InvoiceProduct invoiceProduct;
 
-    private UUID baseId;
+    private InvoiceProductId baseId;
 
     @Autowired
     public InvoiceProductRepoTest(InvoiceProductRepository invoiceProductRepo) {
@@ -64,7 +64,7 @@ public class InvoiceProductRepoTest {
                 .invoice(null)
                 .build();
 
-        UUID newId = invoiceProductRepo.save(newInvoiceProduct);
+        InvoiceProductId newId = invoiceProductRepo.save(newInvoiceProduct);
         assertNotNull(newId);
 
         List<InvoiceProduct> invoiceProducts = invoiceProductRepo.findAll();

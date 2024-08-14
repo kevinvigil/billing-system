@@ -1,6 +1,8 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.*;
+import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
+import com.system.billingsystem.entities.microtypes.prices.InvoicePrice;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +13,6 @@ import org.springframework.test.context.ActiveProfiles;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,7 +25,7 @@ public class InvoiceRepoTest {
 
     private static Invoice invoice;
 
-    private UUID baseId;
+    private InvoiceId baseId;
     
     @BeforeEach
     public void setUp(){
@@ -36,7 +37,7 @@ public class InvoiceRepoTest {
                 .category(InvoiceCategory.A)
                 .buyerCompany(null)
                 .sellerCompany(null)
-                .total(BigDecimal.valueOf(0)).build();
+                .invoicePrice(new InvoicePrice(BigDecimal.ONE)).build();
 
         baseId = invoiceRepository.save(invoice);
         assertNotNull(baseId);
@@ -59,12 +60,12 @@ public class InvoiceRepoTest {
 
     @Test
     public void testUpdateInvoice(){
-        BigDecimal aux = BigDecimal.valueOf(123456);
-        invoice.setTotal(aux);
+        InvoicePrice aux = new InvoicePrice(BigDecimal.valueOf(123456));
+        invoice.setInvoicePrice(aux);
         invoiceRepository.update(invoice);
         Invoice newInvoice = invoiceRepository.findById(invoice.getInvoiceId())  ;
         assertNotNull(newInvoice);
-        assertEquals(aux.doubleValue(), newInvoice.getTotal().doubleValue());
+        assertEquals(0 ,aux.compareTo(newInvoice.getInvoicePrice()));
     }
 
     @Test
@@ -77,7 +78,7 @@ public class InvoiceRepoTest {
                 .category(InvoiceCategory.B)
                 .buyerCompany(null)
                 .sellerCompany(null)
-                .total(BigDecimal.valueOf(0)).build();
+                .invoicePrice(new InvoicePrice(BigDecimal.valueOf(0))).build();
 
         assertNotNull(invoiceRepository.save(newInvoice));
 

@@ -1,6 +1,8 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Customer;
+import com.system.billingsystem.entities.microtypes.ids.CompanyId;
+import com.system.billingsystem.entities.microtypes.ids.CustomerId;
 import domain.tables.records.CustomerRecord;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -20,7 +22,7 @@ public class CustomerRepository extends BaseRepository<CustomerRecord, Customer>
     }
 
     @Override
-    public UUID save(Customer persisted) {
+    public CustomerId save(Customer persisted) {
         UUID id = UUID.randomUUID();
 
         int execution = dsl.insertInto(CUSTOMER)
@@ -30,7 +32,7 @@ public class CustomerRepository extends BaseRepository<CustomerRecord, Customer>
                 .set(CUSTOMER.PASSWORD, persisted.getPassword())
                 .execute();
 
-        return (execution == 1 ? id : null);
+        return (execution == 1 ? new CustomerId(id) : null);
     }
 
     @Override
@@ -39,7 +41,7 @@ public class CustomerRepository extends BaseRepository<CustomerRecord, Customer>
                 .set(CUSTOMER.EMAIL, persisted.getEmail())
                 .set(CUSTOMER.NAME, persisted.getName())
                 .set(CUSTOMER.PASSWORD, persisted.getPassword())
-                .where(CUSTOMER.CUSTOMER_ID.eq(persisted.getCustomerId()))
+                .where(CUSTOMER.CUSTOMER_ID.eq(persisted.getCustomerId().getValue()))
                 .execute();
 
         return (execution == 1);
@@ -49,4 +51,5 @@ public class CustomerRepository extends BaseRepository<CustomerRecord, Customer>
     protected Field<UUID> getIdField() {
         return CUSTOMER.CUSTOMER_ID;
     }
+
 }
