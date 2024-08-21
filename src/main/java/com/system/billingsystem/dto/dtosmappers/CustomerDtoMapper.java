@@ -5,6 +5,7 @@ import com.system.billingsystem.entities.Company;
 import com.system.billingsystem.entities.Customer;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
+import com.system.billingsystem.entities.microtypes.microtypesmapper.CustomerNameMapper;
 
 public class CustomerDtoMapper {
 
@@ -13,7 +14,7 @@ public class CustomerDtoMapper {
     public static CustomerDto toDto(Customer customer) {
         return new CustomerDto(
                 customer.getCustomerId().getValue(),
-                customer.getName(),
+                customer.getName().toString(),
                 customer.getEmail(),
                 customer.getPassword(),
                 (customer.getCompany() == null)? null: customer.getCompany().getCompanyId().getValue()
@@ -24,7 +25,7 @@ public class CustomerDtoMapper {
         Customer customer = new Customer();
 
         customer.setCustomerId(new CustomerId(customerDto.customerId()));
-        customer.setName(customerDto.name());
+        customer.setName(CustomerNameMapper.toDomain(customerDto.name()));
         customer.setEmail(customerDto.email());
         customer.setPassword(customer.getPassword());
 

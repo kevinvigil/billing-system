@@ -5,6 +5,7 @@ import com.system.billingsystem.entities.Product;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceProductId;
 import com.system.billingsystem.entities.microtypes.ids.ProductId;
+import com.system.billingsystem.entities.microtypes.names.ProductName;
 import com.system.billingsystem.entities.microtypes.prices.ProductPrice;
 import domain.tables.records.InvoiceProductRecord;
 import domain.tables.records.ProductRecord;
@@ -77,7 +78,7 @@ public class InvoiceProductRepository extends BaseRepository<InvoiceProductRecor
                             invoiceProductRecord.getValue(INVOICE_PRODUCT.COUNT),
                             new Product(
                                     new ProductId(productRecord.getValue(PRODUCT.PRODUCT_ID)),
-                                    productRecord.getValue(PRODUCT.NAME),
+                                    new ProductName(productRecord.getValue(PRODUCT.NAME)),
                                     productRecord.getValue(PRODUCT.DESCRIPTION),
                                     new ProductPrice(productRecord.getValue(PRODUCT.PRICE))
 

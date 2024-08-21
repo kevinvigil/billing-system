@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -58,10 +57,6 @@ public class Invoice {
 
     public Invoice(InvoiceId invoiceId) {
         this.invoiceId = invoiceId;
-    }
-
-    public void addProduct(InvoiceProduct invoiceProduct){
-        this.products.add(invoiceProduct);
     }
 
     @Override

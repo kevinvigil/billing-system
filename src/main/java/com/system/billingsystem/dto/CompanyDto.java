@@ -8,17 +8,17 @@ import java.util.UUID;
 public record CompanyDto(
         UUID companyId,
         String name,
-        String direction,
+        String address,
         String phone,
         String email,
         String cuit,
         List<Invoice> soldInvoices,
         List<Invoice> purchasedInvoices ) {
 
-    public CompanyDto(UUID companyId, String name, String direction, String phone, String email, String cuit, List<Invoice> soldInvoices, List<Invoice> purchasedInvoices) {
+    public CompanyDto(UUID companyId, String name, String address, String phone, String email, String cuit, List<Invoice> soldInvoices, List<Invoice> purchasedInvoices) {
         this.companyId = companyId;
         this.name = name;
-        this.direction = direction;
+        this.address = address;
         this.phone = phone;
         this.email = email;
         this.cuit = cuit;
@@ -39,9 +39,8 @@ public record CompanyDto(
         return name;
     }
 
-    @Override
-    public String direction() {
-        return direction;
+    public String address() {
+        return address;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.system.billingsystem.entities;
 
 import com.system.billingsystem.entities.microtypes.ids.ProductId;
+import com.system.billingsystem.entities.microtypes.names.ProductName;
 import com.system.billingsystem.entities.microtypes.prices.ProductPrice;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import lombok.Data;
 public class Product {
 
     private ProductId productId;
-    private String name;
+    private ProductName name;
     private String description;
     private ProductPrice price;
 

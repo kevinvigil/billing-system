@@ -1,14 +1,16 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.*;
+import com.system.billingsystem.entities.microtypes.Cuit;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
+import com.system.billingsystem.entities.microtypes.microtypesmapper.AddressMapper;
+import com.system.billingsystem.entities.microtypes.microtypesmapper.PhoneMapper;
+import com.system.billingsystem.entities.microtypes.names.CompanyName;
 import domain.tables.records.CompanyRecord;
 import domain.tables.records.InvoiceRecord;
-import org.jooq.DSLContext;
-import org.jooq.Field;
+import org.jooq.*;
 import org.jooq.Record;
-import org.jooq.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -103,19 +105,18 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
             new Company(
                     new CompanyId(companySellerRecord.getValue(COMPANY.as("seller").COMPANY_ID)),
                     companySellerRecord.getValue(COMPANY.as("seller").EMAIL),
-                    companySellerRecord.getValue(COMPANY.as("seller").PHONE),
-                    companySellerRecord.getValue(COMPANY.as("seller").NAME),
-                    companySellerRecord.getValue(COMPANY.as("seller").ADDRESS),
-                    companySellerRecord.getValue(COMPANY.as("seller").CUIT)
-
+                    PhoneMapper.toDomain(companySellerRecord.getValue(COMPANY.as("seller").PHONE)),
+                    new CompanyName(companySellerRecord.getValue(COMPANY.as("seller").NAME)),
+                    AddressMapper.toDomain(companyBuyerRecord.getValue(COMPANY.as("seller").ADDRESS)),
+                    new Cuit(companySellerRecord.getValue(COMPANY.as("seller").CUIT))
             ),
             new Company(
                     new CompanyId(companyBuyerRecord.getValue(COMPANY.as("buyer").COMPANY_ID)),
                     companyBuyerRecord.getValue(COMPANY.as("buyer").EMAIL),
-                    companyBuyerRecord.getValue(COMPANY.as("buyer").PHONE),
-                    companyBuyerRecord.getValue(COMPANY.as("buyer").NAME),
-                    companyBuyerRecord.getValue(COMPANY.as("buyer").ADDRESS),
-                    companyBuyerRecord.getValue(COMPANY.as("buyer").CUIT)
+                    PhoneMapper.toDomain(companySellerRecord.getValue(COMPANY.as("buyer").PHONE)),
+                    new CompanyName(companySellerRecord.getValue(COMPANY.as("buyer").NAME)),
+                    AddressMapper.toDomain(companyBuyerRecord.getValue(COMPANY.as("buyer").ADDRESS)),
+                    new Cuit(companySellerRecord.getValue(COMPANY.as("buyer").CUIT))
 
             )
         );

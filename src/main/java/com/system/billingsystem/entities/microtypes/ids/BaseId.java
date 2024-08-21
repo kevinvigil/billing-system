@@ -10,5 +10,5 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BaseId {
-    UUID value;
+    protected UUID value;
 }

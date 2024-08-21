@@ -1,11 +1,12 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Customer;
-import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
+import com.system.billingsystem.entities.microtypes.microtypesmapper.CustomerNameMapper;
 import domain.tables.records.CustomerRecord;
 import org.jooq.DSLContext;
 import org.jooq.Field;
+import org.jooq.JSONB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +29,7 @@ public class CustomerRepository extends BaseRepository<CustomerRecord, Customer>
         int execution = dsl.insertInto(CUSTOMER)
                 .set(CUSTOMER.CUSTOMER_ID, id)
                 .set(CUSTOMER.EMAIL, persisted.getEmail())
-                .set(CUSTOMER.NAME, persisted.getName())
+                .set(CUSTOMER.NAME, CustomerNameMapper.toJson(persisted.getName()))
                 .set(CUSTOMER.PASSWORD, persisted.getPassword())
                 .execute();
 
@@ -39,7 +40,7 @@ public class CustomerRepository extends BaseRepository<CustomerRecord, Customer>
     public boolean update(Customer persisted) {
         int execution = dsl.update(CUSTOMER)
                 .set(CUSTOMER.EMAIL, persisted.getEmail())
-                .set(CUSTOMER.NAME, persisted.getName())
+                .set(CUSTOMER.NAME, CustomerNameMapper.toJson(persisted.getName()))
                 .set(CUSTOMER.PASSWORD, persisted.getPassword())
                 .where(CUSTOMER.CUSTOMER_ID.eq(persisted.getCustomerId().getValue()))
                 .execute();

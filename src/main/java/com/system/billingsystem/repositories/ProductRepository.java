@@ -1,8 +1,6 @@
 package com.system.billingsystem.repositories;
 
-import com.system.billingsystem.entities.InvoiceProduct;
 import com.system.billingsystem.entities.Product;
-import com.system.billingsystem.entities.microtypes.ids.InvoiceProductId;
 import com.system.billingsystem.entities.microtypes.ids.ProductId;
 import domain.tables.records.ProductRecord;
 import org.jooq.DSLContext;
@@ -28,7 +26,7 @@ public class ProductRepository extends BaseRepository<ProductRecord, Product> {
         int execution = dsl.insertInto(PRODUCT)
                 .set(PRODUCT.PRODUCT_ID, id)
                 .set(PRODUCT.DESCRIPTION, persisted.getDescription())
-                .set(PRODUCT.NAME, persisted.getName())
+                .set(PRODUCT.NAME, persisted.getName().getName())
                 .set(PRODUCT.PRICE, persisted.getPrice().getValue())
                 .execute();
 
@@ -39,7 +37,7 @@ public class ProductRepository extends BaseRepository<ProductRecord, Product> {
     public boolean update(Product persisted) {
         int execution = dsl.update(PRODUCT)
                 .set(PRODUCT.DESCRIPTION, persisted.getDescription())
-                .set(PRODUCT.NAME, persisted.getName())
+                .set(PRODUCT.NAME, persisted.getName().getName())
                 .set(PRODUCT.PRICE, persisted.getPrice().getValue())
                 .where(PRODUCT.PRODUCT_ID.eq(persisted.getProductId().getValue()))
                 .execute();

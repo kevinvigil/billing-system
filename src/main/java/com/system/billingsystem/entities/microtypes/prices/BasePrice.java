@@ -9,8 +9,8 @@ import java.util.Objects;
 
 @Data
 public class BasePrice implements Comparable<BasePrice> {
-    private Currency currency;
-    private BigDecimal value;
+    protected Currency currency;
+    protected BigDecimal value;
 
     private static HashMap<Currency, HashMap<Currency, BigDecimal>> basePrices = new HashMap<>();
 

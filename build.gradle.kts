@@ -33,8 +33,11 @@ dependencies {
 
 	implementation(catalog.findLibrary("problem-spring-web-starter").get())
 	implementation(catalog.findLibrary("problem-spring-web").get())
+
 	implementation(catalog.findLibrary("jackson-datatype-problem").get())
 	implementation(catalog.findLibrary("jackson-datatype-jsr310").get())
+
+
 	implementation(catalog.findLibrary("jetbrains-annotation").get())
 
 
@@ -60,7 +63,7 @@ dependencies {
 	annotationProcessor(catalog.findLibrary( "lombok").get())
 
 	// JOOQ
-	implementation("org.jooq:jooq-kotlin:3.19.10")
+	implementation(catalog.findLibrary( "jooq-kotlin").get())
 	implementation(catalog.findLibrary( "jooq").get())
 	jooqCodegen(catalog.findLibrary( "jooq-codegen").get())
 	jooqCodegen("org.postgresql:postgresql:42.7.3")

@@ -66,6 +66,7 @@ public class CompanyService{
 
     public List<Company> findAll() {
         try {
+
             return this.companyRepository.findAll();
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method findAll");
