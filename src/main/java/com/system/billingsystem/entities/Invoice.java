@@ -33,25 +33,24 @@ public class Invoice {
 
     private Company sellerCompany;
 
-    public Invoice(InvoiceId invoiceId, Timestamp date, boolean paid, boolean invoiced, BigDecimal invoicePrice,
-                   Integer discount, InvoiceVoucher invoicevoucher, InvoiceCategory category,
+    private Company buyerCompany;
+
+    private List<InvoiceProduct> products;
+
+    public Invoice(InvoiceId invoiceId, Timestamp date, boolean paid, boolean invoiced, InvoicePrice invoicePrice,
+                   Discount discount, InvoiceVoucher invoicevoucher, InvoiceCategory category,
                    Company sellerCompany, Company buyerCompany) {
         this.invoiceId = invoiceId;
         this.date = date;
         this.paid = paid;
         this.invoiced = invoiced;
-        this.invoicePrice = new InvoicePrice(invoicePrice);
-        this.discount = new Discount((discount==null||discount<=0)?0:discount);
+        this.invoicePrice = invoicePrice;
+        this.discount = discount;
         this.invoicevoucher = invoicevoucher;
         this.category = category;
         this.sellerCompany = sellerCompany;
         this.buyerCompany = buyerCompany;
     }
-
-    private Company buyerCompany;
-
-    private List<InvoiceProduct> products;
-
 
     public Invoice() {}
 

@@ -1,6 +1,7 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Customer;
+import com.system.billingsystem.entities.builders.customerbuilder.CustomerBuilder;
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
 import com.system.billingsystem.entities.microtypes.microtypesmapper.CustomerNameMapper;
 import domain.tables.records.CustomerRecord;

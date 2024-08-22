@@ -17,13 +17,13 @@ public class InvoiceProduct {
 
     private Product product;
 
+    private Integer count;
+
     public InvoiceProduct(InvoiceProductId invoiceProductId, Integer count, Product product) {
         this.invoiceProductId = invoiceProductId;
         this.count = count;
         this.product = product;
     }
-
-    private Integer count;
 
     public InvoiceProduct() {}
 

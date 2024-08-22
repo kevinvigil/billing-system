@@ -1,5 +1,7 @@
 package com.system.billingsystem.entities;
 
+import com.system.billingsystem.entities.builders.companybuilder.CompanyBuilder;
+import com.system.billingsystem.entities.builders.customerbuilder.CustomerBuilder;
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
 import com.system.billingsystem.entities.microtypes.names.CustomerName;
 import jakarta.validation.constraints.Email;
@@ -25,12 +27,11 @@ public class Customer {
 
     public Customer() {}
 
-    public Customer(CustomerId customerId, Company company, String email, String password, CustomerName name) {
+    public Customer(CustomerId customerId, CustomerName name, String password, String email) {
         this.customerId = customerId;
-        this.company = company;
-        this.email = email;
-        this.password = password;
         this.name = name;
+        this.password = password;
+        this.email = email;
     }
 
     @Override

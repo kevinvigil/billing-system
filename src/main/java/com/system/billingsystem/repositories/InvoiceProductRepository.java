@@ -2,6 +2,8 @@ package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.InvoiceProduct;
 import com.system.billingsystem.entities.Product;
+import com.system.billingsystem.entities.builders.invoiceproductbuilder.InvoiceProductBuildStep;
+import com.system.billingsystem.entities.builders.invoiceproductbuilder.InvoiceProductBuilder;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceProductId;
 import com.system.billingsystem.entities.microtypes.ids.ProductId;
@@ -73,17 +75,19 @@ public class InvoiceProductRepository extends BaseRepository<InvoiceProductRecor
             ProductRecord productRecord = r.into(PRODUCT);
 
             curr.add(
-                    new InvoiceProduct(
-                            new InvoiceProductId(invoiceProductRecord.getValue(INVOICE_PRODUCT.INVOICEPRODUCT_ID)),
-                            invoiceProductRecord.getValue(INVOICE_PRODUCT.COUNT),
-                            new Product(
-                                    new ProductId(productRecord.getValue(PRODUCT.PRODUCT_ID)),
-                                    new ProductName(productRecord.getValue(PRODUCT.NAME)),
-                                    productRecord.getValue(PRODUCT.DESCRIPTION),
-                                    new ProductPrice(productRecord.getValue(PRODUCT.PRICE))
+                    InvoiceProductBuilder.newBuilder()
+                            .id(new InvoiceProductId(invoiceProductRecord.getValue(INVOICE_PRODUCT.INVOICEPRODUCT_ID)))
+                            .count(invoiceProductRecord.getValue(INVOICE_PRODUCT.COUNT))
+                            .invoice(null)
+                            .product(
+                                    new Product(
+                                            new ProductId(productRecord.getValue(PRODUCT.PRODUCT_ID)),
+                                            new ProductName(productRecord.getValue(PRODUCT.NAME)),
+                                            productRecord.getValue(PRODUCT.DESCRIPTION),
+                                            new ProductPrice(productRecord.getValue(PRODUCT.PRICE))
 
-                            )
-                    )
+                                    )
+                            ).build()
             );
         }
         return curr;

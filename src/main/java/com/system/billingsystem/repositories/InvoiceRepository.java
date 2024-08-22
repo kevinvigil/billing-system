@@ -1,12 +1,16 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.*;
+import com.system.billingsystem.entities.builders.companybuilder.CompanyBuilder;
+import com.system.billingsystem.entities.builders.invoicebuilder.InvoiceBuilder;
 import com.system.billingsystem.entities.microtypes.Cuit;
+import com.system.billingsystem.entities.microtypes.Discount;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
 import com.system.billingsystem.entities.microtypes.microtypesmapper.AddressMapper;
 import com.system.billingsystem.entities.microtypes.microtypesmapper.PhoneMapper;
 import com.system.billingsystem.entities.microtypes.names.CompanyName;
+import com.system.billingsystem.entities.microtypes.prices.InvoicePrice;
 import domain.tables.records.CompanyRecord;
 import domain.tables.records.InvoiceRecord;
 import org.jooq.*;
@@ -92,34 +96,35 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
         if(invoiceRecord == null)
             return null;
 
-
-        return new Invoice(
-                new InvoiceId(invoiceRecord.getValue(INVOICE.INVOICE_ID)),
-            Timestamp.valueOf(invoiceRecord.getValue(INVOICE.DATE)),
-                invoiceRecord.getValue(INVOICE.PAID),
-                invoiceRecord.getValue(INVOICE.INVOICED),
-                invoiceRecord.getValue(INVOICE.TOTAL),
-                invoiceRecord.getValue(INVOICE.DISCOUNT),
-            InvoiceVoucher.valueOf(invoiceRecord.getValue(INVOICE.INVOICE_VOUCHER)),
-            InvoiceCategory.valueOf(invoiceRecord.getValue(INVOICE.CATEGORY)),
-            new Company(
-                    new CompanyId(companySellerRecord.getValue(COMPANY.as("seller").COMPANY_ID)),
-                    companySellerRecord.getValue(COMPANY.as("seller").EMAIL),
-                    PhoneMapper.toDomain(companySellerRecord.getValue(COMPANY.as("seller").PHONE)),
-                    new CompanyName(companySellerRecord.getValue(COMPANY.as("seller").NAME)),
-                    AddressMapper.toDomain(companyBuyerRecord.getValue(COMPANY.as("seller").ADDRESS)),
-                    new Cuit(companySellerRecord.getValue(COMPANY.as("seller").CUIT))
-            ),
-            new Company(
-                    new CompanyId(companyBuyerRecord.getValue(COMPANY.as("buyer").COMPANY_ID)),
-                    companyBuyerRecord.getValue(COMPANY.as("buyer").EMAIL),
-                    PhoneMapper.toDomain(companySellerRecord.getValue(COMPANY.as("buyer").PHONE)),
-                    new CompanyName(companySellerRecord.getValue(COMPANY.as("buyer").NAME)),
-                    AddressMapper.toDomain(companyBuyerRecord.getValue(COMPANY.as("buyer").ADDRESS)),
-                    new Cuit(companySellerRecord.getValue(COMPANY.as("buyer").CUIT))
-
-            )
-        );
+        return InvoiceBuilder.newBuilder()
+                .invoiceId(new InvoiceId(invoiceRecord.getValue(INVOICE.INVOICE_ID)))
+                .date(Timestamp.valueOf(invoiceRecord.getValue(INVOICE.DATE)))
+                .paid(invoiceRecord.getValue(INVOICE.PAID))
+                .invoiced(invoiceRecord.getValue(INVOICE.INVOICED))
+                .price(new InvoicePrice(invoiceRecord.getValue(INVOICE.TOTAL)))
+                .discount(new Discount(invoiceRecord.getValue(INVOICE.DISCOUNT)))
+                .invoiceVoucher(InvoiceVoucher.valueOf(invoiceRecord.getValue(INVOICE.INVOICE_VOUCHER)))
+                .category(InvoiceCategory.valueOf(invoiceRecord.getValue(INVOICE.CATEGORY)))
+                .sellerCompany(
+                        CompanyBuilder.newBuilder()
+                                .companyId(new CompanyId(companyBuyerRecord.getValue(COMPANY.as("seller").COMPANY_ID)))
+                                .name(new CompanyName(companySellerRecord.getValue(COMPANY.as("seller").NAME)))
+                                .cuit(new Cuit(companySellerRecord.getValue(COMPANY.as("seller").CUIT)))
+                                .address(AddressMapper.toDomain(companyBuyerRecord.getValue(COMPANY.as("seller").ADDRESS)))
+                                .phone(PhoneMapper.toDomain(companySellerRecord.getValue(COMPANY.as("seller").PHONE)))
+                                .email(companyBuyerRecord.getValue(COMPANY.as("seller").EMAIL))
+                                .build()
+                )
+                .buyerCompany(
+                        CompanyBuilder.newBuilder()
+                                .companyId(new CompanyId(companyBuyerRecord.getValue(COMPANY.as("buyer").COMPANY_ID)))
+                                .name(new CompanyName(companySellerRecord.getValue(COMPANY.as("buyer").NAME)))
+                                .cuit(new Cuit(companySellerRecord.getValue(COMPANY.as("buyer").CUIT)))
+                                .address(AddressMapper.toDomain(companyBuyerRecord.getValue(COMPANY.as("buyer").ADDRESS)))
+                                .phone(PhoneMapper.toDomain(companySellerRecord.getValue(COMPANY.as("buyer").PHONE)))
+                                .email(companyBuyerRecord.getValue(COMPANY.as("buyer").EMAIL))
+                                .build()
+                ).ListInvoiceProducts(null).build();
     }
 
     @Override

@@ -31,14 +31,14 @@ public class CompanyDtoMapper {
 
     public static CompanyDto toDto(@NotNull Company company) {
         return new CompanyDto(
-                company.getCompanyId().getValue(),
-                company.getName().getName(),
-                company.getAddress().toString(),
-                company.getPhone().toString(),
-                company.getEmail(),
-                company.getCuit().getCuit(),
-                company.getSoldInvoices(),
-                company.getPurchasedInvoices()
+            company.getCompanyId().getValue(),
+            company.getName().getName(),
+            company.getAddress().toString(),
+            company.getPhone().toString(),
+            company.getEmail(),
+            company.getCuit().getCuit(),
+            company.getSoldInvoices(),
+            company.getPurchasedInvoices()
         );
     }
 }
