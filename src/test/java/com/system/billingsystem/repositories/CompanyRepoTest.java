@@ -1,7 +1,11 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Company;
+import com.system.billingsystem.entities.microtypes.Address;
+import com.system.billingsystem.entities.microtypes.Cuit;
+import com.system.billingsystem.entities.microtypes.Phone;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
+import com.system.billingsystem.entities.microtypes.names.CompanyName;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,11 +34,11 @@ public class CompanyRepoTest {
     @BeforeEach
     public void setUp() {
         company = Company.builder()
-                .name("company")
-                .cuit("1111")
+                .name(new CompanyName("company"))
+                .cuit(new Cuit("1111"))
                 .email("company@hotmail.com")
-                .phone("1111")
-                .address("hello world")
+                .phone(new Phone("+54", "1111", "1111"))
+                .address(new Address("hello world","hello world","hello world")) //TODO
                 .build();
 
         baseId = companyRepository.save(company);
@@ -58,7 +62,7 @@ public class CompanyRepoTest {
 
     @Test
     public void testUpdateCompany() {
-        company.setName("updatedCompany");
+        company.setName(new CompanyName("updatedCompany"));
         assertTrue(companyRepository.update(company));
         Company newCompany = companyRepository.findById(baseId);
         assertNotNull(newCompany);
@@ -69,11 +73,11 @@ public class CompanyRepoTest {
     public void testFindAll(){
         Company newCompany = Company.builder()
                 .companyId(new CompanyId(UUID.randomUUID()))
-                .name("company2")
-                .cuit("2222")
-                .email("company2@hotmail.com")
-                .phone("1111")
-                .address("hello world2")
+                .name(new CompanyName("company"))
+                .cuit(new Cuit("1111"))
+                .email("company@hotmail.com")
+                .phone(new Phone("+54", "1111", "1111"))
+                .address(new Address("hello world","hello world","hello world")) //TODO
                 .build();
 
         CompanyId newCompanyId = companyRepository.save(newCompany);

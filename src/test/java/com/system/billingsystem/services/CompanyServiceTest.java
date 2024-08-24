@@ -1,7 +1,11 @@
 package com.system.billingsystem.services;
 
 import com.system.billingsystem.entities.Company;
+import com.system.billingsystem.entities.microtypes.Address;
+import com.system.billingsystem.entities.microtypes.Cuit;
+import com.system.billingsystem.entities.microtypes.Phone;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
+import com.system.billingsystem.entities.microtypes.names.CompanyName;
 import com.system.billingsystem.repositories.CompanyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,12 +35,12 @@ public class CompanyServiceTest {
     void setUp(){
          company = Company.builder()
                  .companyId(new CompanyId(UUID.randomUUID()))
-                .name("company")
-                .cuit("1111")
-                .email("company@hotmail.com")
-                .phone("1111")
-                .address("hello world")
-                .build();
+                 .name(new CompanyName("company"))
+                 .cuit(new Cuit("1111"))
+                 .email("company@hotmail.com")
+                 .phone(new Phone("+54", "1111", "1111"))
+                 .address(new Address("hello world","hello world","hello world")) //TODO
+                 .build();
     }
 
     @Test
