@@ -1,6 +1,7 @@
 package com.system.billingsystem.repositories;
 
-import com.system.billingSystem.entities.Customer;
+import com.system.billingsystem.entities.Customer;
+import com.system.billingsystem.entities.microtypes.ids.CustomerId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ public class CustomerRepoTest {
 
     private static Customer customer;
 
-    private static UUID baseId;
+    private static CustomerId baseId;
 
     @Autowired
     public CustomerRepoTest(CustomerRepository customerRepository) {
@@ -39,7 +40,7 @@ public class CustomerRepoTest {
         
         baseId = customerRepository.save(customer);
         assertNotNull(baseId);
-        customer.setCustomer_id(baseId);
+        customer.setCustomerId(baseId);
     }
 
     @AfterEach
@@ -51,7 +52,7 @@ public class CustomerRepoTest {
     public void testFindById() {
         Customer foundCustomer = customerRepository.findById(baseId);
         assertNotNull(foundCustomer);
-        assertEquals(baseId, foundCustomer.getCustomer_id());
+        assertEquals(baseId, foundCustomer.getCustomerId());
     }
 
     @Test
@@ -72,7 +73,7 @@ public class CustomerRepoTest {
                 .company(null)
                 .build();
 
-        UUID newId = customerRepository.save(newCustomer);
+        CustomerId newId = customerRepository.save(newCustomer);
         assertNotNull(newId);
 
         List<Customer> foundCustomers = customerRepository.findAll();

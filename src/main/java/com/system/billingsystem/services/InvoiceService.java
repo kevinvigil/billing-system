@@ -1,14 +1,16 @@
-package com.system.billingSystem.services;
+package com.system.billingsystem.services;
 
-import com.system.billingSystem.entities.*;
-import com.system.billingSystem.repositories.*;
+import com.system.billingsystem.entities.*;
+import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
+import com.system.billingsystem.entities.microtypes.ids.ProductId;
+import com.system.billingsystem.entities.microtypes.prices.InvoicePrice;
+import com.system.billingsystem.repositories.*;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,14 +41,14 @@ public class InvoiceService{
                 for (InvoiceProduct invoiceProduct:productList) {
                     invoiceProduct.setInvoice(invoice);
 
-                    Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProduct_id());
-                    total += invoiceProduct.getAmount() * currentProduct.getPrice().doubleValue();
+                    Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProductId());
+                    total += invoiceProduct.getCount() * currentProduct.getPrice().getValue().doubleValue();
 
                     saveInvoiceProduct(invoiceProduct);
                 }
             }
-            invoice.setTotal(BigDecimal.valueOf(total));
-            UUID uuid = invoiceRepository.save(invoice);
+            invoice.setInvoicePrice(new InvoicePrice(BigDecimal.valueOf(total)));
+            InvoiceId uuid = invoiceRepository.save(invoice);
             return invoiceRepository.findById(uuid);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method saveInvoice, message: " + e.getMessage());
@@ -62,15 +64,15 @@ public class InvoiceService{
                 for (InvoiceProduct invoiceProduct:productList) {
                     invoiceProduct.setInvoice(invoice);
 
-                    Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProduct_id());
-                    total += invoiceProduct.getAmount() * currentProduct.getPrice().doubleValue();
+                    Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProductId());
+                    total += invoiceProduct.getCount() * currentProduct.getPrice().getValue().doubleValue();
 
                     this.updateInvoiceProduct(invoiceProduct);
                 }
             }
-            invoice.setTotal(BigDecimal.valueOf(total));
+            invoice.setInvoicePrice(new InvoicePrice(BigDecimal.valueOf(total)));
             if (this.invoiceRepository.update(invoice)){
-                return this.invoiceRepository.findById(invoice.getInvoice_id());
+                return this.invoiceRepository.findById(invoice.getInvoiceId());
             } else {
                 return null;
             }
@@ -80,7 +82,7 @@ public class InvoiceService{
         }
     }
 
-    public Invoice deleteInvoice (@NotNull UUID id){
+    public Invoice deleteInvoice (@NotNull InvoiceId id){
         try {
             Invoice invoice = this.findInvoiceById(id);
             if (invoice != null)
@@ -92,9 +94,12 @@ public class InvoiceService{
         }
     }
 
-    public Invoice findInvoiceById(@NotNull UUID id){
+    public Invoice findInvoiceById(@NotNull InvoiceId id){
         try {
-            return invoiceRepository.findById(id);
+            Invoice invoice = invoiceRepository.findById(id);
+            List<InvoiceProduct> invoiceProductList = invoiceProductRepository.findByInvoiceId(id);
+            invoice.setProducts(invoiceProductList);
+            return invoice;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findInvoiceById, message: " + e.getMessage());
             throw e;
@@ -130,19 +135,16 @@ public class InvoiceService{
         }
     }
 
-    public Product saveProduct(@NotNull Product entity){
+    public ProductId saveProduct(@NotNull Product entity){
         try{
-            UUID uuid = productRepository.save(entity);
-            if(uuid != null)
-                return productRepository.findById(uuid);
-            return null;
+            return productRepository.save(entity);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method saveProduct, message: " + e.getMessage());
             throw e;
         }
     }
 
-    public Product deleteProduct (@NotNull UUID id){
+    public Product deleteProduct (@NotNull ProductId id){
         try{
             Product product= this.findProductById(id);
             if (product != null)
@@ -154,7 +156,7 @@ public class InvoiceService{
         }
     }
 
-    public Product findProductById (@NotNull UUID id){
+    public Product findProductById (@NotNull ProductId id){
         try{
 
             return this.productRepository.findById(id);
@@ -178,7 +180,7 @@ public class InvoiceService{
     public Product updateProductById (@NotNull Product product){
         try{
             if (this.productRepository.update(product))
-                return this.productRepository.findById(product.getProduct_id());
+                return this.productRepository.findById(product.getProductId());
             return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findProductById, message: " + e.getMessage());

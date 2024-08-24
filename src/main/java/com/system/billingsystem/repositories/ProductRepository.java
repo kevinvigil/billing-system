@@ -1,6 +1,7 @@
-package com.system.billingSystem.repositories;
+package com.system.billingsystem.repositories;
 
-import com.system.billingSystem.entities.Product;
+import com.system.billingsystem.entities.Product;
+import com.system.billingsystem.entities.microtypes.ids.ProductId;
 import domain.tables.records.ProductRecord;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -20,25 +21,25 @@ public class ProductRepository extends BaseRepository<ProductRecord, Product> {
     }
 
     @Override
-    public UUID save(Product persisted) {
+    public ProductId save(Product persisted) {
         UUID id = UUID.randomUUID();
         int execution = dsl.insertInto(PRODUCT)
                 .set(PRODUCT.PRODUCT_ID, id)
                 .set(PRODUCT.DESCRIPTION, persisted.getDescription())
-                .set(PRODUCT.NAME, persisted.getName())
-                .set(PRODUCT.PRICE, persisted.getPrice())
+                .set(PRODUCT.NAME, persisted.getName().getName())
+                .set(PRODUCT.PRICE, persisted.getPrice().getValue())
                 .execute();
 
-        return (execution == 1 ? id : null);
+        return (execution == 1 ? new ProductId(id) : null);
     }
 
     @Override
     public boolean update(Product persisted) {
         int execution = dsl.update(PRODUCT)
                 .set(PRODUCT.DESCRIPTION, persisted.getDescription())
-                .set(PRODUCT.NAME, persisted.getName())
-                .set(PRODUCT.PRICE, persisted.getPrice())
-                .where(PRODUCT.PRODUCT_ID.eq(persisted.getProduct_id()))
+                .set(PRODUCT.NAME, persisted.getName().getName())
+                .set(PRODUCT.PRICE, persisted.getPrice().getValue())
+                .where(PRODUCT.PRODUCT_ID.eq(persisted.getProductId().getValue()))
                 .execute();
 
         return (execution == 1);

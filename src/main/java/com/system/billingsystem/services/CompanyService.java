@@ -1,7 +1,8 @@
-package com.system.billingSystem.services;
+package com.system.billingsystem.services;
 
-import com.system.billingSystem.entities.Company;
-import com.system.billingSystem.repositories.CompanyRepository;
+import com.system.billingsystem.entities.Company;
+import com.system.billingsystem.entities.microtypes.ids.CompanyId;
+import com.system.billingsystem.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +23,9 @@ public class CompanyService{
         this.companyRepository = companyRepository;
     }
 
-    public Company save(Company entity) {
+    public CompanyId save(Company entity) {
         try{
-            UUID uuid = companyRepository.save(entity);
-            if(uuid != null)
-                return companyRepository.findById(uuid);
-            else
-                return null;
+            return companyRepository.save(entity);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method save, User: " + entity.toString());
             throw e;
@@ -38,7 +35,7 @@ public class CompanyService{
     public Company update(Company entity) {
         try {
             if (this.companyRepository.update(entity))
-                return this.companyRepository.findById(entity.getCompany_id());
+                return this.companyRepository.findById(entity.getCompanyId());
             return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method update, User: " + entity.toString());
@@ -46,7 +43,7 @@ public class CompanyService{
         }
     }
 
-    public Company delete(UUID id) {
+    public Company delete(CompanyId id) {
         try {
             Company company = this.findById(id);
             if (company != null)
@@ -58,7 +55,7 @@ public class CompanyService{
         }
     }
 
-    public Company findById(UUID id) {
+    public Company findById(CompanyId id) {
         try {
             return this.companyRepository.findById(id);
         }catch (Exception e){
@@ -69,6 +66,7 @@ public class CompanyService{
 
     public List<Company> findAll() {
         try {
+
             return this.companyRepository.findAll();
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method findAll");

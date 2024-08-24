@@ -27,14 +27,18 @@ repositories {
 }
 
 dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-webflux:3.3.0")
 
 	implementation(catalog.findLibrary("spring-boot-starter-jooq").get())
 	implementation(catalog.findLibrary("spring-boot-starter-web").get())
 
 	implementation(catalog.findLibrary("problem-spring-web-starter").get())
 	implementation(catalog.findLibrary("problem-spring-web").get())
+
 	implementation(catalog.findLibrary("jackson-datatype-problem").get())
 	implementation(catalog.findLibrary("jackson-datatype-jsr310").get())
+
+
 	implementation(catalog.findLibrary("jetbrains-annotation").get())
 
 
@@ -45,22 +49,32 @@ dependencies {
 	testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
 	testImplementation("org.junit.platform:junit-platform-suite:1.10.3")
 
-
-
 	testImplementation(catalog.findLibrary("spring-boot-starter-test").get()) {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
 //	testImplementation( "spring-security-test")
 
-
 	testImplementation(catalog.findLibrary( "junit-platform-runner").get())
+
+	testImplementation("io.projectreactor:reactor-test:3.6.8")
+
+	// Testcontainers
+	testImplementation(catalog.findLibrary("testcontainers").get())
+	testImplementation(catalog.findLibrary("testcontainers-junit-jupiter").get())
+	testImplementation(catalog.findLibrary("testcontainers-postgresql").get())
+
+	// WireMock
+	implementation(catalog.findLibrary("spring-cloud-contract-wiremock").get())
+
+
+
 
 	// Compile and annotations
 	compileOnly(catalog.findLibrary( "lombok").get())
 	annotationProcessor(catalog.findLibrary( "lombok").get())
 
 	// JOOQ
-	implementation("org.jooq:jooq-kotlin:3.19.10")
+	implementation(catalog.findLibrary( "jooq-kotlin").get())
 	implementation(catalog.findLibrary( "jooq").get())
 	jooqCodegen(catalog.findLibrary( "jooq-codegen").get())
 	jooqCodegen("org.postgresql:postgresql:42.7.3")

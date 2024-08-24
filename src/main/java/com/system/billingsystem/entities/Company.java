@@ -1,5 +1,10 @@
-package com.system.billingSystem.entities;
+package com.system.billingsystem.entities;
 
+import com.system.billingsystem.entities.microtypes.Address;
+import com.system.billingsystem.entities.microtypes.Cuit;
+import com.system.billingsystem.entities.microtypes.Phone;
+import com.system.billingsystem.entities.microtypes.ids.CompanyId;
+import com.system.billingsystem.entities.microtypes.names.CompanyName;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,19 +12,19 @@ import lombok.Data;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 public class Company {
     
-    private UUID company_id;
-    private String cuit;
-    private String direction;
-    private String name;
-    private String phone;
-    
+    private CompanyId companyId;
+
+    private Cuit cuit;
+    private Address address;
+    private CompanyName name;
+    private Phone phone;
+
     @Email
     private String email;
 
@@ -29,17 +34,26 @@ public class Company {
 
     public Company() {}
 
-    public Company(UUID company_id) {
-        this.company_id = company_id;
+    public Company(CompanyId companyId) {
+        this.companyId = companyId;
     }
 
+    public Company(CompanyId companyId, String email, Phone phone,
+                   CompanyName name, Address address, Cuit cuit) {
+        this.companyId = companyId;
+        this.email = email;
+        this.phone = phone;
+        this.name = name;
+        this.address = address;
+        this.cuit = cuit;
+    }
 
     @Override
     public String toString(){
         return ("Company { " +
-                ", company_id: " + this.company_id +
+                ", company_id: " + this.companyId +
                 ", name: " + this.name +
-                ", direction: " + this.direction +
+                ", address: " + this.address +
                 ", phone: " + this.phone +
                 " }");
     }
@@ -51,7 +65,7 @@ public class Company {
 
         Company company = (Company) o;
 
-        if ( (!Objects.equals(company_id, company.company_id)) || (!Objects.equals(name, company.name)) || (!Objects.equals(direction, company.direction))
+        if ( (!Objects.equals(companyId, company.companyId)) || (!Objects.equals(name, company.name)) || (!Objects.equals(address, company.address))
         || (!Objects.equals(phone, company.phone)) || (!Objects.equals(cuit, company.cuit)) ) return false;
 
         return Objects.equals(email, company.email);

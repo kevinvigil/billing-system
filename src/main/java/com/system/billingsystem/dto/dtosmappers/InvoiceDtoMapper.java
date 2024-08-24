@@ -1,8 +1,11 @@
-package com.system.billingSystem.dto.dtosmappers;
+package com.system.billingsystem.dto.dtosmappers;
 
-import com.system.billingSystem.dto.InvoiceDto;
-import com.system.billingSystem.dto.InvoiceProductDto;
-import com.system.billingSystem.entities.*;
+import com.system.billingsystem.dto.CompanyDto;
+import com.system.billingsystem.dto.InvoiceDto;
+import com.system.billingsystem.dto.InvoiceProductDto;
+import com.system.billingsystem.entities.*;
+import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
+import com.system.billingsystem.entities.microtypes.prices.InvoicePrice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +24,25 @@ public class InvoiceDtoMapper {
             }
         }
 
+        CompanyDto sellerCompany = null;
+        CompanyDto buyerCompany = null;
+
+        if (invoice.getSellerCompany() != null)
+            sellerCompany = CompanyDtoMapper.toDto(invoice.getSellerCompany());
+
+        if (invoice.getBuyerCompany() != null)
+            buyerCompany = CompanyDtoMapper.toDto(invoice.getBuyerCompany());
+
         return new InvoiceDto(
-                invoice.getInvoice_id(),
+                invoice.getInvoiceId().getValue(),
                 invoice.getDate(),
                 invoice.isPaid(),
                 invoice.isInvoiced(),
-                invoice.getTotal(),
+                invoice.getInvoicePrice().getValue(),
                 (invoice.getInvoicevoucher() == null)? null:invoice.getInvoicevoucher().name(),
-                (invoice.getType() == null)? null : invoice.getType().name(),
-                (invoice.getSellerCompany() == null)? null : invoice.getSellerCompany().getCompany_id(),
-                (invoice.getBuyerCompany() == null)? null : invoice.getBuyerCompany().getCompany_id(),
+                (invoice.getCategory() == null)? null : invoice.getCategory().name(),
+                sellerCompany,
+                buyerCompany,
                 products
         );
     }
@@ -38,15 +50,14 @@ public class InvoiceDtoMapper {
     public static Invoice toDomain(InvoiceDto invoiceDto) {
         Invoice invoice = new Invoice();
 
-        invoice.setInvoice_id(invoiceDto.invoiceDto_id());
+        invoice.setInvoiceId(new InvoiceId(invoiceDto.invoiceId()));
         invoice.setPaid(invoiceDto.paid());
         invoice.setInvoiced(invoiceDto.invoiced());
-        invoice.setTotal(invoiceDto.total());
+        invoice.setInvoicePrice(new InvoicePrice(invoiceDto.total()));
         invoice.setInvoicevoucher(InvoiceVoucher.valueOf(invoiceDto.invoiceVoucher()));
-        invoice.setType(InvoiceType.valueOf(invoiceDto.type()));
-        invoice.setSellerCompany(new Company(invoiceDto.sellerCompany()));
-        invoice.setBuyerCompany(new Company(invoiceDto.buyerCompany()));
-
+        invoice.setCategory(InvoiceCategory.valueOf(invoiceDto.type()));
+        invoice.setSellerCompany(CompanyDtoMapper.toDomain(invoiceDto.sellerCompany()));
+        invoice.setBuyerCompany(CompanyDtoMapper.toDomain(invoiceDto.buyerCompany()));
 
         return invoice;
     }

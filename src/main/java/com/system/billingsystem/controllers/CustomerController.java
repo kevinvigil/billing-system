@@ -1,9 +1,10 @@
-package com.system.billingSystem.controllers;
+package com.system.billingsystem.controllers;
 
-import com.system.billingSystem.dto.CustomerDto;
-import com.system.billingSystem.dto.dtosmappers.CustomerDtoMapper;
-import com.system.billingSystem.services.CustomerService;
-import com.system.billingSystem.entities.Customer;
+import com.system.billingsystem.dto.CustomerDto;
+import com.system.billingsystem.dto.dtosmappers.CustomerDtoMapper;
+import com.system.billingsystem.entities.microtypes.ids.CustomerId;
+import com.system.billingsystem.services.CustomerService;
+import com.system.billingsystem.entities.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,6 @@ import java.util.UUID;
 
 @Controller
 @RestController
-@RequestMapping("/api/customer")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -25,17 +25,19 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @PostMapping("/")
+    @PostMapping("/api/customer/")
     public ResponseEntity<?> save(@RequestBody CustomerDto customerDto){
         if (customerDto == null)
             throw new IllegalArgumentException();
 
-        Customer customer = this.customerService.save(CustomerDtoMapper.toDomain(customerDto));
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(CustomerDtoMapper.toDto(customer));
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(customerService.save(CustomerDtoMapper.toDomain(customerDto)));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
-    @PutMapping("/")
+    @PutMapping("/api/customer/")
     public ResponseEntity<?> update(@RequestBody CustomerDto customerDto){
         if (customerDto == null)
             throw new IllegalArgumentException();
@@ -45,23 +47,23 @@ public class CustomerController {
         return ResponseEntity.ok(CustomerDtoMapper.toDto(customer));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/customer/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id){
-        CustomerDto customerDto = CustomerDtoMapper.toDto(customerService.delete(id));
+        CustomerDto customerDto = CustomerDtoMapper.toDto(customerService.delete(new CustomerId(id)));
         return ResponseEntity.ok().body(customerDto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/customer/{id}")
     public ResponseEntity<?> findById(@PathVariable UUID id){
         try {
-            CustomerDto customerDto = CustomerDtoMapper.toDto(customerService.findById(id));
+            CustomerDto customerDto = CustomerDtoMapper.toDto(customerService.findById(new CustomerId(id)));
             return ResponseEntity.ok().body(customerDto);
         } catch (Exception e){
             throw new InternalError();
         }
     }
 
-    @GetMapping("/")
+    @GetMapping("/api/customer/")
     public ResponseEntity<?> findAll (){
         try {
             List<CustomerDto> CustomerDto = customerService.findAll().stream().map(CustomerDtoMapper::toDto).toList();

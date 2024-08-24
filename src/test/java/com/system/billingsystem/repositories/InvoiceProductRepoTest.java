@@ -1,8 +1,9 @@
 package com.system.billingsystem.repositories;
 
-import com.system.billingSystem.entities.Invoice;
-import com.system.billingSystem.entities.InvoiceProduct;
-import com.system.billingSystem.entities.Product;
+import com.system.billingsystem.entities.Invoice;
+import com.system.billingsystem.entities.InvoiceProduct;
+import com.system.billingsystem.entities.Product;
+import com.system.billingsystem.entities.microtypes.ids.InvoiceProductId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +23,7 @@ public class InvoiceProductRepoTest {
 
     private static InvoiceProduct invoiceProduct;
 
-    private UUID baseId;
+    private InvoiceProductId baseId;
 
     @Autowired
     public InvoiceProductRepoTest(InvoiceProductRepository invoiceProductRepo) {
@@ -33,14 +33,14 @@ public class InvoiceProductRepoTest {
     @BeforeEach
     public void setUp(){
         invoiceProduct = InvoiceProduct.builder()
-                .amount(0)
+                .count(0)
                 .product(new Product())
                 .invoice(new Invoice())
                 .build();
 
         baseId = invoiceProductRepo.save(invoiceProduct);
         assertNotNull(baseId);
-        invoiceProduct.setInvoiceproduct_id(baseId);
+        invoiceProduct.setInvoiceProductId(baseId);
     }
 
     @AfterEach
@@ -53,8 +53,8 @@ public class InvoiceProductRepoTest {
     @Test
     public void testFindInvoiceProductById(){
         InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(baseId);
-        assertNotNull(foundInvoiceProduct.getInvoiceproduct_id());
-        assertEquals(baseId, foundInvoiceProduct.getInvoiceproduct_id());
+        assertNotNull(foundInvoiceProduct.getInvoiceProductId());
+        assertEquals(baseId, foundInvoiceProduct.getInvoiceProductId());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class InvoiceProductRepoTest {
                 .invoice(null)
                 .build();
 
-        UUID newId = invoiceProductRepo.save(newInvoiceProduct);
+        InvoiceProductId newId = invoiceProductRepo.save(newInvoiceProduct);
         assertNotNull(newId);
 
         List<InvoiceProduct> invoiceProducts = invoiceProductRepo.findAll();
@@ -75,11 +75,11 @@ public class InvoiceProductRepoTest {
 
     @Test
     public void testUpdateInvoiceProduct(){
-        invoiceProduct.setAmount(10);
+        invoiceProduct.setCount(10);
         invoiceProductRepo.update(invoiceProduct);
         InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(baseId);
         assertNotNull(foundInvoiceProduct);
-        assertEquals(invoiceProduct.getAmount().doubleValue(), foundInvoiceProduct.getAmount().doubleValue());
+        assertEquals(invoiceProduct.getCount().doubleValue(), foundInvoiceProduct.getCount().doubleValue());
     }
 
     @Test

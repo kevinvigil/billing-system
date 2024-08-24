@@ -1,12 +1,13 @@
-package com.system.billingSystem.services;
+package com.system.billingsystem.services;
 
-import com.system.billingSystem.repositories.CustomerRepository;
-import com.system.billingSystem.entities.Customer;
+import com.system.billingsystem.entities.microtypes.ids.CompanyId;
+import com.system.billingsystem.entities.microtypes.ids.CustomerId;
+import com.system.billingsystem.repositories.CustomerRepository;
+import com.system.billingsystem.entities.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,13 +23,9 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer save(Customer entity) {
+    public CustomerId save(Customer entity) {
         try {
-            UUID uuid = customerRepository.save(entity);
-            if(uuid != null)
-                return customerRepository.findById(uuid);
-            else
-                return null;
+            return customerRepository.save(entity);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on UserService method save" + entity.toString());
             throw e;
@@ -38,7 +35,7 @@ public class CustomerService {
     public Customer update(Customer entity) {
         try {
             if (this.customerRepository.update(entity))
-                return this.customerRepository.findById(entity.getCustomer_id());
+                return this.customerRepository.findById(entity.getCustomerId());
             return null;
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on UserService method update" + entity.toString());
@@ -46,7 +43,7 @@ public class CustomerService {
         }
     }
 
-    public Customer delete(UUID id) {
+    public Customer delete(CustomerId id) {
         try {
             Customer Customer = this.findById(id);
             if(Customer != null)
@@ -58,7 +55,7 @@ public class CustomerService {
         }
     }
 
-    public Customer findById(UUID id) {
+    public Customer findById(CustomerId id) {
         try {
             return customerRepository.findById(id);
         }catch (Exception e){

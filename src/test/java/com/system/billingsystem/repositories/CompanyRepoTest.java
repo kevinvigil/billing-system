@@ -1,6 +1,11 @@
 package com.system.billingsystem.repositories;
 
-import com.system.billingSystem.entities.Company;
+import com.system.billingsystem.entities.Company;
+import com.system.billingsystem.entities.microtypes.Address;
+import com.system.billingsystem.entities.microtypes.Cuit;
+import com.system.billingsystem.entities.microtypes.Phone;
+import com.system.billingsystem.entities.microtypes.ids.CompanyId;
+import com.system.billingsystem.entities.microtypes.names.CompanyName;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +24,7 @@ public class CompanyRepoTest {
 
     private static Company company;
 
-    private static UUID baseId;
+    private static CompanyId baseId;
 
     @Autowired
     public CompanyRepoTest(CompanyRepository companyRepository) {
@@ -29,16 +34,16 @@ public class CompanyRepoTest {
     @BeforeEach
     public void setUp() {
         company = Company.builder()
-                .name("company")
-                .cuit("1111")
+                .name(new CompanyName("company"))
+                .cuit(new Cuit("1111"))
                 .email("company@hotmail.com")
-                .phone("1111")
-                .direction("hello world")
+                .phone(new Phone("+54", "1111", "1111"))
+                .address(new Address("hello world","hello world","hello world")) //TODO
                 .build();
 
         baseId = companyRepository.save(company);
         assertNotNull(baseId);
-        company.setCompany_id(baseId);
+        company.setCompanyId(baseId);
     }
 
     @AfterEach
@@ -57,7 +62,7 @@ public class CompanyRepoTest {
 
     @Test
     public void testUpdateCompany() {
-        company.setName("updatedCompany");
+        company.setName(new CompanyName("updatedCompany"));
         assertTrue(companyRepository.update(company));
         Company newCompany = companyRepository.findById(baseId);
         assertNotNull(newCompany);
@@ -67,15 +72,15 @@ public class CompanyRepoTest {
     @Test
     public void testFindAll(){
         Company newCompany = Company.builder()
-                .company_id(new UUID(2,2))
-                .name("company2")
-                .cuit("2222")
-                .email("company2@hotmail.com")
-                .phone("1111")
-                .direction("hello world2")
+                .companyId(new CompanyId(UUID.randomUUID()))
+                .name(new CompanyName("company"))
+                .cuit(new Cuit("1111"))
+                .email("company@hotmail.com")
+                .phone(new Phone("+54", "1111", "1111"))
+                .address(new Address("hello world","hello world","hello world")) //TODO
                 .build();
 
-        UUID newCompanyId = companyRepository.save(newCompany);
+        CompanyId newCompanyId = companyRepository.save(newCompany);
         assertNotNull(newCompanyId);
 
         List<Company> companies = companyRepository.findAll();

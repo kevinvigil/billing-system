@@ -1,9 +1,10 @@
-package com.system.billingSystem.controllers;
+package com.system.billingsystem.controllers;
 
-import com.system.billingSystem.dto.InvoiceDto;
-import com.system.billingSystem.dto.dtosmappers.InvoiceDtoMapper;
-import com.system.billingSystem.entities.Invoice;
-import com.system.billingSystem.services.InvoiceService;
+import com.system.billingsystem.dto.InvoiceDto;
+import com.system.billingsystem.dto.dtosmappers.InvoiceDtoMapper;
+import com.system.billingsystem.entities.Invoice;
+import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
+import com.system.billingsystem.services.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,6 @@ import java.util.UUID;
 
 @Controller
 @RestController
-@RequestMapping("/api/invoice")
 public class InvoiceController {
 
     private final InvoiceService invoiceService;
@@ -25,7 +25,7 @@ public class InvoiceController {
         this.invoiceService = invoiceService;
     }
 
-    @PostMapping("/")
+    @PostMapping("/api/invoice/")
     public ResponseEntity<?> save(@RequestBody InvoiceDto entity){
         if (entity == null)
             throw new IllegalArgumentException();
@@ -34,13 +34,13 @@ public class InvoiceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(InvoiceDtoMapper.toDto(invoice));
     }
 
-    @PutMapping("/")
+    @PutMapping("/api/invoice/")
     public ResponseEntity<?> update(@RequestBody InvoiceDto entity) {
         if (entity == null)
             throw new IllegalArgumentException();
 
         try {
-            Invoice invoice = invoiceService.findInvoiceById(entity.invoiceDto_id());
+            Invoice invoice = invoiceService.findInvoiceById(new InvoiceId(entity.invoiceId()));
 
             if (!invoice.isInvoiced() && !invoice.isPaid())
                 return ResponseEntity.ok().body(invoiceService.updateInvoice(InvoiceDtoMapper.toDomain(entity)));
@@ -60,23 +60,23 @@ public class InvoiceController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/invoice/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id){
-        InvoiceDto invoiceDto = InvoiceDtoMapper.toDto(invoiceService.deleteInvoice(id));
+        InvoiceDto invoiceDto = InvoiceDtoMapper.toDto(invoiceService.deleteInvoice(new InvoiceId(id)));
         return ResponseEntity.ok().body(invoiceDto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/invoice/{id}")
     public  ResponseEntity<?> findById(@PathVariable UUID id){
         try{
-            InvoiceDto invoiceDto = InvoiceDtoMapper.toDto(invoiceService.findInvoiceById(id)) ;
+            InvoiceDto invoiceDto = InvoiceDtoMapper.toDto(invoiceService.findInvoiceById(new InvoiceId(id))) ;
             return ResponseEntity.ok().body(invoiceDto);
         } catch (Exception e){
             throw new InternalError();
         }
     }
 
-    @GetMapping("/")
+    @GetMapping("/api/invoice/")
     public  ResponseEntity<?> findAll(){
         try{
             List<Invoice> invoices = this.invoiceService.findAllInvoices();

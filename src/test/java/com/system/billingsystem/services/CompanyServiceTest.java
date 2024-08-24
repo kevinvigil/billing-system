@@ -1,7 +1,12 @@
 package com.system.billingsystem.services;
 
-import com.system.billingSystem.entities.Company;
-import com.system.billingSystem.repositories.CompanyRepository;
+import com.system.billingsystem.entities.Company;
+import com.system.billingsystem.entities.microtypes.Address;
+import com.system.billingsystem.entities.microtypes.Cuit;
+import com.system.billingsystem.entities.microtypes.Phone;
+import com.system.billingsystem.entities.microtypes.ids.CompanyId;
+import com.system.billingsystem.entities.microtypes.names.CompanyName;
+import com.system.billingsystem.repositories.CompanyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -29,18 +34,18 @@ public class CompanyServiceTest {
     @BeforeEach
     void setUp(){
          company = Company.builder()
-                 .company_id(UUID.randomUUID())
-                .name("company")
-                .cuit("1111")
-                .email("company@hotmail.com")
-                .phone("1111")
-                .direction("hello world")
-                .build();
+                 .companyId(new CompanyId(UUID.randomUUID()))
+                 .name(new CompanyName("company"))
+                 .cuit(new Cuit("1111"))
+                 .email("company@hotmail.com")
+                 .phone(new Phone("+54", "1111", "1111"))
+                 .address(new Address("hello world","hello world","hello world")) //TODO
+                 .build();
     }
 
     @Test
     public void testFindById(){
-        Mockito.when(companyRepository.findById(company.getCompany_id())).thenReturn(company);
-        assertNotNull(companyService.findById(company.getCompany_id()));
+        Mockito.when(companyRepository.findById(company.getCompanyId())).thenReturn(company);
+        assertNotNull(companyService.findById(company.getCompanyId()));
     }
 }

@@ -1,33 +1,39 @@
-package com.system.billingSystem.entities;
+package com.system.billingsystem.entities;
 
+import com.system.billingsystem.entities.microtypes.ids.InvoiceProductId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 public class InvoiceProduct {
-    private UUID invoiceproduct_id;
+    private InvoiceProductId invoiceProductId;
 
     private Invoice invoice;
 
     private Product product;
 
-    private Integer amount;
+    private Integer count;
+
+    public InvoiceProduct(InvoiceProductId invoiceProductId, Integer count, Product product) {
+        this.invoiceProductId = invoiceProductId;
+        this.count = count;
+        this.product = product;
+    }
 
     public InvoiceProduct() {}
 
     @Override
     public String toString(){
         return ("InvoiceProduct { " +
-                ", invoiceProduct_id: " + this.invoiceproduct_id +
-                ", invoice_id: " + ((this.invoice == null)? null:this.invoice.getInvoice_id()) +
-                ", product_id: " + ((this.product == null)? null: this.product.getProduct_id()) +
-                ", amount: " + this.amount +
+                ", invoiceProduct_id: " + this.invoiceProductId +
+                ", invoice_id: " + ((this.invoice == null)? null:this.invoice.getInvoiceId().getValue()) +
+                ", product_id: " + ((this.product == null)? null: this.product.getProductId().getValue()) +
+                ", count: " + this.count +
                 " }"
         );
     }

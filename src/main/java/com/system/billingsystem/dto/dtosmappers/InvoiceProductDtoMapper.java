@@ -1,9 +1,10 @@
-package com.system.billingSystem.dto.dtosmappers;
+package com.system.billingsystem.dto.dtosmappers;
 
-import com.system.billingSystem.dto.InvoiceProductDto;
-import com.system.billingSystem.entities.Invoice;
-import com.system.billingSystem.entities.InvoiceProduct;
-import com.system.billingSystem.entities.Product;
+import com.system.billingsystem.dto.InvoiceProductDto;
+import com.system.billingsystem.entities.Invoice;
+import com.system.billingsystem.entities.InvoiceProduct;
+import com.system.billingsystem.entities.Product;
+import com.system.billingsystem.entities.microtypes.ids.InvoiceProductId;
 
 public class InvoiceProductDtoMapper {
 
@@ -11,22 +12,20 @@ public class InvoiceProductDtoMapper {
 
     public static InvoiceProductDto toDto(InvoiceProduct invoiceProduct) {
         return new InvoiceProductDto(
-                invoiceProduct.getInvoiceproduct_id(),
-                invoiceProduct.getProduct().getName(),
-                invoiceProduct.getAmount(),
-                invoiceProduct.getProduct().getProduct_id(),
-                invoiceProduct.getInvoice().getInvoice_id()
+                invoiceProduct.getInvoiceProductId().getValue(),
+                invoiceProduct.getCount(),
+                ProductDtoMapper.toDto(invoiceProduct.getProduct())
         );
     }
 
-    public static InvoiceProduct toDomain(InvoiceProductDto invoiceProductDto) {
+    public static InvoiceProduct toDomain(InvoiceProductDto invoiceProductDto, Invoice invoice, Product product) {
         InvoiceProduct invoiceProduct = new InvoiceProduct();
 
-        invoiceProduct.setInvoiceproduct_id(invoiceProductDto.invoiceProductDto_id());
-        invoiceProduct.setAmount(invoiceProduct.getAmount());
+        invoiceProduct.setInvoiceProductId(new InvoiceProductId(invoiceProductDto.invoiceProductId()));
+        invoiceProduct.setCount(invoiceProduct.getCount());
 
-        invoiceProduct.setProduct(new Product(invoiceProductDto.idProduct()));
-        invoiceProduct.setInvoice(new Invoice(invoiceProductDto.idInvoice()));
+        invoiceProduct.setProduct(product);
+        invoiceProduct.setInvoice(invoice);
 
         return invoiceProduct;
     }
