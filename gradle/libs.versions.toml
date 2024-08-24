@@ -9,6 +9,7 @@ h2-dataBase = "2.2.224"
 zalando = "0.29.1"
 jackson-datatype-problem = "0.27.1"
 jackson-datatype-jsr310 = "2.17.1"
+jackson-databind = "2.17.1"
 jooq = "3.19.10"
 test-containers = "1.19.8"
 
@@ -37,11 +38,13 @@ problem-spring-web = {module = "org.zalando:problem-spring-web", version.ref = "
 
 jackson-datatype-problem = { module = "org.zalando:jackson-datatype-problem", version.ref = "jackson-datatype-problem" }
 jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson-datatype-jsr310" }
+jackson-databind = {module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson-databind"}
 
 # JOOQ
 jooq = {module ="org.jooq:jooq" , version.ref = "jooq"}
+jooq-kotlin = {module="org.jooq:jooq-kotlin", version.ref = "jooq"}
 jooq-codegen = {module ="org.jooq:jooq-codegen" , version.ref = "jooq"}
-jooq-meta = {module ="org.jooq:jooq-meta" , version.ref = "jooq"}
+
 
 ## Test containers
 testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "test-containers" }

@@ -1,5 +1,7 @@
 package com.system.billingsystem.dto;
 
+import com.system.billingsystem.entities.Company;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
@@ -7,21 +9,21 @@ import java.util.Objects;
 import java.util.UUID;
 
 public record InvoiceDto (
-        UUID invoiceDto_id,
+        UUID invoiceId,
         Timestamp date,
         boolean paid,
         boolean invoiced,
         BigDecimal total,
         String invoiceVoucher,
         String type,
-        UUID sellerCompany,
-        UUID buyerCompany,
+        CompanyDto sellerCompany,
+        CompanyDto buyerCompany,
         List<InvoiceProductDto> products ) {
 
-    public InvoiceDto(UUID invoiceDto_id, Timestamp date, boolean paid, boolean invoiced, BigDecimal total,
-                      String invoiceVoucher, String type, UUID sellerCompany, UUID buyerCompany,
+    public InvoiceDto(UUID invoiceId, Timestamp date, boolean paid, boolean invoiced, BigDecimal total,
+                      String invoiceVoucher, String type, CompanyDto sellerCompany, CompanyDto buyerCompany,
                       List<InvoiceProductDto> products) {
-        this.invoiceDto_id = invoiceDto_id;
+        this.invoiceId = invoiceId;
         this.date = date;
         this.paid = paid;
         this.invoiced = invoiced;
@@ -36,7 +38,7 @@ public record InvoiceDto (
     @Override
     public String toString() {
         return "InvoiceDto{" +
-                "invoiceDto_id=" + invoiceDto_id +
+                "invoiceId=" + invoiceId +
                 ", date=" + date +
                 ", paid=" + paid +
                 ", invoiced=" + invoiced +
@@ -56,7 +58,7 @@ public record InvoiceDto (
             return false;
         }
 
-        return Objects.equals(invoice1.invoiceDto_id(), invoice2.invoiceDto_id())
+        return Objects.equals(invoice1.invoiceId(), invoice2.invoiceId())
                 && Objects.equals(invoice1.date(), invoice2.date())
                 && invoice1.paid() == invoice2.paid()
                 && invoice1.total().compareTo(invoice2.total()) == 0
@@ -84,9 +86,8 @@ public record InvoiceDto (
         return true;
     }
 
-    @Override
-    public UUID invoiceDto_id() {
-        return invoiceDto_id;
+    public UUID invoiceId() {
+        return invoiceId;
     }
 
     @Override
@@ -119,12 +120,12 @@ public record InvoiceDto (
     }
 
     @Override
-    public UUID sellerCompany() {
+    public CompanyDto sellerCompany() {
         return sellerCompany;
     }
 
     @Override
-    public UUID buyerCompany() {
+    public CompanyDto buyerCompany() {
         return buyerCompany;
     }
 

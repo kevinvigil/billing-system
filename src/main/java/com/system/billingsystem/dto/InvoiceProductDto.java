@@ -1,21 +1,16 @@
 package com.system.billingsystem.dto;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public record InvoiceProductDto (
-        UUID invoiceProductDto_id,
-        String name,
-        Integer amount,
-        UUID idProduct,
-        UUID idInvoice ) {
+        UUID invoiceProductId,
+        Integer count,
+        ProductDto product) {
 
-    public InvoiceProductDto(UUID invoiceProductDto_id, String name, Integer amount, UUID idProduct, UUID idInvoice) {
-        this.invoiceProductDto_id = invoiceProductDto_id;
-        this.name = name;
-        this.amount = amount;
-        this.idProduct = idProduct;
-        this.idInvoice = idInvoice;
+    public InvoiceProductDto(UUID invoiceProductId, Integer count, ProductDto product) {
+        this.invoiceProductId = invoiceProductId;
+        this.count = count;
+        this.product = product;
     }
 
     public static boolean compareProducts(InvoiceProductDto product1, InvoiceProductDto product2) {
@@ -26,36 +21,15 @@ public record InvoiceProductDto (
             return false;
         }
 
-        return Objects.equals(product1.invoiceProductDto_id(), product2.invoiceProductDto_id())
-                && Objects.equals(product1.name(), product2.name())
-                && product1.amount().compareTo(product2.amount()) == 0
-                && Objects.equals(product1.idProduct(), product2.idProduct())
-                && Objects.equals(product1.idInvoice(), product2.idInvoice());
+        return product1.count().compareTo(product2.count()) == 0
+                && product1.product.equals(product2.product);
     }
 
-
-    @Override
-    public UUID invoiceProductDto_id() {
-        return invoiceProductDto_id;
+    public Integer count() {
+        return count;
     }
 
-    @Override
-    public String name() {
-        return name;
-    }
-
-    @Override
-    public Integer amount() {
-        return amount;
-    }
-
-    @Override
-    public UUID idProduct() {
-        return idProduct;
-    }
-
-    @Override
-    public UUID idInvoice() {
-        return idInvoice;
+    public ProductDto getProduct() {
+        return product;
     }
 }

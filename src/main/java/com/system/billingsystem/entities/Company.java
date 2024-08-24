@@ -1,5 +1,10 @@
 package com.system.billingsystem.entities;
 
+import com.system.billingsystem.entities.microtypes.Address;
+import com.system.billingsystem.entities.microtypes.Cuit;
+import com.system.billingsystem.entities.microtypes.Phone;
+import com.system.billingsystem.entities.microtypes.ids.CompanyId;
+import com.system.billingsystem.entities.microtypes.names.CompanyName;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,18 +12,18 @@ import lombok.Data;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 public class Company {
+    
+    private CompanyId companyId;
 
-    private UUID companyId;
-    private String cuit;
-    private String address;
-    private String name;
-    private String phone;
+    private Cuit cuit;
+    private Address address;
+    private CompanyName name;
+    private Phone phone;
 
     @Email
     private String email;
@@ -29,15 +34,24 @@ public class Company {
 
     public Company() {}
 
-    public Company(UUID companyId) {
+    public Company(CompanyId companyId) {
         this.companyId = companyId;
     }
 
+    public Company(CompanyId companyId, String email, Phone phone,
+                   CompanyName name, Address address, Cuit cuit) {
+        this.companyId = companyId;
+        this.email = email;
+        this.phone = phone;
+        this.name = name;
+        this.address = address;
+        this.cuit = cuit;
+    }
 
     @Override
     public String toString(){
         return ("Company { " +
-                ", companyId: " + this.companyId +
+                ", company_id: " + this.companyId +
                 ", name: " + this.name +
                 ", address: " + this.address +
                 ", phone: " + this.phone +

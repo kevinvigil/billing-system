@@ -1,7 +1,8 @@
 package com.system.billingsystem.entities;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import com.system.billingsystem.entities.microtypes.Discount;
+import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
+import com.system.billingsystem.entities.microtypes.prices.InvoicePrice;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,27 +12,24 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @Builder
 public class Invoice {
 
-    private UUID invoice_id;
+    private InvoiceId invoiceId;
 
     private Timestamp date;
     private boolean paid;
     private boolean invoiced;
-    private BigDecimal total;
+    private InvoicePrice invoicePrice;
 
-    @Max(100)
-    @Min(0)
-    private Integer discount;
+    private Discount discount;
 
     private InvoiceVoucher invoicevoucher;
 
-    private InvoiceType type;
+    private InvoiceCategory category;
 
     private Company sellerCompany;
 
@@ -39,29 +37,39 @@ public class Invoice {
 
     private List<InvoiceProduct> products;
 
+    public Invoice(InvoiceId invoiceId, Timestamp date, boolean paid, boolean invoiced, InvoicePrice invoicePrice,
+                   Discount discount, InvoiceVoucher invoicevoucher, InvoiceCategory category,
+                   Company sellerCompany, Company buyerCompany) {
+        this.invoiceId = invoiceId;
+        this.date = date;
+        this.paid = paid;
+        this.invoiced = invoiced;
+        this.invoicePrice = invoicePrice;
+        this.discount = discount;
+        this.invoicevoucher = invoicevoucher;
+        this.category = category;
+        this.sellerCompany = sellerCompany;
+        this.buyerCompany = buyerCompany;
+    }
 
     public Invoice() {}
 
-    public Invoice(UUID invoice_id) {
-        this.invoice_id = invoice_id;
-    }
-
-    public void addProduct(InvoiceProduct invoiceProduct){
-        this.products.add(invoiceProduct);
+    public Invoice(InvoiceId invoiceId) {
+        this.invoiceId = invoiceId;
     }
 
     @Override
     public String toString() {
         return "Invoice{" +
-                "invoice_id=" + invoice_id +
+                "invoice_id=" + invoiceId +
                 ", date=" + date +
                 ", paid=" + paid +
                 ", invoiced=" + invoiced +
-                ", total=" + total +
-                ", invoicevoucher='" + ((invoicevoucher == null)? null: invoicevoucher.name()) + '\'' +
-                ", type='" + type.name() + '\'' +
-                ", company=" + ((sellerCompany != null) ? sellerCompany.getCompanyId() : "null") +
-                ", customer=" + ((buyerCompany != null) ? buyerCompany.getCompanyId() : "null") +
+                ", total=" + invoicePrice +
+                ", invoice voucher='" + ((invoicevoucher == null)? null: invoicevoucher.name()) + '\'' +
+                ", type='" + category.name() + '\'' +
+                ", company=" + ((sellerCompany != null) ? sellerCompany.getCompanyId().getValue() : "null") +
+                ", customer=" + ((buyerCompany != null) ? buyerCompany.getCompanyId().getValue() : "null") +
                 '}';
     }
 
@@ -73,13 +81,13 @@ public class Invoice {
         Invoice invoice = (Invoice) o;
 
         if (
-                (invoice.total.compareTo(total) != 0) ||
+                (invoice.invoicePrice.compareTo(invoicePrice) != 0) ||
                         (paid != invoice.paid) ||
                         (invoiced != invoice.invoiced) ||
-                        (!Objects.equals(invoice_id, invoice.invoice_id)) ||
+                        (!Objects.equals(invoiceId, invoice.invoiceId)) ||
                         (!Objects.equals(date, invoice.date)) ||
                         (invoicevoucher != invoice.invoicevoucher) ||
-                        (type != invoice.type))return false;
+                        (category != invoice.category))return false;
 
         if (this.sellerCompany != null && invoice.sellerCompany != null){
             if (!Objects.equals(sellerCompany, invoice.sellerCompany)){

@@ -4,21 +4,20 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public record ProductDto (
-        UUID productDto_id,
+        UUID productId,
         String name,
         String description,
         BigDecimal price ) {
 
-    public ProductDto(UUID productDto_id, String name, String description, BigDecimal price) {
-        this.productDto_id = productDto_id;
+    public ProductDto(UUID productId, String name, String description, BigDecimal price) {
+        this.productId = productId;
         this.name = name;
         this.description = description;
         this.price = price;
     }
 
-    @Override
-    public UUID productDto_id() {
-        return productDto_id;
+    public UUID productId() {
+        return productId;
     }
 
     @Override
