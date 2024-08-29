@@ -1,6 +1,7 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.*;
+import com.system.billingsystem.entities.microtypes.Discount;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
 import com.system.billingsystem.entities.microtypes.prices.InvoicePrice;
 import org.junit.jupiter.api.AfterEach;
@@ -34,6 +35,7 @@ public class InvoiceRepoTest {
                 .invoicevoucher(InvoiceVoucher.BILL)
                 .invoiced(false)
                 .paid(false)
+                .discount(new Discount(0))
                 .category(InvoiceCategory.A)
                 .buyerCompany(null)
                 .sellerCompany(null)
@@ -55,12 +57,12 @@ public class InvoiceRepoTest {
 //        baseId = UUID.fromString("04c7d09a-0b61-4b79-bf44-f79271eaeeea");
         Invoice newInvoice = invoiceRepository.findById(baseId)  ;
         assertNotNull(newInvoice);
-        assertEquals(baseId, newInvoice.getInvoiceId());
+        assertEquals(baseId, newInvoice.getInvoiceId().getValue());
     }
 
     @Test
     public void testUpdateInvoice(){
-        InvoicePrice aux = new InvoicePrice(BigDecimal.valueOf(123456));
+        InvoicePrice aux = new InvoicePrice(BigDecimal.valueOf(0));
         invoice.setInvoicePrice(aux);
         invoiceRepository.update(invoice);
         Invoice newInvoice = invoiceRepository.findById(invoice.getInvoiceId())  ;
@@ -75,6 +77,7 @@ public class InvoiceRepoTest {
                 .invoicevoucher(InvoiceVoucher.REFERENCE)
                 .invoiced(true)
                 .paid(true)
+                .discount(new Discount(0))
                 .category(InvoiceCategory.B)
                 .buyerCompany(null)
                 .sellerCompany(null)

@@ -57,7 +57,7 @@ public class CompanyRepoTest {
     public void testFindById() {
         Company newCompany = companyRepository.findById(baseId);
         assertNotNull(newCompany);
-        assertEquals("company", newCompany.getName());
+        assertEquals("company", newCompany.getName().getName());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class CompanyRepoTest {
         assertTrue(companyRepository.update(company));
         Company newCompany = companyRepository.findById(baseId);
         assertNotNull(newCompany);
-        assertEquals("updatedCompany", newCompany.getName());
+        assertEquals("updatedCompany", newCompany.getName().getName());
     }
 
     @Test
@@ -74,8 +74,8 @@ public class CompanyRepoTest {
         Company newCompany = Company.builder()
                 .companyId(new CompanyId(UUID.randomUUID()))
                 .name(new CompanyName("company"))
-                .cuit(new Cuit("1111"))
-                .email("company@hotmail.com")
+                .cuit(new Cuit("2222"))
+                .email("company2@hotmail.com")
                 .phone(new Phone("+54", "1111", "1111"))
                 .address(new Address("hello world","hello world","hello world")) //TODO
                 .build();

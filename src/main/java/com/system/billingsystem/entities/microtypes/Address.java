@@ -1,8 +1,6 @@
 package com.system.billingsystem.entities.microtypes;
 
-import com.system.billingsystem.entities.microtypes.microtypesmapper.AddressMapper;
 import lombok.Data;
-import org.jooq.JSONB;
 
 @Data
 public class Address {
@@ -29,6 +27,6 @@ public class Address {
 
     @Override
     public String toString(){
-        return  "{country: "+country+", state: "+state+", city: "+city+", zip: "+zip+"}";
+        return country+", "+state+", "+city+", "+zip;
     }
 }

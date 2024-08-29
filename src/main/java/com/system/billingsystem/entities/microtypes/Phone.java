@@ -18,6 +18,6 @@ public class Phone {
 
     @Override
     public String toString() {
-        return "{countryCode: " + countryCode +", zoneCode: " + zoneCode +", phoneNumber: " + phoneNumber +'}';
+        return countryCode +", " + zoneCode +", " + phoneNumber;
     }
 }

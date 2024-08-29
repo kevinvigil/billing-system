@@ -12,31 +12,30 @@ public class CreateCompanyIntegrationTest extends BaseIntegrationTest {
     public void shouldCreateNewCompany() {
         // Given
         var companyId = UUID.randomUUID();
-        String requestBody = String.format(
-                """
-                {
-                    "companyId": "%s",
-                    "name": "company",
-                    "phone": "1111111",
-                    "cuit": "22222",
-                    "email": "company1@gmail.com",
-                    "address": "some random, address, Argentina",
-                    "soldInvoices": [],
-                    "purchasedInvoices": []
-                }
-                """, companyId);
 
-        var responseBody = "";
+        Object requestBody = String.format(
+                """
+            {
+                "companyId": "%s",
+                "name": "company",
+                "phone": "1111111",
+                "cuit": "22222",
+                "email": "company1@gmail.com",
+                "address": "some random, address, Argentina",
+                "soldInvoices": [],
+                "purchasedInvoices": []
+            }
+            """, companyId);
 
         // When
         var response = webTestClient.post()
-                .uri("/api/company")
+                .uri("/api/company/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(requestBody)
                 .exchange();
 
         // Then
         response.expectStatus().isCreated()
-                .expectBody().json(responseBody);
+                .expectBody().equals(companyId.toString());
     }
 }

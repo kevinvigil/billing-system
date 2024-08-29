@@ -10,6 +10,8 @@ import com.system.billingsystem.entities.microtypes.prices.InvoicePrice;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.system.billingsystem.dto.dtosmappers.CompanyMapper.COMPANY_MAPPER;
+
 public class InvoiceDtoMapper {
 
     private InvoiceDtoMapper() {}
@@ -28,10 +30,10 @@ public class InvoiceDtoMapper {
         CompanyDto buyerCompany = null;
 
         if (invoice.getSellerCompany() != null)
-            sellerCompany = CompanyDtoMapper.toDto(invoice.getSellerCompany());
+            sellerCompany = COMPANY_MAPPER.toDto(invoice.getSellerCompany());
 
         if (invoice.getBuyerCompany() != null)
-            buyerCompany = CompanyDtoMapper.toDto(invoice.getBuyerCompany());
+            buyerCompany = COMPANY_MAPPER.toDto(invoice.getBuyerCompany());
 
         return new InvoiceDto(
                 invoice.getInvoiceId().getValue(),
@@ -56,8 +58,8 @@ public class InvoiceDtoMapper {
         invoice.setInvoicePrice(new InvoicePrice(invoiceDto.total()));
         invoice.setInvoicevoucher(InvoiceVoucher.valueOf(invoiceDto.invoiceVoucher()));
         invoice.setCategory(InvoiceCategory.valueOf(invoiceDto.type()));
-        invoice.setSellerCompany(CompanyDtoMapper.toDomain(invoiceDto.sellerCompany()));
-        invoice.setBuyerCompany(CompanyDtoMapper.toDomain(invoiceDto.buyerCompany()));
+        invoice.setSellerCompany(COMPANY_MAPPER.toDomain(invoiceDto.sellerCompany()));
+        invoice.setBuyerCompany(COMPANY_MAPPER.toDomain(invoiceDto.buyerCompany()));
 
         return invoice;
     }

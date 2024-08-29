@@ -27,7 +27,7 @@ public class CustomerService {
         try {
             return customerRepository.save(entity);
         }catch (Exception e){
-            logger.log(Level.SEVERE, "Error on UserService method save" + entity.toString());
+            logger.log(Level.SEVERE, "Error on UserService method save, massage: " + e.getMessage());
             throw e;
         }
     }
@@ -38,7 +38,7 @@ public class CustomerService {
                 return this.customerRepository.findById(entity.getCustomerId());
             return null;
         }catch (Exception e){
-            logger.log(Level.SEVERE, "Error on UserService method update" + entity.toString());
+            logger.log(Level.SEVERE, "Error on UserService method update, massage: " + e.getMessage());
             throw e;
         }
     }
@@ -50,7 +50,7 @@ public class CustomerService {
                 customerRepository.deleteById(id);
             return Customer;
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error on UserService method delete, id:" + id);
+            logger.log(Level.SEVERE, "Error on UserService method delete, id:" + id +", massage: " + e.getMessage());
             throw e;
         }
     }
@@ -59,7 +59,7 @@ public class CustomerService {
         try {
             return customerRepository.findById(id);
         }catch (Exception e){
-            logger.log(Level.SEVERE, "Error on UserService method findById, id: " + id);
+            logger.log(Level.SEVERE, "Error on UserService method findById, id: " + id + " , massage: " + e.getMessage());
             throw e;
         }
     }
@@ -68,7 +68,7 @@ public class CustomerService {
         try {
             return this.customerRepository.findAll();
         }catch (Exception e){
-            logger.log(Level.SEVERE, "Error in CompanyService on method findAll");
+            logger.log(Level.SEVERE, "Error in CompanyService on method findAll, massage: " + e.getMessage());
             throw e;
         }
     }
