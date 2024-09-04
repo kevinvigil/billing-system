@@ -18,10 +18,10 @@ public class CreateCompanyIntegrationTest extends BaseIntegrationTest {
             {
                 "companyId": "%s",
                 "name": "company",
-                "phone": "1111111",
+                "phone": "+549 2287 445566",
                 "cuit": "22222",
                 "email": "company1@gmail.com",
-                "address": "some random, address, Argentina",
+                "address": "country, state, city,",
                 "soldInvoices": [],
                 "purchasedInvoices": []
             }

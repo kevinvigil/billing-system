@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,32 +18,27 @@ import java.util.Objects;
 public class Invoice {
 
     private InvoiceId invoiceId;
-
     private Timestamp date;
     private boolean paid;
     private boolean invoiced;
-    private InvoicePrice invoicePrice;
-
+    private InvoicePrice price;
+    private Currency currency;
     private Discount discount;
-
     private InvoiceVoucher invoicevoucher;
-
     private InvoiceCategory category;
-
     private Company sellerCompany;
-
     private Company buyerCompany;
-
     private List<InvoiceProduct> products;
 
-    public Invoice(InvoiceId invoiceId, Timestamp date, boolean paid, boolean invoiced, InvoicePrice invoicePrice,
+    public Invoice(InvoiceId invoiceId, Timestamp date, boolean paid, boolean invoiced, InvoicePrice price, Currency currency,
                    Discount discount, InvoiceVoucher invoicevoucher, InvoiceCategory category,
                    Company sellerCompany, Company buyerCompany) {
         this.invoiceId = invoiceId;
         this.date = date;
         this.paid = paid;
         this.invoiced = invoiced;
-        this.invoicePrice = invoicePrice;
+        this.price = price;
+        this.currency = currency;
         this.discount = discount;
         this.invoicevoucher = invoicevoucher;
         this.category = category;
@@ -65,7 +59,7 @@ public class Invoice {
                 ", date=" + date +
                 ", paid=" + paid +
                 ", invoiced=" + invoiced +
-                ", total=" + invoicePrice +
+                ", total=" + price +
                 ", invoice voucher='" + ((invoicevoucher == null)? null: invoicevoucher.name()) + '\'' +
                 ", type='" + category.name() + '\'' +
                 ", company=" + ((sellerCompany != null) ? sellerCompany.getCompanyId().getValue() : "null") +
@@ -81,7 +75,7 @@ public class Invoice {
         Invoice invoice = (Invoice) o;
 
         if (
-                (invoice.invoicePrice.compareTo(invoicePrice) != 0) ||
+                (invoice.price.compareTo(price) != 0) ||
                         (paid != invoice.paid) ||
                         (invoiced != invoice.invoiced) ||
                         (!Objects.equals(invoiceId, invoice.invoiceId)) ||

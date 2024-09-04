@@ -57,6 +57,7 @@ INSERT INTO invoice_product (invoiceproduct_id ,count, invoice_id, product_id) V
 ('861afa9c-0f2e-4af2-b27e-cc22e4b831e5', 45, ('c9032022-09d2-4863-9ac1-f486b34be429'), ('40e09314-8301-44c8-97a6-0b55693da8f9')),
 ('719a5cb8-e2f4-415c-9afa-53b2e64ba754', 50, ('c97e2d4e-8ea5-432a-b1ae-6d71a4ad36c0'), ('30456b8d-41e7-4746-8a5f-44a9ed2a1c90')),
 ('49539afe-2710-4538-997d-9183d824e3fd', 55, ('cc5ced3f-8252-43df-9839-ad3f24aa88a0'), ('1dfb9621-0fb5-44a3-9a90-0b870b2fda98'));
+
 select * from company;
 select * from customer;
 select * from product;

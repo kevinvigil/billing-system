@@ -1,7 +1,6 @@
 package com.system.billingsystem.controllers;
 
 import com.system.billingsystem.dto.InvoiceDto;
-import com.system.billingsystem.dto.dtosmappers.InvoiceDtoMapper;
 import com.system.billingsystem.entities.Invoice;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
 import com.system.billingsystem.services.InvoiceService;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+
+import static com.system.billingsystem.dto.dtosmappers.InvoiceMapper.INVOICE_MAPPER;
 
 @Controller
 @RestController
@@ -30,8 +31,8 @@ public class InvoiceController {
         if (entity == null)
             throw new IllegalArgumentException();
 
-        Invoice invoice = invoiceService.saveInvoice(InvoiceDtoMapper.toDomain(entity));
-        return ResponseEntity.status(HttpStatus.CREATED).body(InvoiceDtoMapper.toDto(invoice));
+        Invoice invoice = invoiceService.saveInvoice(INVOICE_MAPPER.toDomain(entity));
+        return ResponseEntity.status(HttpStatus.CREATED).body(INVOICE_MAPPER.toDto(invoice));
     }
 
     @PutMapping("/api/invoice/")
@@ -43,9 +44,9 @@ public class InvoiceController {
             Invoice invoice = invoiceService.findInvoiceById(new InvoiceId(entity.invoiceId()));
 
             if (!invoice.isInvoiced() && !invoice.isPaid())
-                return ResponseEntity.ok().body(invoiceService.updateInvoice(InvoiceDtoMapper.toDomain(entity)));
+                return ResponseEntity.ok().body(invoiceService.updateInvoice(INVOICE_MAPPER.toDomain(entity)));
             else if (!invoice.isInvoiced()) {
-                Invoice domain = InvoiceDtoMapper.toDomain(entity);
+                Invoice domain = INVOICE_MAPPER.toDomain(entity);
                 if ( invoice.equals(domain) && invoice.isInvoiced() != entity.invoiced())
                     return ResponseEntity.ok().body(invoiceService.updateInvoice(domain));
                 else
@@ -62,14 +63,14 @@ public class InvoiceController {
 
     @DeleteMapping("/api/invoice/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id){
-        InvoiceDto invoiceDto = InvoiceDtoMapper.toDto(invoiceService.deleteInvoice(new InvoiceId(id)));
+        InvoiceDto invoiceDto = INVOICE_MAPPER.toDto(invoiceService.deleteInvoice(new InvoiceId(id)));
         return ResponseEntity.ok().body(invoiceDto);
     }
 
     @GetMapping("/api/invoice/{id}")
     public  ResponseEntity<?> findById(@PathVariable UUID id){
         try{
-            InvoiceDto invoiceDto = InvoiceDtoMapper.toDto(invoiceService.findInvoiceById(new InvoiceId(id))) ;
+            InvoiceDto invoiceDto = INVOICE_MAPPER.toDto(invoiceService.findInvoiceById(new InvoiceId(id))) ;
             return ResponseEntity.ok().body(invoiceDto);
         } catch (Exception e){
             throw new InternalError();
@@ -82,7 +83,7 @@ public class InvoiceController {
             List<Invoice> invoices = this.invoiceService.findAllInvoices();
             System.out.println(invoices);
             if (invoices != null){
-                List<InvoiceDto> invoiceDto = invoices.stream().map(InvoiceDtoMapper::toDto).toList();
+                List<InvoiceDto> invoiceDto = invoices.stream().map(INVOICE_MAPPER::toDto).toList();
                 return ResponseEntity.ok().body(invoiceDto);
             }
             return null;

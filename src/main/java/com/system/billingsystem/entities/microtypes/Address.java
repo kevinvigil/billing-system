@@ -10,14 +10,14 @@ public class Address {
     private String city;
     private String zip;
 
-    public Address(String country, String city, String state, String zip) {
+    public Address(String country, String state, String city, String zip) {
         this.country = country;
         this.city = city;
         this.state = state;
         this.zip = zip;
     }
 
-    public Address(String country, String city, String state) {
+    public Address(String country, String state, String city) {
         this.country = country;
         this.city = city;
         this.state = state;

@@ -39,20 +39,20 @@ public interface CompanyMapper {
 
     default Address mapAddress(String address) {
         String[] parts = address.split(", ");
-        if (parts.length == 4) {
-            return new Address(parts[0], parts[2], parts[1], parts[3]);
-        } else if (parts.length == 3) {
-            return new Address(parts[0], parts[2], parts[1]);
-        }
-        return new Address();
+        return switch (parts.length) {
+            case 4 -> new Address(parts[0], parts[1], parts[2], parts[3]);
+            case 3 -> new Address(parts[0], parts[1], parts[2]);
+            default -> new Address();
+        };
     }
 
     default Phone mapPhone(String phone) {
         String[] parts = phone.split(" ");
-        if (parts.length == 3) {
-            return new Phone(parts[0], parts[1], parts[2]);
-        }
-        return new Phone();
+        return switch (parts.length) {
+            case 3 -> new Phone(parts[0], parts[1], parts[2]);
+            case 2 -> new Phone(parts[0], parts[1]);
+            default -> new Phone();
+        };
     }
 
     default CompanyId mapCompanyId(UUID companyId) {

@@ -39,7 +39,7 @@ public class InvoiceRepoTest {
                 .category(InvoiceCategory.A)
                 .buyerCompany(null)
                 .sellerCompany(null)
-                .invoicePrice(new InvoicePrice(BigDecimal.ONE)).build();
+                .price(new InvoicePrice(BigDecimal.ONE)).build();
 
         baseId = invoiceRepository.save(invoice);
         assertNotNull(baseId);
@@ -63,11 +63,11 @@ public class InvoiceRepoTest {
     @Test
     public void testUpdateInvoice(){
         InvoicePrice aux = new InvoicePrice(BigDecimal.valueOf(0));
-        invoice.setInvoicePrice(aux);
+        invoice.setPrice(aux);
         invoiceRepository.update(invoice);
         Invoice newInvoice = invoiceRepository.findById(invoice.getInvoiceId())  ;
         assertNotNull(newInvoice);
-        assertEquals(0 ,aux.compareTo(newInvoice.getInvoicePrice()));
+        assertEquals(0 ,aux.compareTo(newInvoice.getPrice()));
     }
 
     @Test
@@ -81,7 +81,7 @@ public class InvoiceRepoTest {
                 .category(InvoiceCategory.B)
                 .buyerCompany(null)
                 .sellerCompany(null)
-                .invoicePrice(new InvoicePrice(BigDecimal.valueOf(0))).build();
+                .price(new InvoicePrice(BigDecimal.valueOf(0))).build();
 
         assertNotNull(invoiceRepository.save(newInvoice));
 
