@@ -19,10 +19,8 @@ public class Customer {
     private CustomerId customerId;
     private CustomerName name;
     private String password;
-
     @Email
     private String email;
-
     private Company company;
 
     public Customer() {}

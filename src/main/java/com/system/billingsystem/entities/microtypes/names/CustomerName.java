@@ -15,10 +15,15 @@ public class CustomerName {
         this.surname = surname;
     }
 
+    public CustomerName(String firstName, String surname) {
+        this.firstName = firstName;
+        this.surname = surname;
+    }
+
     public CustomerName(){}
 
     @Override
     public String toString() {
-        return "{firstName: " + firstName +", secondName: " + secondName +", surname: " + surname +'}';
+        return firstName +", " + secondName +", " + surname;
     }
 }

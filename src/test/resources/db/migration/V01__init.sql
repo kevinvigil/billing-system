@@ -1,16 +1,16 @@
 CREATE TABLE COMPANY (
     company_id uuid NOT NULL PRIMARY KEY,
     cuit varchar(255) NOT NULL UNIQUE,
-    address varchar(255) DEFAULT NULL,
+    address jsonb DEFAULT NULL,
     email varchar(255) NOT NULL UNIQUE,
     name varchar(255) DEFAULT NULL,
-    phone varchar(255) DEFAULT NULL
+    phone jsonb DEFAULT NULL
 );
 
 CREATE TABLE CUSTOMER (
     customer_id uuid NOT NULL PRIMARY KEY,
     email varchar(255) NOT NULL UNIQUE,
-    name varchar(255) DEFAULT NULL,
+    name jsonb DEFAULT NULL,
     password varchar(255) NOT NULL,
     company_id uuid UNIQUE DEFAULT NULL ,
     CONSTRAINT CUSTOMER_foreign_key_company_id FOREIGN KEY (company_id) REFERENCES company (company_id)

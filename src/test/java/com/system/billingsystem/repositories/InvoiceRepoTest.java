@@ -1,6 +1,7 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.*;
+import com.system.billingsystem.entities.microtypes.Discount;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
 import com.system.billingsystem.entities.microtypes.prices.InvoicePrice;
 import org.junit.jupiter.api.AfterEach;
@@ -34,10 +35,11 @@ public class InvoiceRepoTest {
                 .invoicevoucher(InvoiceVoucher.BILL)
                 .invoiced(false)
                 .paid(false)
+                .discount(new Discount(0))
                 .category(InvoiceCategory.A)
                 .buyerCompany(null)
                 .sellerCompany(null)
-                .invoicePrice(new InvoicePrice(BigDecimal.ONE)).build();
+                .price(new InvoicePrice(BigDecimal.ONE)).build();
 
         baseId = invoiceRepository.save(invoice);
         assertNotNull(baseId);
@@ -55,17 +57,17 @@ public class InvoiceRepoTest {
 //        baseId = UUID.fromString("04c7d09a-0b61-4b79-bf44-f79271eaeeea");
         Invoice newInvoice = invoiceRepository.findById(baseId)  ;
         assertNotNull(newInvoice);
-        assertEquals(baseId, newInvoice.getInvoiceId());
+        assertEquals(baseId, newInvoice.getInvoiceId().getValue());
     }
 
     @Test
     public void testUpdateInvoice(){
-        InvoicePrice aux = new InvoicePrice(BigDecimal.valueOf(123456));
-        invoice.setInvoicePrice(aux);
+        InvoicePrice aux = new InvoicePrice(BigDecimal.valueOf(0));
+        invoice.setPrice(aux);
         invoiceRepository.update(invoice);
         Invoice newInvoice = invoiceRepository.findById(invoice.getInvoiceId())  ;
         assertNotNull(newInvoice);
-        assertEquals(0 ,aux.compareTo(newInvoice.getInvoicePrice()));
+        assertEquals(0 ,aux.compareTo(newInvoice.getPrice()));
     }
 
     @Test
@@ -75,10 +77,11 @@ public class InvoiceRepoTest {
                 .invoicevoucher(InvoiceVoucher.REFERENCE)
                 .invoiced(true)
                 .paid(true)
+                .discount(new Discount(0))
                 .category(InvoiceCategory.B)
                 .buyerCompany(null)
                 .sellerCompany(null)
-                .invoicePrice(new InvoicePrice(BigDecimal.valueOf(0))).build();
+                .price(new InvoicePrice(BigDecimal.valueOf(0))).build();
 
         assertNotNull(invoiceRepository.save(newInvoice));
 

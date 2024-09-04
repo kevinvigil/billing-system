@@ -10,6 +10,7 @@ import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
 import com.system.billingsystem.entities.microtypes.microtypesmapper.AddressMapper;
 import com.system.billingsystem.entities.microtypes.microtypesmapper.PhoneMapper;
 import com.system.billingsystem.entities.microtypes.names.CompanyName;
+import com.system.billingsystem.entities.Currency;
 import com.system.billingsystem.entities.microtypes.prices.InvoicePrice;
 import domain.tables.records.CompanyRecord;
 import domain.tables.records.InvoiceRecord;
@@ -42,7 +43,7 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
                 .set(INVOICE.INVOICE_VOUCHER, persisted.getInvoicevoucher().name())
                 .set(INVOICE.INVOICED, persisted.isInvoiced())
                 .set(INVOICE.PAID, persisted.isPaid())
-                .set(INVOICE.TOTAL, persisted.getInvoicePrice().getValue())
+                .set(INVOICE.TOTAL, persisted.getPrice().getValue())
                 .set(INVOICE.CATEGORY, persisted.getCategory().name())
                 .set(INVOICE.BUYER_COMPANY_ID, (persisted.getBuyerCompany() != null)? persisted.getBuyerCompany().getCompanyId().getValue(): null)
                 .set(INVOICE.SELLER_COMPANY_ID, (persisted.getSellerCompany() != null)? persisted.getSellerCompany().getCompanyId().getValue(): null)
@@ -59,7 +60,7 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
                 .set(INVOICE.INVOICE_VOUCHER, persisted.getInvoicevoucher().name())
                 .set(INVOICE.INVOICED, persisted.isInvoiced())
                 .set(INVOICE.PAID, persisted.isPaid())
-                .set(INVOICE.TOTAL, persisted.getInvoicePrice().getValue())
+                .set(INVOICE.TOTAL, persisted.getPrice().getValue())
                 .set(INVOICE.CATEGORY, persisted.getCategory().name())
                 .set(INVOICE.BUYER_COMPANY_ID, (persisted.getBuyerCompany() != null)? persisted.getBuyerCompany().getCompanyId().getValue(): null)
                 .set(INVOICE.SELLER_COMPANY_ID, (persisted.getSellerCompany() != null)? persisted.getSellerCompany().getCompanyId().getValue(): null)
@@ -102,6 +103,7 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
                 .paid(invoiceRecord.getValue(INVOICE.PAID))
                 .invoiced(invoiceRecord.getValue(INVOICE.INVOICED))
                 .price(new InvoicePrice(invoiceRecord.getValue(INVOICE.TOTAL)))
+                .currency(Currency.ARS)/// TODO
                 .discount(new Discount(invoiceRecord.getValue(INVOICE.DISCOUNT)))
                 .invoiceVoucher(InvoiceVoucher.valueOf(invoiceRecord.getValue(INVOICE.INVOICE_VOUCHER)))
                 .category(InvoiceCategory.valueOf(invoiceRecord.getValue(INVOICE.CATEGORY)))

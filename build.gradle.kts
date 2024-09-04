@@ -67,11 +67,15 @@ dependencies {
 	implementation(catalog.findLibrary("spring-cloud-contract-wiremock").get())
 
 
-
+	// mapper
+	implementation ("org.mapstruct:mapstruct:1.6.0")
+	annotationProcessor ("org.mapstruct:mapstruct-processor:1.6.0")
 
 	// Compile and annotations
-	compileOnly(catalog.findLibrary( "lombok").get())
+	implementation(catalog.findLibrary( "lombok").get())
 	annotationProcessor(catalog.findLibrary( "lombok").get())
+	annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
+
 
 	// JOOQ
 	implementation(catalog.findLibrary( "jooq-kotlin").get())

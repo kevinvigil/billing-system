@@ -13,23 +13,27 @@ public record InvoiceDto (
         Timestamp date,
         boolean paid,
         boolean invoiced,
-        BigDecimal total,
+        BigDecimal price,
+        String currency,
+        Integer discount,
         String invoiceVoucher,
-        String type,
+        String category,
         CompanyDto sellerCompany,
         CompanyDto buyerCompany,
         List<InvoiceProductDto> products ) {
 
-    public InvoiceDto(UUID invoiceId, Timestamp date, boolean paid, boolean invoiced, BigDecimal total,
-                      String invoiceVoucher, String type, CompanyDto sellerCompany, CompanyDto buyerCompany,
+    public InvoiceDto(UUID invoiceId, Timestamp date, boolean paid, boolean invoiced, BigDecimal price, String currency,
+                      Integer discount, String invoiceVoucher, String category, CompanyDto sellerCompany, CompanyDto buyerCompany,
                       List<InvoiceProductDto> products) {
         this.invoiceId = invoiceId;
         this.date = date;
         this.paid = paid;
         this.invoiced = invoiced;
-        this.total = total;
+        this.price = price;
+        this.discount = discount;
+        this.currency = currency;
         this.invoiceVoucher = invoiceVoucher;
-        this.type = type;
+        this.category = category;
         this.sellerCompany = sellerCompany;
         this.buyerCompany = buyerCompany;
         this.products = products;
@@ -42,9 +46,10 @@ public record InvoiceDto (
                 ", date=" + date +
                 ", paid=" + paid +
                 ", invoiced=" + invoiced +
-                ", total=" + total +
-                ", invoicevoucher='" + invoiceVoucher + '\'' +
-                ", type='" + type + '\'' +
+                ", price=" + price +
+                ", money=" + currency +
+                ", invoicevoucher='" + invoiceVoucher +
+                ", type='" + category +
                 ", company=" + sellerCompany +
                 ", customer=" + buyerCompany +
                 '}';
@@ -63,7 +68,7 @@ public record InvoiceDto (
                 && invoice1.paid() == invoice2.paid()
                 && invoice1.total().compareTo(invoice2.total()) == 0
                 && Objects.equals(invoice1.invoiceVoucher(), invoice2.invoiceVoucher())
-                && Objects.equals(invoice1.type(), invoice2.type())
+                && Objects.equals(invoice1.category(), invoice2.category())
                 && Objects.equals(invoice1.sellerCompany(), invoice2.sellerCompany())
                 && Objects.equals(invoice1.buyerCompany(), invoice2.buyerCompany())
                 && compareProductLists(invoice1.products(), invoice2.products());
@@ -105,9 +110,8 @@ public record InvoiceDto (
         return invoiced;
     }
 
-    @Override
     public BigDecimal total() {
-        return total;
+        return price;
     }
 
     public String invoiceVoucher() {
@@ -115,8 +119,8 @@ public record InvoiceDto (
     }
 
     @Override
-    public String type() {
-        return type;
+    public String category() {
+        return category;
     }
 
     @Override

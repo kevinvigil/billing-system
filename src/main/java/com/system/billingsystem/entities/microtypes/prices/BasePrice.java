@@ -1,5 +1,6 @@
 package com.system.billingsystem.entities.microtypes.prices;
 
+import com.system.billingsystem.entities.Currency;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 

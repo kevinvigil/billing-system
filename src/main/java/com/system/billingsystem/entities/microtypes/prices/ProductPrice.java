@@ -1,5 +1,7 @@
 package com.system.billingsystem.entities.microtypes.prices;
 
+import com.system.billingsystem.entities.Currency;
+
 import java.math.BigDecimal;
 
 public class ProductPrice extends BasePrice{

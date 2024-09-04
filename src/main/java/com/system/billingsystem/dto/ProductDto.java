@@ -6,12 +6,14 @@ import java.util.UUID;
 public record ProductDto (
         UUID productId,
         String name,
+        Integer count,
         String description,
         BigDecimal price ) {
 
-    public ProductDto(UUID productId, String name, String description, BigDecimal price) {
+    public ProductDto(UUID productId, String name,  Integer count, String description, BigDecimal price) {
         this.productId = productId;
         this.name = name;
+        this.count = count;
         this.description = description;
         this.price = price;
     }

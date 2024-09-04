@@ -2,6 +2,7 @@ package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Customer;
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
+import com.system.billingsystem.entities.microtypes.names.CustomerName;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,8 +33,8 @@ public class CustomerRepoTest {
     @BeforeEach
     public void setUp() {
         customer = Customer.builder()
-                .name("user name")
-                .email("user@hotmail.com")
+                .name(new CustomerName("user name","user name","user name"))
+                .email("user2@hotmail.com")
                 .password("userPassword")
                 .company(null)
                 .build();
@@ -57,19 +58,19 @@ public class CustomerRepoTest {
 
     @Test
     public void testUpdateUser() {
-        customer.setName("new name");
+        customer.setName(new CustomerName("new name","new name","new name"));
         assertTrue(customerRepository.update(customer));
         Customer foundCustomer = customerRepository.findById(baseId);
         assertNotNull(foundCustomer);
-        assertEquals(customer.getName(), foundCustomer.getName());
+        assertEquals(customer.getName().getFirstName(), foundCustomer.getName().getFirstName());
     }
 
     @Test
     public void testFindAll(){
         Customer newCustomer = Customer.builder()
-                .name("user2 name")
-                .email("user2@hotmail.com")
-                .password("user2Password")
+                .name(new CustomerName("user2 name","user2 name","user2 name"))
+                .email("user3@hotmail.com")
+                .password("user3Password")
                 .company(null)
                 .build();
 

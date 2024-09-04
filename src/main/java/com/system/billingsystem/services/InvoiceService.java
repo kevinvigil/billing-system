@@ -47,7 +47,7 @@ public class InvoiceService{
                     saveInvoiceProduct(invoiceProduct);
                 }
             }
-            invoice.setInvoicePrice(new InvoicePrice(BigDecimal.valueOf(total)));
+            invoice.setPrice(new InvoicePrice(BigDecimal.valueOf(total)));
             InvoiceId uuid = invoiceRepository.save(invoice);
             return invoiceRepository.findById(uuid);
         }catch (Exception e){
@@ -70,7 +70,7 @@ public class InvoiceService{
                     this.updateInvoiceProduct(invoiceProduct);
                 }
             }
-            invoice.setInvoicePrice(new InvoicePrice(BigDecimal.valueOf(total)));
+            invoice.setPrice(new InvoicePrice(BigDecimal.valueOf(total)));
             if (this.invoiceRepository.update(invoice)){
                 return this.invoiceRepository.findById(invoice.getInvoiceId());
             } else {

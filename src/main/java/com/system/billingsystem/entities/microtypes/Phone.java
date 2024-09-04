@@ -14,10 +14,15 @@ public class Phone {
         this.phoneNumber = phoneNumber;
     }
 
+    public Phone(String zoneCode, String phoneNumber) {
+        this.zoneCode = zoneCode;
+        this.phoneNumber = phoneNumber;
+    }
+
     public Phone(){}
 
     @Override
     public String toString() {
-        return "{countryCode: " + countryCode +", zoneCode: " + zoneCode +", phoneNumber: " + phoneNumber +'}';
+        return countryCode +", " + zoneCode +", " + phoneNumber;
     }
 }

@@ -19,7 +19,6 @@ import java.util.Objects;
 public class Company {
     
     private CompanyId companyId;
-
     private Cuit cuit;
     private Address address;
     private CompanyName name;
@@ -27,9 +26,7 @@ public class Company {
 
     @Email
     private String email;
-
     private List<Invoice> soldInvoices;
-
     private List<Invoice> purchasedInvoices;
 
     public Company() {}

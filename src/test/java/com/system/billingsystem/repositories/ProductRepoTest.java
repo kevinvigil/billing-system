@@ -2,6 +2,7 @@ package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Product;
 import com.system.billingsystem.entities.microtypes.ids.ProductId;
+import com.system.billingsystem.entities.microtypes.names.ProductName;
 import com.system.billingsystem.entities.microtypes.prices.ProductPrice;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,7 @@ public class ProductRepoTest {
     @BeforeEach
     public void setUp(){
         product = Product.builder()
-                .name("Name Product")
+                .name(new ProductName("Name Product"))
                 .description("Description Product")
                 .price(new ProductPrice(BigDecimal.valueOf(100.0)))
                 .build();
@@ -55,7 +56,7 @@ public class ProductRepoTest {
 
     @Test
     public void testUpdateProduct(){
-        product.setName("Updated Name");
+        product.setName(new ProductName("Updated Name"));
         productRepo.update(product);
         Product updatedProduct = productRepo.findById(baseId)   ;
         assertNotNull(updatedProduct);
@@ -65,7 +66,7 @@ public class ProductRepoTest {
     @Test
     public void testFindAllProducts(){
         Product newProduct = Product.builder()
-                .name("Name Product 2")
+                .name(new ProductName("Name Product 2"))
                 .description("Description Product 2")
                 .price(new ProductPrice(BigDecimal.valueOf(200.0)))
                 .build();
