@@ -64,14 +64,12 @@ public class InvoiceProductMapperTest {
     public void setUp() {
         // Given
         invoiceProduct = InvoiceProductBuilder.newBuilder()
-                .id(new InvoiceProductId(baseId))
                 .count(10)
                 .invoice(invoice)
                 .product(product)
                 .build();
 
         invoiceProductDto = new InvoiceProductDto(
-                baseId,
                 product.getProductId().getValue(),
                 10,
                 product.getName().getName(),
@@ -86,8 +84,6 @@ public class InvoiceProductMapperTest {
 
         // When
         assertNotNull(newInvoiceProductDto);
-        assertNotNull(newInvoiceProductDto.invoiceProductId());
-        assertEquals(invoiceProduct.getInvoiceProductId().getValue(), newInvoiceProductDto.invoiceProductId());
         assertEquals(product.getProductId().getValue(), newInvoiceProductDto.productId());
         assertEquals(product.getName().getName(), newInvoiceProductDto.name());
         assertEquals(product.getDescription(), newInvoiceProductDto.description());
@@ -103,8 +99,6 @@ public class InvoiceProductMapperTest {
 
         // When
         assertNotNull(newInvoiceProduct);
-        assertNotNull(newInvoiceProduct.getInvoiceProductId());
-        assertEquals(invoiceProduct.getInvoiceProductId().getValue(), newInvoiceProduct.getInvoiceProductId().getValue());
         assertEquals(product.getProductId().getValue(), newInvoiceProduct.getProduct().getProductId().getValue());
         assertEquals(product.getName().getName(), newInvoiceProduct.getProduct().getName().getName());
         assertEquals(product.getDescription(), newInvoiceProduct.getProduct().getDescription());

@@ -1,13 +1,11 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Customer;
-import com.system.billingsystem.entities.builders.customerbuilder.CustomerBuilder;
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
 import com.system.billingsystem.entities.microtypes.microtypesmapper.CustomerNameMapper;
 import domain.tables.records.CustomerRecord;
 import org.jooq.DSLContext;
 import org.jooq.Field;
-import org.jooq.JSONB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

@@ -34,29 +34,29 @@ INSERT INTO product (product_id,description, name, price) VALUES
 ('30456b8d-41e7-4746-8a5f-44a9ed2a1c90','Product Description 9', 'Product Nine', 900.00),
 ('1dfb9621-0fb5-44a3-9a90-0b870b2fda98','Product Description 10', 'Product Ten', 1000.00);
 
-INSERT INTO invoice (invoice_id ,date, discount, currency, invoice_voucher, invoiced, paid, price, category, buyer_company_id, seller_company_id) VALUES
-('04c7d09a-0b61-4b79-bf44-f79271eaeeea',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'CASH',true,false, 1000.00, 'A', '0da5b779-832e-4c97-8080-ddb08de8a309', '0da5b779-832e-4c97-8080-ddb08de8a309'),
-('09d69173-9286-467e-b54b-c7e197c6f149',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'REFERENCE',false,true, 2000.00, 'B', '5b7eac09-48ef-4b5e-9710-9ce715c90ae3', '5b7eac09-48ef-4b5e-9710-9ce715c90ae3'),
-('21be3cd1-95a7-4571-bcca-7c81ccc8f1fe',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'REFERENCE',true,true, 1500.00, 'C', '6af58f1e-9ba1-477d-a828-53f00285fe9e', '6af58f1e-9ba1-477d-a828-53f00285fe9e'),
-('5770ffa9-afc0-44f1-bb99-7041b07363e2',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'CASH',true,false, 2500.00, 'A', '70b2e59e-b791-49c6-9363-82b2de9b1b0f', '70b2e59e-b791-49c6-9363-82b2de9b1b0f'),
-('971ce1cb-303a-43b7-bdc3-619277a7946b',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'REFERENCE',false,false, 3000.00, 'B', '912c5b60-1747-48bb-a6c5-ff97e13ae0a7', '912c5b60-1747-48bb-a6c5-ff97e13ae0a7'),
-('a5bf57d9-ae0e-483d-b2ff-185139cd7cf3',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'CASH',true,true, 3500.00, 'C', 'a357c1fa-ca4f-4e41-8acd-78dcfea4c1ab', 'a357c1fa-ca4f-4e41-8acd-78dcfea4c1ab'),
-('b20d2eab-f424-4718-b3bc-f10a38d31008',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'REFERENCE',false,true, 4000.00, 'A', 'b55eb91d-90f5-41c0-8d13-32cb647486db', 'b55eb91d-90f5-41c0-8d13-32cb647486db'),
-('c9032022-09d2-4863-9ac1-f486b34be429',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'BILL',true,false, 4500.00, 'B', 'e66d2dba-d1cd-4196-8b74-efedb5c84dbf', 'e66d2dba-d1cd-4196-8b74-efedb5c84dbf'),
-('c97e2d4e-8ea5-432a-b1ae-6d71a4ad36c0',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'REFERENCE',false,true, 5000.00, 'C', 'ec6b9e7b-0f3f-4a52-aa6d-e02976332bce', 'ec6b9e7b-0f3f-4a52-aa6d-e02976332bce'),
-('cc5ced3f-8252-43df-9839-ad3f24aa88a0',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'BILL',true,true, 5500.00, 'A', 'f13546d3-d1dd-440c-809b-ae6b17fc4934', 'f13546d3-d1dd-440c-809b-ae6b17fc4934');
+INSERT INTO invoice (invoice_id ,date, discount, currency, price, category, buyer_company_id, seller_company_id, invoiced, paid, invoice_voucher) VALUES
+('04c7d09a-0b61-4b79-bf44-f79271eaeeea',TO_TIMESTAMP('1478063369'), 0, 'ARS', 1000.00, 'A', '0da5b779-832e-4c97-8080-ddb08de8a309', '0da5b779-832e-4c97-8080-ddb08de8a309' ,true,false,  'CASH'),
+('09d69173-9286-467e-b54b-c7e197c6f149',TO_TIMESTAMP('1478063369'), 0, 'ARS', 2000.00, 'B', '5b7eac09-48ef-4b5e-9710-9ce715c90ae3', '5b7eac09-48ef-4b5e-9710-9ce715c90ae3' ,false,true,  'CASH'),
+('21be3cd1-95a7-4571-bcca-7c81ccc8f1fe',TO_TIMESTAMP('1478063369'), 0, 'ARS', 1500.00, 'C', '6af58f1e-9ba1-477d-a828-53f00285fe9e', '6af58f1e-9ba1-477d-a828-53f00285fe9e' ,true,true,   'CASH'),
+('5770ffa9-afc0-44f1-bb99-7041b07363e2',TO_TIMESTAMP('1478063369'), 0, 'ARS', 2500.00, 'A', '70b2e59e-b791-49c6-9363-82b2de9b1b0f', '70b2e59e-b791-49c6-9363-82b2de9b1b0f' ,true,false,  'CASH'),
+('971ce1cb-303a-43b7-bdc3-619277a7946b',TO_TIMESTAMP('1478063369'), 0, 'ARS', 3000.00, 'B', '912c5b60-1747-48bb-a6c5-ff97e13ae0a7', '912c5b60-1747-48bb-a6c5-ff97e13ae0a7' ,false,false, 'CASH'),
+('a5bf57d9-ae0e-483d-b2ff-185139cd7cf3',TO_TIMESTAMP('1478063369'), 0, 'ARS', 3500.00, 'C', 'a357c1fa-ca4f-4e41-8acd-78dcfea4c1ab', 'a357c1fa-ca4f-4e41-8acd-78dcfea4c1ab' ,true,true,   'CASH'),
+('b20d2eab-f424-4718-b3bc-f10a38d31008',TO_TIMESTAMP('1478063369'), 0, 'ARS', 4000.00, 'A', 'b55eb91d-90f5-41c0-8d13-32cb647486db', 'b55eb91d-90f5-41c0-8d13-32cb647486db' ,false,true,  'CASH'),
+('c9032022-09d2-4863-9ac1-f486b34be429',TO_TIMESTAMP('1478063369'), 0, 'ARS', 4500.00, 'B', 'e66d2dba-d1cd-4196-8b74-efedb5c84dbf', 'e66d2dba-d1cd-4196-8b74-efedb5c84dbf' ,true,false,  'BILL'),
+('c97e2d4e-8ea5-432a-b1ae-6d71a4ad36c0',TO_TIMESTAMP('1478063369'), 0, 'ARS', 5000.00, 'C', 'ec6b9e7b-0f3f-4a52-aa6d-e02976332bce', 'ec6b9e7b-0f3f-4a52-aa6d-e02976332bce' ,false,true,  'CASH'),
+('cc5ced3f-8252-43df-9839-ad3f24aa88a0',TO_TIMESTAMP('1478063369'), 0, 'ARS', 5500.00, 'A', 'f13546d3-d1dd-440c-809b-ae6b17fc4934', 'f13546d3-d1dd-440c-809b-ae6b17fc4934' ,true,true,   'BILL');
 
-INSERT INTO invoice_product (invoiceproduct_id ,count, invoice_id, product_id) VALUES
-('f60c5d8f-7f4a-4665-bfa9-6a741ce82365', 10, ('04c7d09a-0b61-4b79-bf44-f79271eaeeea'), ('f06748be-ccc3-4d59-b4c2-518dc5e4d7a6')),
-('ed9e9383-6072-45a4-b28c-f12b29fee51b', 20, ('09d69173-9286-467e-b54b-c7e197c6f149'), ('e3509328-842f-454d-9652-33d4ea8daeaa')),
-('e7fef357-28a6-4acf-a9fc-e9fbf8abe9bd', 15, ('21be3cd1-95a7-4571-bcca-7c81ccc8f1fe'), ('aea3977a-5636-452c-b368-aa6fdb4c35d8')),
-('e4eebc5e-7916-44ae-a05e-733831be8c55', 25, ('5770ffa9-afc0-44f1-bb99-7041b07363e2'), ('aaf4bb93-3d13-42b7-ae9d-365cbc4be17a')),
-('ce2e51df-1a0f-4944-b491-bb063122cd53', 30, ('971ce1cb-303a-43b7-bdc3-619277a7946b'), ('9202f765-4a71-497e-958f-569e2a7c63f3')),
-('c4a5e578-761f-4b9b-88be-6abd1b9e2621', 35, ('a5bf57d9-ae0e-483d-b2ff-185139cd7cf3'), ('75aa51e1-202f-4d34-a3ed-c2ae0b1bc89c')),
-('aa4683b8-e9d4-40ca-b35e-084a0352d294', 40, ('b20d2eab-f424-4718-b3bc-f10a38d31008'), ('64fa97ca-6261-42c8-8819-5affc647f4fe')),
-('861afa9c-0f2e-4af2-b27e-cc22e4b831e5', 45, ('c9032022-09d2-4863-9ac1-f486b34be429'), ('40e09314-8301-44c8-97a6-0b55693da8f9')),
-('719a5cb8-e2f4-415c-9afa-53b2e64ba754', 50, ('c97e2d4e-8ea5-432a-b1ae-6d71a4ad36c0'), ('30456b8d-41e7-4746-8a5f-44a9ed2a1c90')),
-('49539afe-2710-4538-997d-9183d824e3fd', 55, ('cc5ced3f-8252-43df-9839-ad3f24aa88a0'), ('1dfb9621-0fb5-44a3-9a90-0b870b2fda98'));
+INSERT INTO invoice_product (count, invoice_id, product_id) VALUES
+(10, ('04c7d09a-0b61-4b79-bf44-f79271eaeeea'), ('f06748be-ccc3-4d59-b4c2-518dc5e4d7a6')),
+(20, ('09d69173-9286-467e-b54b-c7e197c6f149'), ('e3509328-842f-454d-9652-33d4ea8daeaa')),
+(15, ('21be3cd1-95a7-4571-bcca-7c81ccc8f1fe'), ('aea3977a-5636-452c-b368-aa6fdb4c35d8')),
+(25, ('5770ffa9-afc0-44f1-bb99-7041b07363e2'), ('aaf4bb93-3d13-42b7-ae9d-365cbc4be17a')),
+(30, ('971ce1cb-303a-43b7-bdc3-619277a7946b'), ('9202f765-4a71-497e-958f-569e2a7c63f3')),
+(35, ('a5bf57d9-ae0e-483d-b2ff-185139cd7cf3'), ('75aa51e1-202f-4d34-a3ed-c2ae0b1bc89c')),
+(40, ('b20d2eab-f424-4718-b3bc-f10a38d31008'), ('64fa97ca-6261-42c8-8819-5affc647f4fe')),
+(45, ('c9032022-09d2-4863-9ac1-f486b34be429'), ('40e09314-8301-44c8-97a6-0b55693da8f9')),
+(50, ('c97e2d4e-8ea5-432a-b1ae-6d71a4ad36c0'), ('30456b8d-41e7-4746-8a5f-44a9ed2a1c90')),
+(55, ('cc5ced3f-8252-43df-9839-ad3f24aa88a0'), ('1dfb9621-0fb5-44a3-9a90-0b870b2fda98'));
 
 select * from company;
 select * from customer;

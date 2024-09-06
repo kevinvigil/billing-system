@@ -5,22 +5,15 @@ import com.system.billingsystem.entities.InvoiceProduct;
 import com.system.billingsystem.entities.Product;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceProductId;
 
-public class InvoiceProductSteps implements InvoiceProductBuildStep, InvoiceProductIdStep, InvoiceProductCountStep, InvoiceProductInvoiceStep, InvoiceProductProductStep{
+public class InvoiceProductSteps implements InvoiceProductBuildStep, InvoiceProductCountStep, InvoiceProductInvoiceStep, InvoiceProductProductStep{
 
-    private InvoiceProductId invoiceProductId;
     private Invoice invoice;
     private Product product;
     private Integer count;
 
     @Override
     public InvoiceProduct build() {
-        return new InvoiceProduct(invoiceProductId, invoice, product, count);
-    }
-
-    @Override
-    public InvoiceProductCountStep id(InvoiceProductId id) {
-        this.invoiceProductId = id;
-        return this;
+        return new InvoiceProduct(invoice, product, count);
     }
 
     @Override

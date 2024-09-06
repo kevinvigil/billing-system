@@ -40,7 +40,6 @@ public class InvoiceProductRepoTest {
 
         baseId = invoiceProductRepo.save(invoiceProduct);
         assertNotNull(baseId);
-        invoiceProduct.setInvoiceProductId(baseId);
     }
 
     @AfterEach
@@ -53,8 +52,7 @@ public class InvoiceProductRepoTest {
     @Test
     public void testFindInvoiceProductById(){
         InvoiceProduct foundInvoiceProduct = invoiceProductRepo.findById(baseId);
-        assertNotNull(foundInvoiceProduct.getInvoiceProductId());
-        assertEquals(baseId, foundInvoiceProduct.getInvoiceProductId());
+        assertEquals(invoiceProduct.getCount(), foundInvoiceProduct.getCount());
     }
 
     @Test

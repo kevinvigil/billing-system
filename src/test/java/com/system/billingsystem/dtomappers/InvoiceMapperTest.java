@@ -89,7 +89,6 @@ public class InvoiceMapperTest {
                 .build();
 
         InvoiceProductDto invoiceProductDto = new InvoiceProductDto(
-                invoice.getInvoiceId().getValue(),
                 product.getProductId().getValue(),
                 10,
                 product.getName().getName(),
@@ -129,7 +128,6 @@ public class InvoiceMapperTest {
                 .build();
 
         InvoiceProduct invoiceProduct = InvoiceProductBuilder.newBuilder()
-                .id(new InvoiceProductId(UUID.randomUUID()))
                 .count(10)
                 .invoice(invoice)
                 .product(product)

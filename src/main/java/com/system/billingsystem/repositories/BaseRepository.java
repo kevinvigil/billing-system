@@ -1,10 +1,6 @@
 package com.system.billingsystem.repositories;
 
-import com.system.billingsystem.entities.Customer;
-import com.system.billingsystem.entities.Invoice;
 import com.system.billingsystem.entities.microtypes.ids.BaseId;
-import com.system.billingsystem.entities.microtypes.ids.CompanyId;
-import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Table;

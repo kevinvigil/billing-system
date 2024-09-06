@@ -11,16 +11,13 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 public class InvoiceProduct {
-    private InvoiceProductId invoiceProductId;
-
     private Invoice invoice;
 
     private Product product;
 
     private Integer count;
 
-    public InvoiceProduct(InvoiceProductId invoiceProductId, Integer count, Product product) {
-        this.invoiceProductId = invoiceProductId;
+    public InvoiceProduct(Integer count, Product product) {
         this.count = count;
         this.product = product;
     }
@@ -30,7 +27,6 @@ public class InvoiceProduct {
     @Override
     public String toString(){
         return ("InvoiceProduct { " +
-                ", invoiceProduct_id: " + this.invoiceProductId +
                 ", invoice_id: " + ((this.invoice == null)? null:this.invoice.getInvoiceId().getValue()) +
                 ", product_id: " + ((this.product == null)? null: this.product.getProductId().getValue()) +
                 ", count: " + this.count +

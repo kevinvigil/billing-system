@@ -20,7 +20,6 @@ public interface InvoiceProductMapper {
     InvoiceProductMapper INVOICE_PRODUCT_MAPPER = Mappers.getMapper(InvoiceProductMapper.class);
 
     @Mappings({
-            @Mapping(target = "invoiceProductId", expression = "java(mapInvoiceProductIdDto(invoiceProduct))"),
             @Mapping(target = "productId", expression = "java(mapProductId(invoiceProduct))"),
             @Mapping(target = "name", expression = "java(mapProductName(invoiceProduct))"),
             @Mapping(target = "description", expression = "java(mapProductDescription(invoiceProduct))"),
@@ -32,21 +31,11 @@ public interface InvoiceProductMapper {
 
 
     @Mappings({
-            @Mapping(target = "invoiceProductId", expression = "java(mapInvoiceProductId(dto))"),
             @Mapping(target = "product", expression = "java(mapProduct(dto))"),
             @Mapping(target = "count", source = "dto.count"),
             @Mapping(target = "invoice", ignore = true)
     })
     InvoiceProduct toDomain(InvoiceProductDto dto);
-
-    default UUID mapInvoiceProductIdDto(InvoiceProduct invoiceProduct) {
-
-        return invoiceProduct.getInvoiceProductId() != null ? invoiceProduct.getInvoiceProductId().getValue() : null;
-    }
-
-    default InvoiceProductId mapInvoiceProductId(InvoiceProductDto dto) {
-        return new InvoiceProductId(dto.invoiceProductId());
-    }
 
     default UUID mapProductId(InvoiceProduct invoiceProduct) {
         return invoiceProduct.getProduct() != null ? invoiceProduct.getProduct().getProductId().getValue() : null;

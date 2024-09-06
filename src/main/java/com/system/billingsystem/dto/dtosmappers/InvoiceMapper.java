@@ -45,7 +45,6 @@ public interface InvoiceMapper {
     default List<InvoiceProductDto> mapProductsDto (Invoice invoice){
         if(invoice == null || invoice.getProducts() == null || invoice.getProducts().isEmpty()) return new ArrayList<InvoiceProductDto>();
         return invoice.getProducts().stream().map(invoiceProduct -> new InvoiceProductDto(
-                invoiceProduct.getInvoiceProductId().getValue(),
                 invoiceProduct.getProduct().getProductId().getValue(),
                 invoiceProduct.getCount(),
                 invoiceProduct.getProduct().getName().getName(),
