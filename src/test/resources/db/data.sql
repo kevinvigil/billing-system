@@ -34,17 +34,17 @@ INSERT INTO product (product_id,description, name, price) VALUES
 ('30456b8d-41e7-4746-8a5f-44a9ed2a1c90','Product Description 9', 'Product Nine', 900.00),
 ('1dfb9621-0fb5-44a3-9a90-0b870b2fda98','Product Description 10', 'Product Ten', 1000.00);
 
-INSERT INTO invoice (invoice_id ,date, discount, invoice_voucher, invoiced, paid, total, category, buyer_company_id, seller_company_id) VALUES
-('04c7d09a-0b61-4b79-bf44-f79271eaeeea',TO_TIMESTAMP('1478063369'), 0, 'CASH',true,false, 1000.00, 'A', '0da5b779-832e-4c97-8080-ddb08de8a309', '0da5b779-832e-4c97-8080-ddb08de8a309'),
-('09d69173-9286-467e-b54b-c7e197c6f149',TO_TIMESTAMP('1478063369'), 0, 'REFERENCE',false,true, 2000.00, 'B', '5b7eac09-48ef-4b5e-9710-9ce715c90ae3', '5b7eac09-48ef-4b5e-9710-9ce715c90ae3'),
-('21be3cd1-95a7-4571-bcca-7c81ccc8f1fe',TO_TIMESTAMP('1478063369'), 0, 'REFERENCE',true,true, 1500.00, 'C', '6af58f1e-9ba1-477d-a828-53f00285fe9e', '6af58f1e-9ba1-477d-a828-53f00285fe9e'),
-('5770ffa9-afc0-44f1-bb99-7041b07363e2',TO_TIMESTAMP('1478063369'), 0, 'CASH',true,false, 2500.00, 'A', '70b2e59e-b791-49c6-9363-82b2de9b1b0f', '70b2e59e-b791-49c6-9363-82b2de9b1b0f'),
-('971ce1cb-303a-43b7-bdc3-619277a7946b',TO_TIMESTAMP('1478063369'), 0, 'REFERENCE',false,false, 3000.00, 'B', '912c5b60-1747-48bb-a6c5-ff97e13ae0a7', '912c5b60-1747-48bb-a6c5-ff97e13ae0a7'),
-('a5bf57d9-ae0e-483d-b2ff-185139cd7cf3',TO_TIMESTAMP('1478063369'), 0, 'CASH',true,true, 3500.00, 'C', 'a357c1fa-ca4f-4e41-8acd-78dcfea4c1ab', 'a357c1fa-ca4f-4e41-8acd-78dcfea4c1ab'),
-('b20d2eab-f424-4718-b3bc-f10a38d31008',TO_TIMESTAMP('1478063369'), 0, 'REFERENCE',false,true, 4000.00, 'A', 'b55eb91d-90f5-41c0-8d13-32cb647486db', 'b55eb91d-90f5-41c0-8d13-32cb647486db'),
-('c9032022-09d2-4863-9ac1-f486b34be429',TO_TIMESTAMP('1478063369'), 0, 'BILL',true,false, 4500.00, 'B', 'e66d2dba-d1cd-4196-8b74-efedb5c84dbf', 'e66d2dba-d1cd-4196-8b74-efedb5c84dbf'),
-('c97e2d4e-8ea5-432a-b1ae-6d71a4ad36c0',TO_TIMESTAMP('1478063369'), 0, 'REFERENCE',false,true, 5000.00, 'C', 'ec6b9e7b-0f3f-4a52-aa6d-e02976332bce', 'ec6b9e7b-0f3f-4a52-aa6d-e02976332bce'),
-('cc5ced3f-8252-43df-9839-ad3f24aa88a0',TO_TIMESTAMP('1478063369'), 0, 'BILL',true,true, 5500.00, 'A', 'f13546d3-d1dd-440c-809b-ae6b17fc4934', 'f13546d3-d1dd-440c-809b-ae6b17fc4934');
+INSERT INTO invoice (invoice_id ,date, discount, currency, invoice_voucher, invoiced, paid, price, category, buyer_company_id, seller_company_id) VALUES
+('04c7d09a-0b61-4b79-bf44-f79271eaeeea',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'CASH',true,false, 1000.00, 'A', '0da5b779-832e-4c97-8080-ddb08de8a309', '0da5b779-832e-4c97-8080-ddb08de8a309'),
+('09d69173-9286-467e-b54b-c7e197c6f149',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'REFERENCE',false,true, 2000.00, 'B', '5b7eac09-48ef-4b5e-9710-9ce715c90ae3', '5b7eac09-48ef-4b5e-9710-9ce715c90ae3'),
+('21be3cd1-95a7-4571-bcca-7c81ccc8f1fe',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'REFERENCE',true,true, 1500.00, 'C', '6af58f1e-9ba1-477d-a828-53f00285fe9e', '6af58f1e-9ba1-477d-a828-53f00285fe9e'),
+('5770ffa9-afc0-44f1-bb99-7041b07363e2',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'CASH',true,false, 2500.00, 'A', '70b2e59e-b791-49c6-9363-82b2de9b1b0f', '70b2e59e-b791-49c6-9363-82b2de9b1b0f'),
+('971ce1cb-303a-43b7-bdc3-619277a7946b',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'REFERENCE',false,false, 3000.00, 'B', '912c5b60-1747-48bb-a6c5-ff97e13ae0a7', '912c5b60-1747-48bb-a6c5-ff97e13ae0a7'),
+('a5bf57d9-ae0e-483d-b2ff-185139cd7cf3',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'CASH',true,true, 3500.00, 'C', 'a357c1fa-ca4f-4e41-8acd-78dcfea4c1ab', 'a357c1fa-ca4f-4e41-8acd-78dcfea4c1ab'),
+('b20d2eab-f424-4718-b3bc-f10a38d31008',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'REFERENCE',false,true, 4000.00, 'A', 'b55eb91d-90f5-41c0-8d13-32cb647486db', 'b55eb91d-90f5-41c0-8d13-32cb647486db'),
+('c9032022-09d2-4863-9ac1-f486b34be429',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'BILL',true,false, 4500.00, 'B', 'e66d2dba-d1cd-4196-8b74-efedb5c84dbf', 'e66d2dba-d1cd-4196-8b74-efedb5c84dbf'),
+('c97e2d4e-8ea5-432a-b1ae-6d71a4ad36c0',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'REFERENCE',false,true, 5000.00, 'C', 'ec6b9e7b-0f3f-4a52-aa6d-e02976332bce', 'ec6b9e7b-0f3f-4a52-aa6d-e02976332bce'),
+('cc5ced3f-8252-43df-9839-ad3f24aa88a0',TO_TIMESTAMP('1478063369'), 0, 'ARS', 'BILL',true,true, 5500.00, 'A', 'f13546d3-d1dd-440c-809b-ae6b17fc4934', 'f13546d3-d1dd-440c-809b-ae6b17fc4934');
 
 INSERT INTO invoice_product (invoiceproduct_id ,count, invoice_id, product_id) VALUES
 ('f60c5d8f-7f4a-4665-bfa9-6a741ce82365', 10, ('04c7d09a-0b61-4b79-bf44-f79271eaeeea'), ('f06748be-ccc3-4d59-b4c2-518dc5e4d7a6')),
@@ -61,5 +61,5 @@ INSERT INTO invoice_product (invoiceproduct_id ,count, invoice_id, product_id) V
 select * from company;
 select * from customer;
 select * from product;
-select * from invoice;
+select price from invoice;
 select * from invoice_product;

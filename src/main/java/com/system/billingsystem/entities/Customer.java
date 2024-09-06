@@ -40,4 +40,14 @@ public class Customer {
                 " }"
         );
     }
+
+    @Override
+    public boolean equals (Object obj){
+        if(obj instanceof Customer customer) {
+            return !(!customerId.equals(customer.getCustomerId()) ||
+                    !this.name.equals(customer.getName())) ||
+                    ! this.email.equals(customer.getEmail());
+        }
+        return false;
+    }
 }

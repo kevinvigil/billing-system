@@ -5,14 +5,15 @@ import com.system.billingsystem.entities.Customer;
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
 import com.system.billingsystem.entities.microtypes.names.CustomerName;
 
-public class CustomerSteps implements CustomerIdStep, CustomerEmailStep, CustomerNameStep, CustomerPasswordStep, CustomerCompanyStep, CustomerBuildStep {
+public class CustomerSteps implements CustomerIdStep, CustomerEmailStep, CustomerNameStep, CustomerPasswordStep,
+        CustomerCompanyStep, CustomerBuildStep {
 
     private CustomerId customerId;
     private CustomerName name;
     private String password;
     private String email;
 
-    private Company company = null;
+    private Company company;
 
     @Override
     public Customer build() {

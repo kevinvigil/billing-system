@@ -24,9 +24,9 @@ public interface CustomerMapper {
     @Mappings({
             @Mapping(target = "customerId", expression = "java(customer.getCustomerId().getValue())"),
             @Mapping(target = "name", expression = "java(customer.getName().toString())"),
-            @Mapping(target = "password", expression = "java(toPassDto())"),
+            @Mapping(target = "password", expression = "java(customer.getPassword())"),
             @Mapping(target = "email", expression = "java(customer.getEmail().toString())"),
-            @Mapping(target = "company", expression = "java(mapCompanyId(customer.getCompany()))")
+            @Mapping(target = "company", expression = "java(mapToCompanyDto(customer.getCompany()))")
     })
     CustomerDto toDto(Customer customer);
 
@@ -54,19 +54,13 @@ public interface CustomerMapper {
         };
     }
 
-    default String toPassDto(){
-        return null;
-    }
-
-    default UUID mapCompanyId(Company company){
+    default CompanyDto mapToCompanyDto(Company company){
         if (company == null) return null;
-        return company.getCompanyId().getValue();
+        return COMPANY_MAPPER.toDto(company);
     }
 
-    default Company mapToCompany(UUID companyId){
-        if (companyId == null) return null;
-        Company company = new Company();
-        company.setCompanyId(new CompanyId(companyId));
-        return company;
+    default Company mapToCompany(CompanyDto companyDto){
+        if (companyDto == null) return null;
+        return COMPANY_MAPPER.toDomain(companyDto);
     }
 }

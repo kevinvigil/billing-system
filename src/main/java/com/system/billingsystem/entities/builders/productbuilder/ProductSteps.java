@@ -5,11 +5,13 @@ import com.system.billingsystem.entities.microtypes.ids.ProductId;
 import com.system.billingsystem.entities.microtypes.names.ProductName;
 import com.system.billingsystem.entities.microtypes.prices.ProductPrice;
 
-public class ProductSteps implements ProductBuildStep, ProductDescriptionStep, ProductIdStep, ProductNameStep, ProductPriceStep {
+public class ProductSteps implements ProductBuildStep, ProductDescriptionStep, ProductIdStep, ProductNameStep,
+        ProductPriceStep, ProductCountStep {
     private ProductId productId;
     private ProductName name;
     private String description;
     private ProductPrice price;
+    private Integer count;
 
 
     @Override
@@ -36,8 +38,14 @@ public class ProductSteps implements ProductBuildStep, ProductDescriptionStep, P
     }
 
     @Override
-    public ProductBuildStep price(ProductPrice price) {
+    public ProductCountStep price(ProductPrice price) {
         this.price = price;
+        return this;
+    }
+
+    @Override
+    public ProductBuildStep count(Integer count) {
+        this.count = count;
         return this;
     }
 }

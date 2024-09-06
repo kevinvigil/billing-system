@@ -24,6 +24,16 @@ public class CustomerName {
 
     @Override
     public String toString() {
-        return firstName +", " + secondName +", " + surname;
+        return firstName +" " + secondName +" " + surname;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof CustomerName c) {
+            return firstName.equals(c.getFirstName())
+                    && secondName.equals(c.getSecondName())
+                    && surname.equals(c.getSurname());
+        }
+        return false;
     }
 }

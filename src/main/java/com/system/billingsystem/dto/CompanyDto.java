@@ -1,8 +1,10 @@
 package com.system.billingsystem.dto;
 
 import com.system.billingsystem.entities.Invoice;
+import org.apache.maven.model.Build;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public record CompanyDto(
@@ -12,10 +14,10 @@ public record CompanyDto(
         String phone,
         String email,
         String cuit,
-        List<Invoice> soldInvoices,
-        List<Invoice> purchasedInvoices ) {
+        List<InvoiceDto> soldInvoices,
+        List<InvoiceDto> purchasedInvoices ) {
 
-    public CompanyDto(UUID companyId, String name, String address, String phone, String email, String cuit, List<Invoice> soldInvoices, List<Invoice> purchasedInvoices) {
+    public CompanyDto(UUID companyId, String name, String address, String phone, String email, String cuit, List<InvoiceDto> soldInvoices, List<InvoiceDto> purchasedInvoices) {
         this.companyId = companyId;
         this.name = name;
         this.address = address;

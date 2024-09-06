@@ -48,11 +48,11 @@ public class Company {
     @Override
     public String toString(){
         return ("Company { " +
-                ", company_id: " + this.companyId +
-                ", name: " + this.name +
-                ", address: " + this.address +
-                ", phone: " + this.phone +
-                " }");
+                ", \n company_id: " + this.companyId +
+                ", \n name: " + this.name +
+                ", \n address: " + this.address +
+                ", \n phone: " + this.phone +
+                " \n }");
     }
 
     @Override

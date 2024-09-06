@@ -22,7 +22,6 @@ public class Invoice {
     private boolean paid;
     private boolean invoiced;
     private InvoicePrice price;
-    private Currency currency;
     private Discount discount;
     private InvoiceVoucher invoicevoucher;
     private InvoiceCategory category;
@@ -30,7 +29,7 @@ public class Invoice {
     private Company buyerCompany;
     private List<InvoiceProduct> products;
 
-    public Invoice(InvoiceId invoiceId, Timestamp date, boolean paid, boolean invoiced, InvoicePrice price, Currency currency,
+    public Invoice(InvoiceId invoiceId, Timestamp date, boolean paid, boolean invoiced, InvoicePrice price,
                    Discount discount, InvoiceVoucher invoicevoucher, InvoiceCategory category,
                    Company sellerCompany, Company buyerCompany) {
         this.invoiceId = invoiceId;
@@ -38,7 +37,6 @@ public class Invoice {
         this.paid = paid;
         this.invoiced = invoiced;
         this.price = price;
-        this.currency = currency;
         this.discount = discount;
         this.invoicevoucher = invoicevoucher;
         this.category = category;
@@ -55,16 +53,16 @@ public class Invoice {
     @Override
     public String toString() {
         return "Invoice{" +
-                "invoice_id=" + invoiceId +
-                ", date=" + date +
-                ", paid=" + paid +
-                ", invoiced=" + invoiced +
-                ", total=" + price +
-                ", invoice voucher='" + ((invoicevoucher == null)? null: invoicevoucher.name()) + '\'' +
-                ", type='" + category.name() + '\'' +
-                ", company=" + ((sellerCompany != null) ? sellerCompany.getCompanyId().getValue() : "null") +
-                ", customer=" + ((buyerCompany != null) ? buyerCompany.getCompanyId().getValue() : "null") +
-                '}';
+                "\n invoice_id=" + invoiceId +
+                ", \n date=" + date +
+                ", \n paid=" + paid +
+                ", \n invoiced=" + invoiced +
+                ", \n total=" + price +
+                ", \n invoice voucher='" + ((invoicevoucher == null)? null: invoicevoucher.name()) + '\'' +
+                ", \n type='" + category.name() + '\'' +
+                ", \n company=" + ((sellerCompany != null) ? sellerCompany.getCompanyId().getValue() : "null") +
+                ", \n customer=" + ((buyerCompany != null) ? buyerCompany.getCompanyId().getValue() : "null") +
+                " \n }";
     }
 
     @Override

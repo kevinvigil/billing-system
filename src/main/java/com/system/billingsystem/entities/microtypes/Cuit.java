@@ -12,4 +12,9 @@ public class Cuit {
     }
 
     public Cuit() {}
+
+    @Override
+    public String toString() {
+        return cuit;
+    }
 }

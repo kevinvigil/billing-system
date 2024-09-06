@@ -21,7 +21,7 @@ public class CreateCompanyIntegrationTest extends BaseIntegrationTest {
                 "phone": "+549 2287 445566",
                 "cuit": "22222",
                 "email": "company1@gmail.com",
-                "address": "country, state, city,",
+                "address": "country, state, city, zip",
                 "soldInvoices": [],
                 "purchasedInvoices": []
             }
@@ -35,7 +35,6 @@ public class CreateCompanyIntegrationTest extends BaseIntegrationTest {
                 .exchange();
 
         // Then
-        response.expectStatus().isCreated()
-                .expectBody().equals(companyId.toString());
+        response.expectStatus().isCreated();
     }
 }

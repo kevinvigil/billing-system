@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CreateCustomerIntegrationTest extends BaseIntegrationTest {
 
     @Test
-    public void shouldCreateCustomer() {
+    public void shouldCreateNewCustomer() {
         var customerId = UUID.randomUUID();
 
         Object requestBody = String.format(
@@ -31,8 +31,7 @@ public class CreateCustomerIntegrationTest extends BaseIntegrationTest {
                 .exchange();
 
         assertNotNull(response);
-        response.expectStatus().isCreated()
-                .expectBody().equals(customerId.toString());
+        response.expectStatus().isCreated();
 
     }
 }

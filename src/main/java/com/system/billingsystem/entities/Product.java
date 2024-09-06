@@ -41,5 +41,15 @@ public class Product {
                 ", Price: " + this.price +
                 " }");
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Product product) {
+            return !(!this.productId.equals(product.productId) ||
+                    !this.name.equals(product.name) ||
+                    !this.description.equals(product.description)) ;
+        }
+        return false;
+    }
 }
 

@@ -9,7 +9,7 @@ import java.util.UUID;
 public class CreateProductIntegrationTest extends BaseIntegrationTest {
 
     @Test
-    public void shouldCreateProduct() {
+    public void shouldCreateNewProduct() {
 
         UUID productId = UUID.randomUUID();
 

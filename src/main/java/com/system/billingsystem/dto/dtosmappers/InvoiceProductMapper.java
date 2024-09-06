@@ -10,11 +10,14 @@ import com.system.billingsystem.entities.microtypes.prices.ProductPrice;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 @Mapper
 public interface InvoiceProductMapper {
+
+    InvoiceProductMapper INVOICE_PRODUCT_MAPPER = Mappers.getMapper(InvoiceProductMapper.class);
 
     @Mappings({
             @Mapping(target = "invoiceProductId", expression = "java(mapInvoiceProductIdDto(invoiceProduct))"),
@@ -22,7 +25,7 @@ public interface InvoiceProductMapper {
             @Mapping(target = "name", expression = "java(mapProductName(invoiceProduct))"),
             @Mapping(target = "description", expression = "java(mapProductDescription(invoiceProduct))"),
             @Mapping(target = "price", expression = "java(mapProductPrice(invoiceProduct))"),
-            @Mapping(target = "count", source = "invoiceProduct.count")
+            @Mapping(target = "count", expression = "java(invoiceProduct.getCount())")
     })
     InvoiceProductDto toDto(InvoiceProduct invoiceProduct);
 
@@ -32,11 +35,12 @@ public interface InvoiceProductMapper {
             @Mapping(target = "invoiceProductId", expression = "java(mapInvoiceProductId(dto))"),
             @Mapping(target = "product", expression = "java(mapProduct(dto))"),
             @Mapping(target = "count", source = "dto.count"),
-            @Mapping(target = "invoice", ignore = true) // Ignoramos Invoice como lo solicitaste
+            @Mapping(target = "invoice", ignore = true)
     })
     InvoiceProduct toDomain(InvoiceProductDto dto);
 
     default UUID mapInvoiceProductIdDto(InvoiceProduct invoiceProduct) {
+
         return invoiceProduct.getInvoiceProductId() != null ? invoiceProduct.getInvoiceProductId().getValue() : null;
     }
 

@@ -43,7 +43,8 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
                 .set(INVOICE.INVOICE_VOUCHER, persisted.getInvoicevoucher().name())
                 .set(INVOICE.INVOICED, persisted.isInvoiced())
                 .set(INVOICE.PAID, persisted.isPaid())
-                .set(INVOICE.TOTAL, persisted.getPrice().getValue())
+                .set(INVOICE.PRICE, persisted.getPrice().getValue())
+                .set(INVOICE.CURRENCY, persisted.getPrice().getCurrency().name())
                 .set(INVOICE.CATEGORY, persisted.getCategory().name())
                 .set(INVOICE.BUYER_COMPANY_ID, (persisted.getBuyerCompany() != null)? persisted.getBuyerCompany().getCompanyId().getValue(): null)
                 .set(INVOICE.SELLER_COMPANY_ID, (persisted.getSellerCompany() != null)? persisted.getSellerCompany().getCompanyId().getValue(): null)
@@ -60,7 +61,8 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
                 .set(INVOICE.INVOICE_VOUCHER, persisted.getInvoicevoucher().name())
                 .set(INVOICE.INVOICED, persisted.isInvoiced())
                 .set(INVOICE.PAID, persisted.isPaid())
-                .set(INVOICE.TOTAL, persisted.getPrice().getValue())
+                .set(INVOICE.PRICE, persisted.getPrice().getValue())
+                .set(INVOICE.CURRENCY, persisted.getPrice().getCurrency().name())
                 .set(INVOICE.CATEGORY, persisted.getCategory().name())
                 .set(INVOICE.BUYER_COMPANY_ID, (persisted.getBuyerCompany() != null)? persisted.getBuyerCompany().getCompanyId().getValue(): null)
                 .set(INVOICE.SELLER_COMPANY_ID, (persisted.getSellerCompany() != null)? persisted.getSellerCompany().getCompanyId().getValue(): null)
@@ -102,8 +104,7 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
                 .date(Timestamp.valueOf(invoiceRecord.getValue(INVOICE.DATE)))
                 .paid(invoiceRecord.getValue(INVOICE.PAID))
                 .invoiced(invoiceRecord.getValue(INVOICE.INVOICED))
-                .price(new InvoicePrice(invoiceRecord.getValue(INVOICE.TOTAL)))
-                .currency(Currency.ARS)/// TODO
+                .price(new InvoicePrice(Currency.valueOf(invoiceRecord.getValue(INVOICE.CURRENCY)) ,invoiceRecord.getValue(INVOICE.PRICE)))
                 .discount(new Discount(invoiceRecord.getValue(INVOICE.DISCOUNT)))
                 .invoiceVoucher(InvoiceVoucher.valueOf(invoiceRecord.getValue(INVOICE.INVOICE_VOUCHER)))
                 .category(InvoiceCategory.valueOf(invoiceRecord.getValue(INVOICE.CATEGORY)))
@@ -115,6 +116,8 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
                                 .address(AddressMapper.toDomain(companyBuyerRecord.getValue(COMPANY.as("seller").ADDRESS)))
                                 .phone(PhoneMapper.toDomain(companySellerRecord.getValue(COMPANY.as("seller").PHONE)))
                                 .email(companyBuyerRecord.getValue(COMPANY.as("seller").EMAIL))
+                                .soldInvoices(null)
+                                .purchasedInvoices(null)
                                 .build()
                 )
                 .buyerCompany(
@@ -125,6 +128,8 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
                                 .address(AddressMapper.toDomain(companyBuyerRecord.getValue(COMPANY.as("buyer").ADDRESS)))
                                 .phone(PhoneMapper.toDomain(companySellerRecord.getValue(COMPANY.as("buyer").PHONE)))
                                 .email(companyBuyerRecord.getValue(COMPANY.as("buyer").EMAIL))
+                                .soldInvoices(null)
+                                .purchasedInvoices(null)
                                 .build()
                 ).ListInvoiceProducts(null).build();
     }

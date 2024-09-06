@@ -9,4 +9,9 @@ public class BaseName {
     public BaseName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

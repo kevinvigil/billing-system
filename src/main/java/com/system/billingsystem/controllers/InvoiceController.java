@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import static com.system.billingsystem.dto.dtosmappers.InvoiceMapper.INVOICE_MAPPER;
@@ -47,7 +48,7 @@ public class InvoiceController {
                 return ResponseEntity.ok().body(invoiceService.updateInvoice(INVOICE_MAPPER.toDomain(entity)));
             else if (!invoice.isInvoiced()) {
                 Invoice domain = INVOICE_MAPPER.toDomain(entity);
-                if ( invoice.equals(domain) && invoice.isInvoiced() != entity.invoiced())
+                if (Objects.equals(invoice, domain) && invoice.isInvoiced() != entity.invoiced())
                     return ResponseEntity.ok().body(invoiceService.updateInvoice(domain));
                 else
                     throw new UnsupportedOperationException("This invoice can change only to be invoiced" +

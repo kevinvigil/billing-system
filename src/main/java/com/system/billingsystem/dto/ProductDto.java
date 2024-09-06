@@ -36,4 +36,14 @@ public record ProductDto (
     public BigDecimal price() {
         return price;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof ProductDto productDto){
+            return !(!productId.equals(productDto.productId()) ||
+                    !name.equals(productDto.name()) ||
+                    !description.equals(productDto.description()));
+        }
+        return false;
+    }
 }

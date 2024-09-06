@@ -9,7 +9,7 @@ import java.util.UUID;
 public class CreateInvoiceIntegrationTest extends BaseIntegrationTest {
 
     @Test
-    public void shouldCreateInvoice() {
+    public void shouldCreateNewInvoice() {
 
         var invoiceId = UUID.randomUUID();
 
