@@ -36,18 +36,18 @@ public class InvoiceService{
     public Invoice saveInvoice(@NotNull Invoice invoice){
         try{
             List<InvoiceProduct> productList = invoice.getProducts();
-            double total = 0.0;
-            if (productList != null && !productList.isEmpty()){
-                for (InvoiceProduct invoiceProduct:productList) {
-                    invoiceProduct.setInvoice(invoice);
 
-                    Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProductId());
-                    total += invoiceProduct.getCount() * currentProduct.getPrice().getValue().doubleValue();
+            double amount = productList.stream().map(invoiceProduct -> {
+                invoiceProduct.setInvoice(invoice);
 
-                    saveInvoiceProduct(invoiceProduct);
-                }
-            }
-            invoice.setPrice(new InvoicePrice(BigDecimal.valueOf(total)));
+                Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProductId());
+                double total = invoiceProduct.getCount() * currentProduct.getPrice().getValue().doubleValue();
+
+                saveInvoiceProduct(invoiceProduct);
+                return total;
+            }).mapToDouble(Double::doubleValue).sum();
+
+            invoice.setPrice(new InvoicePrice(BigDecimal.valueOf(amount)));
             InvoiceId uuid = invoiceRepository.save(invoice);
             return invoiceRepository.findById(uuid);
         }catch (Exception e){

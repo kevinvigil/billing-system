@@ -1,6 +1,7 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Company;
+import com.system.billingsystem.entities.microtypes.ids.BaseId;
 import com.system.billingsystem.entities.microtypes.microtypesmapper.AddressMapper;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.microtypesmapper.PhoneMapper;
@@ -48,6 +49,12 @@ public class CompanyRepository extends BaseRepository<CompanyRecord, Company> {
                 .execute();
 
         return (execution == 1);
+    }
+
+    public Company findById(BaseId id) {
+        return dsl.selectFrom(table)
+                .where(getIdField().eq(id.getValue()))
+                .fetchOneInto(Company.class);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.system.billingsystem.integrations.usecases;
+package com.system.billingsystem.integrations.usecases.company.crud;
 
 import com.system.billingsystem.integrations.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
@@ -13,19 +13,17 @@ public class CreateCompanyIntegrationTest extends BaseIntegrationTest {
         // Given
         var companyId = UUID.randomUUID();
 
-        Object requestBody = String.format(
-                """
-            {
-                "companyId": "%s",
-                "name": "company",
-                "phone": "+549 2287 445566",
-                "cuit": "22222",
-                "email": "company1@gmail.com",
-                "address": "country, state, city, zip",
-                "soldInvoices": [],
-                "purchasedInvoices": []
-            }
-            """, companyId);
+        Object requestBody = """
+        {
+            "name": "company",
+            "phone": "+549 2287 445566",
+            "cuit": "22222",
+            "email": "company1@gmail.com",
+            "address": "country, state, city, zip",
+            "soldInvoices": [],
+            "purchasedInvoices": []
+        }
+        """;
 
         // When
         var response = webTestClient.post()

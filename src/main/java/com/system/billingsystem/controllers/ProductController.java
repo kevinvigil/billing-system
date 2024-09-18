@@ -69,8 +69,8 @@ public class ProductController {
     @GetMapping("/api/product/")
     public ResponseEntity<?> findAll(){
         try {
-            List<ProductDto> productDtos = this.invoiceService.findAllProducts().stream().map(PRODUCT_MAPPER::toDto).toList();
-            return ResponseEntity.ok().body(productDtos);
+            List<ProductDto> listProductDto = this.invoiceService.findAllProducts().stream().map(PRODUCT_MAPPER::toDto).toList();
+            return ResponseEntity.ok().body(listProductDto);
         } catch (Exception e){
             throw new InternalError();
         }

@@ -1,4 +1,4 @@
-package com.system.billingsystem.integrations.usecases;
+package com.system.billingsystem.integrations.usecases.customer.crud;
 
 import com.system.billingsystem.integrations.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
@@ -12,18 +12,15 @@ public class CreateCustomerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void shouldCreateNewCustomer() {
-        var customerId = UUID.randomUUID();
 
-        Object requestBody = String.format(
-                """
-                {
-                "customerId": "%s",
-                "name": "firstName secondName surname",
-                "email": "customerEmail@gmail.com",
-                "password": "password"
-                }
-                
-                """, customerId);
+        Object requestBody = """
+        {
+            "name": "firstName secondName surname",
+            "email": "customerEmail@gmail.com",
+            "password": "password",
+            "company": null
+        }
+        """;
 
         var response = webTestClient.post().uri("/api/customer/")
                 .contentType(MediaType.APPLICATION_JSON)
