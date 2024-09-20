@@ -33,7 +33,7 @@ public class InvoiceService{
         this.invoiceRepository = invoiceRepository;
     }
 
-    public Invoice saveInvoice(@NotNull Invoice invoice){
+    public InvoiceId saveInvoice(@NotNull Invoice invoice){
         try{
             List<InvoiceProduct> productList = invoice.getProducts();
 
@@ -48,8 +48,8 @@ public class InvoiceService{
             }).mapToDouble(Double::doubleValue).sum();
 
             invoice.setPrice(new InvoicePrice(BigDecimal.valueOf(amount)));
-            InvoiceId uuid = invoiceRepository.save(invoice);
-            return invoiceRepository.findById(uuid);
+
+            return invoiceRepository.save(invoice);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method saveInvoice, message: " + e.getMessage());
             throw e;
@@ -97,6 +97,10 @@ public class InvoiceService{
     public Invoice findInvoiceById(@NotNull InvoiceId id){
         try {
             Invoice invoice = invoiceRepository.findById(id);
+
+            System.out.println(
+                    "paseeeeeeee"
+            );
             List<InvoiceProduct> invoiceProductList = invoiceProductRepository.findByInvoiceId(id);
             invoice.setProducts(invoiceProductList);
             return invoice;
@@ -177,11 +181,9 @@ public class InvoiceService{
         }
     }
 
-    public Product updateProductById (@NotNull Product product){
+    public boolean updateProductById (@NotNull Product product){
         try{
-            if (this.productRepository.update(product))
-                return this.productRepository.findById(product.getProductId());
-            return null;
+            return this.productRepository.update(product);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findProductById, message: " + e.getMessage());
             throw e;

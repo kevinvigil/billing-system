@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class GetProductIntegrationTest extends BaseIntegrationTest {
     @Test
-    public void shouldGetInvoiceById() {
+    public void shouldGetProductById() {
         // Given
 
         Object requestBody = """

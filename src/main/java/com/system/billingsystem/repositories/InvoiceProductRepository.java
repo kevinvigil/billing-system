@@ -92,6 +92,8 @@ public class InvoiceProductRepository extends BaseRepository<InvoiceProductRecor
                 .where(INVOICE_PRODUCT.INVOICE_ID.eq(invoiceId.getValue()))
                 .fetch();
 
+        if (result.isEmpty()) return new ArrayList<>();
+
         return getInvoiceProductsWhitId(result);
     }
 
@@ -102,6 +104,8 @@ public class InvoiceProductRepository extends BaseRepository<InvoiceProductRecor
                 .innerJoin(PRODUCT).on(INVOICE_PRODUCT.PRODUCT_ID.eq(PRODUCT.PRODUCT_ID))
                 .where(INVOICE_PRODUCT.PRODUCT_ID.eq(productId.getValue()))
                 .fetch();
+
+        if (result.isEmpty()) return new ArrayList<>();
 
         return getInvoiceProductsWhitId(result);
     }

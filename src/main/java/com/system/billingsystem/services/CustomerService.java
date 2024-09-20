@@ -31,11 +31,9 @@ public class CustomerService {
         }
     }
 
-    public Customer update(Customer entity) {
+    public boolean update(Customer entity) {
         try {
-            if (this.customerRepository.update(entity))
-                return this.customerRepository.findById(entity.getCustomerId());
-            return null;
+            return this.customerRepository.update(entity);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on UserService method update, massage: " + e.getMessage());
             throw e;

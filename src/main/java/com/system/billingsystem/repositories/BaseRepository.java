@@ -35,6 +35,7 @@ public abstract class BaseRepository<R extends Record, E> {
     public E findById(BaseId id) {
         return dsl.selectFrom(table)
                 .where(getIdField().eq(id.getValue()))
+                .groupBy(getIdField())
                 .fetchOneInto(E);
     }
 

@@ -32,8 +32,7 @@ public class InvoiceController {
         if (entity == null)
             throw new IllegalArgumentException();
 
-        Invoice invoice = invoiceService.saveInvoice(INVOICE_MAPPER.toDomain(entity));
-        return ResponseEntity.status(HttpStatus.CREATED).body(INVOICE_MAPPER.toDto(invoice));
+        return ResponseEntity.status(HttpStatus.CREATED).body(invoiceService.saveInvoice(INVOICE_MAPPER.toDomain(entity)));
     }
 
     @PutMapping("/api/invoice/")

@@ -20,7 +20,8 @@ CREATE TABLE PRODUCT (
     product_id uuid NOT NULL PRIMARY KEY,
     description varchar(255) DEFAULT NULL,
     name varchar(255) NOT NULL,
-    price decimal(10,2) NOT NULL
+    price decimal(10,2) NOT NULL,
+    count INT DEFAULT NULL
 );
 
 CREATE TABLE INVOICE (

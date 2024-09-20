@@ -61,5 +61,5 @@ INSERT INTO invoice_product (count, invoice_id, product_id) VALUES
 select * from company;
 select * from customer;
 select * from product;
-select price from invoice;
+select * from invoice;
 select * from invoice_product;

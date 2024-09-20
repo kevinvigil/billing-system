@@ -1,6 +1,7 @@
 package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.Customer;
+import com.system.billingsystem.entities.microtypes.Mail;
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
 import com.system.billingsystem.entities.microtypes.names.CustomerName;
 import org.junit.jupiter.api.AfterEach;
@@ -34,7 +35,7 @@ public class CustomerRepoTest {
     public void setUp() {
         customer = Customer.builder()
                 .name(new CustomerName("user name","user name","user name"))
-                .email("user2@hotmail.com")
+                .email(new Mail("user2@hotmail.com"))
                 .password("userPassword")
                 .company(null)
                 .build();
@@ -69,7 +70,7 @@ public class CustomerRepoTest {
     public void testFindAll(){
         Customer newCustomer = Customer.builder()
                 .name(new CustomerName("user2 name","user2 name","user2 name"))
-                .email("user3@hotmail.com")
+                .email(new Mail("user2@hotmail.com"))
                 .password("user3Password")
                 .company(null)
                 .build();

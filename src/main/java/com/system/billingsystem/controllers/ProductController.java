@@ -43,9 +43,12 @@ public class ProductController {
         if (entity == null)
             throw new IllegalArgumentException();
 
-        Product product = invoiceService.updateProductById(PRODUCT_MAPPER.toDomain(entity));
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(PRODUCT_MAPPER.toDto(product));
+        try {
+            invoiceService.updateProductById(PRODUCT_MAPPER.toDomain(entity));
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/api/product/{id}")

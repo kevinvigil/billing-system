@@ -15,8 +15,8 @@ public class Product {
     private ProductId productId;
     private ProductName name;
     private String description;
-    private Integer count;
     private ProductPrice price;
+    private Integer count;
 
     public Product() {}
 
@@ -47,7 +47,9 @@ public class Product {
         if(obj instanceof Product product) {
             return !(!this.productId.equals(product.productId) ||
                     !this.name.equals(product.name) ||
-                    !this.description.equals(product.description)) ;
+                    !this.description.equals(product.description) ||
+                    !this.price.equals(product.price) ||
+                    !this.count.equals(product.count)) ;
         }
         return false;
     }

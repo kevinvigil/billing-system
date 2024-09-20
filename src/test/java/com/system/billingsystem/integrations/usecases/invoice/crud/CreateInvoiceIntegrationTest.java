@@ -14,7 +14,7 @@ public class CreateInvoiceIntegrationTest extends BaseIntegrationTest {
            "date": "11111111111111",
            "paid": false,
            "invoiced": false,
-           "price": "2",
+           "price": "0",
            "discount": "0",
            "currency": "ARS",
            "invoiceVoucher": "REFERENCE",

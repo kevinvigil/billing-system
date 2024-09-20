@@ -27,7 +27,7 @@ public class CustomerRepository extends BaseRepository<CustomerRecord, Customer>
 
         int execution = dsl.insertInto(CUSTOMER)
                 .set(CUSTOMER.CUSTOMER_ID, id)
-                .set(CUSTOMER.EMAIL, persisted.getEmail())
+                .set(CUSTOMER.EMAIL, persisted.getEmail().getValue())
                 .set(CUSTOMER.NAME, CustomerNameMapper.toJson(persisted.getName()))
                 .set(CUSTOMER.PASSWORD, persisted.getPassword())
                 .execute();
@@ -38,7 +38,7 @@ public class CustomerRepository extends BaseRepository<CustomerRecord, Customer>
     @Override
     public boolean update(Customer persisted) {
         int execution = dsl.update(CUSTOMER)
-                .set(CUSTOMER.EMAIL, persisted.getEmail())
+                .set(CUSTOMER.EMAIL, persisted.getEmail().getValue())
                 .set(CUSTOMER.NAME, CustomerNameMapper.toJson(persisted.getName()))
                 .set(CUSTOMER.PASSWORD, persisted.getPassword())
                 .where(CUSTOMER.CUSTOMER_ID.eq(persisted.getCustomerId().getValue()))

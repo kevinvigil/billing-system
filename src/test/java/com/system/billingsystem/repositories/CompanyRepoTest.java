@@ -3,6 +3,7 @@ package com.system.billingsystem.repositories;
 import com.system.billingsystem.entities.Company;
 import com.system.billingsystem.entities.microtypes.Address;
 import com.system.billingsystem.entities.microtypes.Cuit;
+import com.system.billingsystem.entities.microtypes.Mail;
 import com.system.billingsystem.entities.microtypes.Phone;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.names.CompanyName;
@@ -36,7 +37,7 @@ public class CompanyRepoTest {
         company = Company.builder()
                 .name(new CompanyName("company"))
                 .cuit(new Cuit("1111"))
-                .email("company@hotmail.com")
+                .email(new Mail("company@hotmail.com"))
                 .phone(new Phone("+54", "1111", "1111"))
                 .address(new Address("hello world","hello world","hello world")) //TODO
                 .build();
@@ -75,7 +76,7 @@ public class CompanyRepoTest {
                 .companyId(new CompanyId(UUID.randomUUID()))
                 .name(new CompanyName("company"))
                 .cuit(new Cuit("2222"))
-                .email("company2@hotmail.com")
+                .email(new Mail("company2@hotmail.com"))
                 .phone(new Phone("+54", "1111", "1111"))
                 .address(new Address("hello world","hello world","hello world")) //TODO
                 .build();

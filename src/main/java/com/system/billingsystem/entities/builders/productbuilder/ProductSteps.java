@@ -16,7 +16,7 @@ public class ProductSteps implements ProductBuildStep, ProductDescriptionStep, P
 
     @Override
     public Product build() {
-        return new Product(productId, name, description, price);
+        return new Product(productId, name, description, price, count);
     }
 
     @Override

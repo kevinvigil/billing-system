@@ -28,7 +28,7 @@ public interface CompanyMapper {
             @Mapping(target = "phone", expression = "java(company.getPhone().toString())"),
             @Mapping(target = "companyId", expression = "java(company.getCompanyId().getValue())"),
             @Mapping(target = "name", expression = "java(company.getName().getName())"),
-            @Mapping(target = "email", expression = "java(company.getEmail())"),
+            @Mapping(target = "email", expression = "java(company.getEmail().getValue())"),
             @Mapping(target = "cuit", expression = "java(company.getCuit().getCuit())"),
             @Mapping(target = "soldInvoices", expression = "java(mapInvoicesToDto(company.getSoldInvoices()))"),
             @Mapping(target = "purchasedInvoices", expression = "java(mapInvoicesToDto(company.getPurchasedInvoices()))")
@@ -41,7 +41,7 @@ public interface CompanyMapper {
     }
 
     @Mappings({
-            @Mapping(target = "email", source = "dto.email"),
+            @Mapping(target = "email", expression = "java(mapEmailToDomain(dto.email()))"),
             @Mapping(target = "companyId", expression = "java(mapCompanyId(dto.companyId()))"),
             @Mapping(target = "phone", expression = "java(mapPhone(dto.phone()))"),
             @Mapping(target = "name", expression = "java(mapCompanyName(dto.name()))"),
@@ -51,6 +51,11 @@ public interface CompanyMapper {
             @Mapping(target = "purchasedInvoices", expression = "java(mapInvoicesToDomain(dto.purchasedInvoices()))")
     })
     Company toDomain(CompanyDto dto);
+
+    default Mail mapEmailToDomain(String email){
+        if (email == null) return null;
+        return new Mail(email);
+    }
 
     default List<Invoice> mapInvoicesToDomain(List<InvoiceDto> dtoList){
         if (dtoList == null ) return new ArrayList<>();

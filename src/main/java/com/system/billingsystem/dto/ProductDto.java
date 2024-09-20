@@ -42,7 +42,9 @@ public record ProductDto (
         if (o instanceof ProductDto productDto){
             return !(!productId.equals(productDto.productId()) ||
                     !name.equals(productDto.name()) ||
-                    !description.equals(productDto.description()));
+                    !description.equals(productDto.description()) ||
+                    !price.equals(productDto.price()) ||
+                    !count.equals(productDto.count()));
         }
         return false;
     }

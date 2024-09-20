@@ -8,6 +8,7 @@ import com.system.billingsystem.entities.builders.companybuilder.CompanyBuilder;
 import com.system.billingsystem.entities.builders.customerbuilder.CustomerBuilder;
 import com.system.billingsystem.entities.microtypes.Address;
 import com.system.billingsystem.entities.microtypes.Cuit;
+import com.system.billingsystem.entities.microtypes.Mail;
 import com.system.billingsystem.entities.microtypes.Phone;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
@@ -40,7 +41,7 @@ public class CustomerMapperTest {
                 .cuit(new Cuit("cuit"))
                 .address(new Address("country","state","city", "zip"))
                 .phone(new Phone("+53","2222","2222"))
-                .email("newEmail@company.com")
+                .email(new Mail("newEmail@company.com"))
                 .soldInvoices(null)
                 .purchasedInvoices(null)
                 .build();
@@ -55,7 +56,7 @@ public class CustomerMapperTest {
                 .CustomerId(new CustomerId(baseId))
                 .name(new CustomerName("first","second","surname"))
                 .password("password")
-                .email("customer@customer.com")
+                .email(new Mail("customer@customer.com"))
                 .company(null)
                 .build();
 

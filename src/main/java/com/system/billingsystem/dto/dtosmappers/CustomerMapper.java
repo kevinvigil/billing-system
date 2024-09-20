@@ -4,6 +4,7 @@ import com.system.billingsystem.dto.CompanyDto;
 import com.system.billingsystem.dto.CustomerDto;
 import com.system.billingsystem.entities.Company;
 import com.system.billingsystem.entities.Customer;
+import com.system.billingsystem.entities.microtypes.Mail;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
 import com.system.billingsystem.entities.microtypes.names.CustomerName;
@@ -25,7 +26,7 @@ public interface CustomerMapper {
             @Mapping(target = "customerId", expression = "java(customer.getCustomerId().getValue())"),
             @Mapping(target = "name", expression = "java(customer.getName().toString())"),
             @Mapping(target = "password", expression = "java(customer.getPassword())"),
-            @Mapping(target = "email", expression = "java(customer.getEmail().toString())"),
+            @Mapping(target = "email", expression = "java(customer.getEmail().getValue())"),
             @Mapping(target = "company", expression = "java(mapToCompanyDto(customer.getCompany()))")
     })
     CustomerDto toDto(Customer customer);
@@ -34,11 +35,16 @@ public interface CustomerMapper {
             @Mapping(target = "customerId", expression = "java(mapCustomerId(dto.customerId()))"),
             @Mapping(target = "name", expression = "java(mapCustomerName(dto.name()))"),
             @Mapping(target = "password", expression = "java(dto.password())"),
-            @Mapping(target = "email", expression = "java(dto.email())"),
+            @Mapping(target = "email", expression = "java(mapEmailToDomain(dto.email()))"),
             @Mapping(target = "company", expression = "java(mapToCompany(dto.company()))")
 
     })
     Customer toDomain(CustomerDto dto);
+
+    default Mail mapEmailToDomain(String email){
+        if (email == null) return null;
+        return new Mail(email);
+    }
 
     default CustomerId mapCustomerId(UUID customerId){
         if (customerId == null) return null;

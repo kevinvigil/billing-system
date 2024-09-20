@@ -4,6 +4,7 @@ import com.system.billingsystem.entities.Company;
 import com.system.billingsystem.entities.Invoice;
 import com.system.billingsystem.entities.microtypes.Address;
 import com.system.billingsystem.entities.microtypes.Cuit;
+import com.system.billingsystem.entities.microtypes.Mail;
 import com.system.billingsystem.entities.microtypes.Phone;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.names.CompanyName;
@@ -17,7 +18,7 @@ public class CompanySteps implements CompanyIdSteps, CompanyNameStep, CompanyCui
     private Address address;
     private CompanyName name;
     private Phone phone;
-    private String email;
+    private Mail email;
     private List<Invoice> soldInvoices;
     private List<Invoice> purchasedInvoices;
 
@@ -36,7 +37,7 @@ public class CompanySteps implements CompanyIdSteps, CompanyNameStep, CompanyCui
         return this;
     }
     @Override
-    public CompanySoldInvoicesStep email(String email) {
+    public CompanySoldInvoicesStep email(Mail email) {
         this.email = email;
         return this;
     }

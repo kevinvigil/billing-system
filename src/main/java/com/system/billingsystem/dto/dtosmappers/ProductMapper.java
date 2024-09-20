@@ -23,7 +23,7 @@ public interface ProductMapper {
             @Mapping(target = "name", expression = "java(mapProductName(product))"),
             @Mapping(target = "description", source = "product.description"),
             @Mapping(target = "price", expression = "java(mapProductPrice(product))"),
-            @Mapping(target = "count", source = "count")
+            @Mapping(target = "count", expression = "java(product.getCount())")
     })
     ProductDto toDto(Product product);
 
@@ -32,7 +32,7 @@ public interface ProductMapper {
             @Mapping(target = "name", expression = "java(mapProductName(dto))"),
             @Mapping(target = "description", source = "dto.description"),
             @Mapping(target = "price", expression = "java(mapProductPrice(dto))"),
-            @Mapping(target = "count", source = "count")
+            @Mapping(target = "count", expression = "java(dto.count())")
     })
     Product toDomain(ProductDto dto);
 

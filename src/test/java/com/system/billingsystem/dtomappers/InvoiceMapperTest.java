@@ -68,6 +68,7 @@ public class InvoiceMapperTest {
         // Then
         InvoiceDto dto = INVOICE_MAPPER.toDto(invoice);
         // When
+        System.out.println(dto.price());
         assertEquals(invoiceDto, dto);
     }
 

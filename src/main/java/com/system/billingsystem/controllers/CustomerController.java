@@ -43,9 +43,12 @@ public class CustomerController {
         if (customerDto == null)
             throw new IllegalArgumentException();
 
-        Customer customer = this.customerService.update(CUSTOMER_MAPPER.toDomain(customerDto));
-
-        return ResponseEntity.ok(CUSTOMER_MAPPER.toDto(customer));
+        try {
+            this.customerService.update(CUSTOMER_MAPPER.toDomain(customerDto));
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/api/customer/{id}")

@@ -8,10 +8,7 @@ import com.system.billingsystem.entities.InvoiceCategory;
 import com.system.billingsystem.entities.InvoiceVoucher;
 import com.system.billingsystem.entities.builders.companybuilder.CompanyBuilder;
 import com.system.billingsystem.entities.builders.invoicebuilder.InvoiceBuilder;
-import com.system.billingsystem.entities.microtypes.Address;
-import com.system.billingsystem.entities.microtypes.Cuit;
-import com.system.billingsystem.entities.microtypes.Discount;
-import com.system.billingsystem.entities.microtypes.Phone;
+import com.system.billingsystem.entities.microtypes.*;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
 import com.system.billingsystem.entities.microtypes.names.CompanyName;
@@ -45,7 +42,7 @@ public class CompanyMapperTest {
                 .cuit(new Cuit("cuit"))
                 .address(new Address("country","state","city", "zip"))
                 .phone(new Phone("+53","2222","2222"))
-                .email("newEmail@company.com")
+                .email(new Mail("newEmail@company.com"))
                 .soldInvoices(null)
                 .purchasedInvoices(null)
                 .build();

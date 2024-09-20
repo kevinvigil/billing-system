@@ -1,5 +1,7 @@
 package com.system.billingsystem.entities.builders.companybuilder;
 
+import com.system.billingsystem.entities.microtypes.Mail;
+
 public interface CompanyEmailStep {
-    CompanySoldInvoicesStep email(String email);
+    CompanySoldInvoicesStep email(Mail email);
 }

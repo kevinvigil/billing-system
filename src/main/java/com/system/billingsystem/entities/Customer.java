@@ -1,10 +1,8 @@
 package com.system.billingsystem.entities;
 
-import com.system.billingsystem.entities.builders.companybuilder.CompanyBuilder;
-import com.system.billingsystem.entities.builders.customerbuilder.CustomerBuilder;
+import com.system.billingsystem.entities.microtypes.Mail;
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
 import com.system.billingsystem.entities.microtypes.names.CustomerName;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,13 +17,12 @@ public class Customer {
     private CustomerId customerId;
     private CustomerName name;
     private String password;
-    @Email
-    private String email;
+    private Mail email;
     private Company company;
 
     public Customer() {}
 
-    public Customer(CustomerId customerId, CustomerName name, String password, String email) {
+    public Customer(CustomerId customerId, CustomerName name, String password, Mail email) {
         this.customerId = customerId;
         this.name = name;
         this.password = password;
