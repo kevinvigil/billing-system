@@ -1,11 +1,12 @@
 package com.system.billingsystem.integrations.usecases.invoice.crud;
 
+import com.system.billingsystem.dto.InvoiceDto;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
 import com.system.billingsystem.integrations.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GetInvoiceIntegrationTest extends BaseIntegrationTest {
 
@@ -29,7 +30,7 @@ public class GetInvoiceIntegrationTest extends BaseIntegrationTest {
         }
         """;
 
-        InvoiceId id = webTestClient.post()
+        InvoiceId invoiceId = webTestClient.post()
                 .uri("/api/invoice/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(requestBody)
@@ -39,15 +40,28 @@ public class GetInvoiceIntegrationTest extends BaseIntegrationTest {
                 .returnResult()
                 .getResponseBody();
 
-        assertNotNull(id);
+        assertNotNull(invoiceId);
 
         // When
         var response = webTestClient.get()
-                .uri("/api/invoice/"+id.getValue())
-                .exchange();
+                .uri("/api/invoice/"+invoiceId.getValue())
+                .exchange().expectStatus().isOk();
 
         // Then
+        assertNotNull(response);
         response.expectStatus().isOk()
-                .expectBody().jsonPath("$.invoiceId").isEqualTo(id.getValue().toString());
+                .expectBody()
+                .jsonPath("$.invoiceId").isEqualTo(invoiceId.getValue().toString())
+                .jsonPath("$.date").isEqualTo("11111111111111")
+                .jsonPath("$.paid").isEqualTo(false)
+                .jsonPath("$.invoiced").isEqualTo(false)
+                .jsonPath("$.price").isEqualTo("0.0")
+                .jsonPath("$.discount").isEqualTo("0")
+                .jsonPath("$.currency").isEqualTo("ARS")
+                .jsonPath("$.invoiceVoucher").isEqualTo("REFERENCE")
+                .jsonPath("$.category").isEqualTo("A")
+                .jsonPath("$.sellerCompany").isEqualTo(null)
+                .jsonPath("$.buyerCompany").isEqualTo(null)
+                .jsonPath("$.products").isArray();
     }
 }

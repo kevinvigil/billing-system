@@ -61,9 +61,9 @@ public class ProductController {
     public  ResponseEntity<?> findById(@PathVariable UUID id){
         try {
             Product product = invoiceService.findProductById(new ProductId(id));
-            if (product != null)
-                return ResponseEntity.ok().body(PRODUCT_MAPPER.toDto(product));
-            return null;
+            if (product == null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.ok().body(PRODUCT_MAPPER.toDto(product));
         } catch (Exception e){
             throw new InternalError();
         }

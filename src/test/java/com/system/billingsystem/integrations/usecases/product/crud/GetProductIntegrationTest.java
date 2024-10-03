@@ -1,11 +1,14 @@
 package com.system.billingsystem.integrations.usecases.product.crud;
 
+import com.system.billingsystem.dto.ProductDto;
 import com.system.billingsystem.entities.microtypes.ids.ProductId;
 import com.system.billingsystem.integrations.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GetProductIntegrationTest extends BaseIntegrationTest {
     @Test
@@ -21,7 +24,7 @@ public class GetProductIntegrationTest extends BaseIntegrationTest {
             }
         """;
 
-        ProductId id = webTestClient.post()
+        ProductId productId = webTestClient.post()
                 .uri("/api/product/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(requestBody)
@@ -31,15 +34,23 @@ public class GetProductIntegrationTest extends BaseIntegrationTest {
                 .returnResult()
                 .getResponseBody();
 
-        assertNotNull(id);
+        assertNotNull(productId);
 
         // When
         var response = webTestClient.get()
-                .uri("/api/product/"+id.getValue())
-                .exchange();
+                .uri("/api/product/"+productId.getValue())
+                .exchange().expectStatus().isOk();
 
         // Then
-        response.expectStatus().isOk()
-                .expectBody().jsonPath("$.productId").isEqualTo(id.getValue().toString());
+
+        assertNotNull(response);
+        response.expectBody()
+                .jsonPath("$.productId").isEqualTo(productId.getValue().toString())
+                .jsonPath("$.name").isEqualTo("Product")
+                .jsonPath("$.description").isEqualTo("Description")
+                .jsonPath("$.count").isEqualTo(10)
+                .jsonPath("$.price").isEqualTo("100.0");
+
+
     }
 }

@@ -4,14 +4,13 @@ import com.system.billingsystem.integrations.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-import java.util.UUID;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CreateCompanyIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void shouldCreateNewCompany() {
         // Given
-        var companyId = UUID.randomUUID();
 
         Object requestBody = """
         {
@@ -33,6 +32,7 @@ public class CreateCompanyIntegrationTest extends BaseIntegrationTest {
                 .exchange();
 
         // Then
+        assertNotNull(response);
         response.expectStatus().isCreated();
     }
 }

@@ -32,6 +32,7 @@ public class ProductRepository extends BaseRepository<ProductRecord, Product> {
                 .set(PRODUCT.DESCRIPTION, persisted.getDescription())
                 .set(PRODUCT.NAME, persisted.getName().getName())
                 .set(PRODUCT.PRICE, persisted.getPrice().getValue())
+                .set(PRODUCT.COUNT, persisted.getCount())
                 .execute();
 
         return (execution == 1 ? new ProductId(id) : null);
@@ -43,6 +44,7 @@ public class ProductRepository extends BaseRepository<ProductRecord, Product> {
                 .set(PRODUCT.DESCRIPTION, persisted.getDescription())
                 .set(PRODUCT.NAME, persisted.getName().getName())
                 .set(PRODUCT.PRICE, persisted.getPrice().getValue())
+                .set(PRODUCT.COUNT, persisted.getCount())
                 .where(PRODUCT.PRODUCT_ID.eq(persisted.getProductId().getValue()))
                 .execute();
 

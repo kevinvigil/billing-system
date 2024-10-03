@@ -25,7 +25,7 @@ public class GetCompanyIntegrationTest extends BaseIntegrationTest {
         }
         """;
 
-        CompanyId id = webTestClient.post()
+        CompanyId companyId = webTestClient.post()
             .uri("/api/company/")
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(requestBody)
@@ -35,15 +35,24 @@ public class GetCompanyIntegrationTest extends BaseIntegrationTest {
              .returnResult()
              .getResponseBody();
 
-        assertNotNull(id);
+        assertNotNull(companyId);
 
         // When
         var response = webTestClient.get()
-            .uri("/api/company/"+id.getValue())
+            .uri("/api/company/"+companyId.getValue())
             .exchange();
 
         // Then
         response.expectStatus().isOk()
-            .expectBody().jsonPath("$.companyId").isEqualTo(id.getValue().toString());
+                .expectBody()
+                .jsonPath("$.companyId").isEqualTo(companyId.getValue().toString())
+                .jsonPath("$.name").isEqualTo("company")
+                .jsonPath("$.phone").isEqualTo("+549 2287 445566")
+                .jsonPath("$.cuit").isEqualTo("22222")
+                .jsonPath("$.email").isEqualTo("company1@gmail.com")
+                .jsonPath("$.address").isEqualTo("country, state, city, zip")
+                .jsonPath("$.soldInvoices").isArray()
+                .jsonPath("$.purchasedInvoices").isArray();
+
     }
 }

@@ -1,6 +1,5 @@
 package com.system.billingsystem.integrations.usecases.customer.crud;
 
-import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
 import com.system.billingsystem.integrations.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ public class GetCustomerIntegrationTest extends BaseIntegrationTest {
         }
         """;
 
-        CustomerId id = webTestClient.post()
+        CustomerId customerId = webTestClient.post()
                 .uri("/api/customer/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(requestBody)
@@ -33,16 +32,22 @@ public class GetCustomerIntegrationTest extends BaseIntegrationTest {
                 .returnResult()
                 .getResponseBody();
 
-        assertNotNull(id);
+        assertNotNull(customerId);
 
         // When
         var response = webTestClient.get()
-                .uri("/api/customer/"+id.getValue())
+                .uri("/api/customer/"+customerId.getValue())
                 .exchange();
 
         // Then
+        assertNotNull(response);
         response.expectStatus().isOk()
-                .expectBody().jsonPath("$.customerId").isEqualTo(id.getValue().toString());
+                .expectBody()
+                .jsonPath("$.customerId").isEqualTo(customerId.getValue().toString())
+                .jsonPath("$.email").isEqualTo("customerEmail@gmail.com")
+                .jsonPath("$.password").isEqualTo("password")
+                .jsonPath("$.name").isEqualTo("firstName secondName surname")
+                .jsonPath("$.company").isEqualTo(null);
     }
 
 }

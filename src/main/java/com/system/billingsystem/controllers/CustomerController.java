@@ -61,6 +61,8 @@ public class CustomerController {
     public ResponseEntity<?> findById(@PathVariable UUID id){
         try {
             CustomerDto customerDto = CUSTOMER_MAPPER.toDto(customerService.findById(new CustomerId(id)));
+            if (customerDto == null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             return ResponseEntity.ok().body(customerDto);
         } catch (Exception e){
             throw new InternalError();

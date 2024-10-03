@@ -70,8 +70,10 @@ public class InvoiceController {
     @GetMapping("/api/invoice/{id}")
     public  ResponseEntity<?> findById(@PathVariable UUID id){
         try{
-            InvoiceDto invoiceDto = INVOICE_MAPPER.toDto(invoiceService.findInvoiceById(new InvoiceId(id))) ;
-            return ResponseEntity.ok().body(invoiceDto);
+            Invoice invoice = invoiceService.findInvoiceById(new InvoiceId(id));
+            if (invoice == null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.ok().body(INVOICE_MAPPER.toDto(invoice));
         } catch (Exception e){
             throw new InternalError();
         }

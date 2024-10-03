@@ -22,6 +22,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
 
 import static domain.tables.Invoice.INVOICE;
@@ -86,8 +87,6 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
         CompanyRecord companySellerRecord = null;
         CompanyRecord companyBuyerRecord = null;
 
-        System.out.println(result);
-
         for (Record r : result) {
             invoiceRecord = r.into(INVOICE);
             companySellerRecord = r.into(COMPANY.as("seller"));
@@ -141,5 +140,12 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
     @Override
     protected Field<UUID> getIdField() {
         return INVOICE.INVOICE_ID;
+    }
+
+    public Optional<Invoice> getInvoiceStatus(UUID invoiceId) {
+        return dsl.select(INVOICE.INVOICED, INVOICE.PAID)
+                .from(INVOICE)
+                .where(INVOICE.INVOICE_ID.eq(invoiceId))
+                .fetchOptionalInto(Invoice.class);
     }
 }

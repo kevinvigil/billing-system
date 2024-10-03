@@ -4,11 +4,13 @@ import com.system.billingsystem.integrations.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class CreateInvoiceIntegrationTest extends BaseIntegrationTest {
 
     @Test
     public void shouldCreateNewInvoice() {
-
+        //Given
         Object requestBody = """
            {
            "date": "11111111111111",
@@ -25,12 +27,15 @@ public class CreateInvoiceIntegrationTest extends BaseIntegrationTest {
            }
         """;
 
+        // When
         var response = webTestClient.post()
                 .uri("/api/invoice/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(requestBody)
                 .exchange();
 
-        response.expectStatus().isCreated().expectBody();
+        // Then
+        assertNotNull(response);
+        response.expectStatus().isCreated();
     }
 }

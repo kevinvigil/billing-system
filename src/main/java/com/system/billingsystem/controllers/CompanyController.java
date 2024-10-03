@@ -60,6 +60,8 @@ public class CompanyController {
     public ResponseEntity<?> findById (@PathVariable UUID id){
         try {
             CompanyDto companyDto = COMPANY_MAPPER.toDto(companyService.findById(new CompanyId(id)));
+            if (companyDto == null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             return ResponseEntity.ok().body(companyDto);
         } catch (Exception e){
             throw new InternalError();
