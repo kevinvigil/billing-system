@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import static com.system.billingsystem.dto.dtosmappers.InvoiceMapper.INVOICE_MAPPER;
@@ -31,8 +33,7 @@ public class InvoiceController {
         if (entity == null)
             throw new IllegalArgumentException();
 
-        Invoice invoice = invoiceService.saveInvoice(INVOICE_MAPPER.toDomain(entity));
-        return ResponseEntity.status(HttpStatus.CREATED).body(INVOICE_MAPPER.toDto(invoice));
+        return ResponseEntity.status(HttpStatus.CREATED).body(invoiceService.saveInvoice(INVOICE_MAPPER.toDomain(entity)));
     }
 
     @PutMapping("/api/invoice/")
@@ -47,7 +48,7 @@ public class InvoiceController {
                 return ResponseEntity.ok().body(invoiceService.updateInvoice(INVOICE_MAPPER.toDomain(entity)));
             else if (!invoice.isInvoiced()) {
                 Invoice domain = INVOICE_MAPPER.toDomain(entity);
-                if ( invoice.equals(domain) && invoice.isInvoiced() != entity.invoiced())
+                if (Objects.equals(invoice, domain) && invoice.isInvoiced() != entity.invoiced())
                     return ResponseEntity.ok().body(invoiceService.updateInvoice(domain));
                 else
                     throw new UnsupportedOperationException("This invoice can change only to be invoiced" +
@@ -70,8 +71,10 @@ public class InvoiceController {
     @GetMapping("/api/invoice/{id}")
     public  ResponseEntity<?> findById(@PathVariable UUID id){
         try{
-            InvoiceDto invoiceDto = INVOICE_MAPPER.toDto(invoiceService.findInvoiceById(new InvoiceId(id))) ;
-            return ResponseEntity.ok().body(invoiceDto);
+            Invoice invoice = invoiceService.findInvoiceById(new InvoiceId(id));
+            if (invoice == null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.ok().body(INVOICE_MAPPER.toDto(invoice));
         } catch (Exception e){
             throw new InternalError();
         }
@@ -82,13 +85,12 @@ public class InvoiceController {
         try{
             List<Invoice> invoices = this.invoiceService.findAllInvoices();
             System.out.println(invoices);
-            if (invoices != null){
-                List<InvoiceDto> invoiceDto = invoices.stream().map(INVOICE_MAPPER::toDto).toList();
-                return ResponseEntity.ok().body(invoiceDto);
-            }
-            return null;
+            List<InvoiceDto> invoiceDto = invoices.stream()
+                    .map(INVOICE_MAPPER::toDto)
+                    .toList();
+            return ResponseEntity.ok(invoiceDto);
         } catch (Exception e){
-            throw new InternalError();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error retrieving invoices", e);
         }
     }
 }

@@ -32,11 +32,9 @@ public class CompanyService{
         }
     }
 
-    public Company update(Company entity) {
+    public boolean update(Company entity) {
         try {
-            if (this.companyRepository.update(entity))
-                return this.companyRepository.findById(entity.getCompanyId());
-            return null;
+            return this.companyRepository.update(entity);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method update, User: " + entity.toString());
             throw e;
@@ -66,7 +64,6 @@ public class CompanyService{
 
     public List<Company> findAll() {
         try {
-
             return this.companyRepository.findAll();
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error in CompanyService on method findAll");

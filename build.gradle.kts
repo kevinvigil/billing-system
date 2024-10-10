@@ -12,7 +12,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+		languageVersion = JavaLanguageVersion.of(23)
 	}
 }
 
@@ -41,22 +41,18 @@ dependencies {
 
 	implementation(catalog.findLibrary("jetbrains-annotation").get())
 
-
-	// Development
 	developmentOnly(catalog.findLibrary("spring-boot-devtools").get())
 
 	// Testing
-	testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
-	testImplementation("org.junit.platform:junit-platform-suite:1.10.3")
+	testImplementation(catalog.findLibrary( "junit-platform-runner").get())
+	testImplementation(catalog.findLibrary("junit-jupiter").get())
 
 	testImplementation(catalog.findLibrary("spring-boot-starter-test").get()) {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
 //	testImplementation( "spring-security-test")
 
-	testImplementation(catalog.findLibrary( "junit-platform-runner").get())
-
-	testImplementation("io.projectreactor:reactor-test:3.6.8")
+	testImplementation(catalog.findLibrary("reactor-test").get())
 
 	// Testcontainers
 	testImplementation(catalog.findLibrary("testcontainers").get())
@@ -66,43 +62,37 @@ dependencies {
 	// WireMock
 	implementation(catalog.findLibrary("spring-cloud-contract-wiremock").get())
 
-
 	// mapper
-	implementation ("org.mapstruct:mapstruct:1.6.0")
-	annotationProcessor ("org.mapstruct:mapstruct-processor:1.6.0")
+	implementation (catalog.findLibrary("mapstruct").get())
+	annotationProcessor (catalog.findLibrary("mapstruct-processor").get())
 
-	// Compile and annotations
 	implementation(catalog.findLibrary( "lombok").get())
 	annotationProcessor(catalog.findLibrary( "lombok").get())
-	annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
-
+	annotationProcessor(catalog.findLibrary("lombok-mapstruct-binding").get())
 
 	// JOOQ
 	implementation(catalog.findLibrary( "jooq-kotlin").get())
 	implementation(catalog.findLibrary( "jooq").get())
 	jooqCodegen(catalog.findLibrary( "jooq-codegen").get())
-	jooqCodegen("org.postgresql:postgresql:42.7.3")
+	jooqCodegen(catalog.findLibrary("postgresql").get())
 
-	// MySql
-	implementation("org.postgresql:postgresql:42.7.3")
+	// Postgresql
+	implementation(catalog.findLibrary("postgresql").get())
 
 	// JWT
 	implementation(catalog.findLibrary("spring-boot-starter-security").get())
 
-	implementation("org.springframework.boot:spring-boot-starter-mail:3.3.0")
+	implementation(catalog.findLibrary("spring-boot-starter-mail").get())
 
-	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
-	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
-	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
+	implementation(catalog.findLibrary("jjwt-api").get())
+	runtimeOnly(catalog.findLibrary("jjwt-impl").get())
+	runtimeOnly(catalog.findLibrary("jjwt-jackson").get())
 
-	// https://mvnrepository.com/artifact/com.google.code.gson/gson
 	implementation("com.google.code.gson:gson:2.11.0")
-
 
 	implementation("com.vaadin.external.google:android-json:0.0.20131108.vaadin1")
 
 	implementation("org.apache.pdfbox:pdfbox:2.0.32")
-
 }
 
 tasks.test {

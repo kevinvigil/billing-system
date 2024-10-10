@@ -29,7 +29,7 @@ public class CompanyRepository extends BaseRepository<CompanyRecord, Company> {
                 .set(COMPANY.COMPANY_ID, id)
                 .set(COMPANY.CUIT, persisted.getCuit().getCuit())
                 .set(COMPANY.ADDRESS, AddressMapper.toJson(persisted.getAddress()))
-                .set(COMPANY.EMAIL, persisted.getEmail())
+                .set(COMPANY.EMAIL, persisted.getEmail().getValue())
                 .set(COMPANY.NAME, persisted.getName().getName())
                 .set(COMPANY.PHONE, PhoneMapper.toJson(persisted.getPhone()))
                 .execute();
@@ -41,7 +41,7 @@ public class CompanyRepository extends BaseRepository<CompanyRecord, Company> {
         int execution = dsl.update(COMPANY)
                 .set(COMPANY.CUIT, persisted.getCuit().getCuit())
                 .set(COMPANY.ADDRESS, AddressMapper.toJson(persisted.getAddress()))
-                .set(COMPANY.EMAIL, persisted.getEmail())
+                .set(COMPANY.EMAIL, persisted.getEmail().getValue())
                 .set(COMPANY.NAME, persisted.getName().getName())
                 .set(COMPANY.PHONE, PhoneMapper.toJson(persisted.getPhone()))
                 .where(COMPANY.COMPANY_ID.eq(persisted.getCompanyId().getValue()))

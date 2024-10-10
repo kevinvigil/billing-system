@@ -43,9 +43,12 @@ public class CustomerController {
         if (customerDto == null)
             throw new IllegalArgumentException();
 
-        Customer customer = this.customerService.update(CUSTOMER_MAPPER.toDomain(customerDto));
-
-        return ResponseEntity.ok(CUSTOMER_MAPPER.toDto(customer));
+        try {
+            this.customerService.update(CUSTOMER_MAPPER.toDomain(customerDto));
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/api/customer/{id}")
@@ -58,6 +61,8 @@ public class CustomerController {
     public ResponseEntity<?> findById(@PathVariable UUID id){
         try {
             CustomerDto customerDto = CUSTOMER_MAPPER.toDto(customerService.findById(new CustomerId(id)));
+            if (customerDto == null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             return ResponseEntity.ok().body(customerDto);
         } catch (Exception e){
             throw new InternalError();

@@ -2,17 +2,19 @@ package com.system.billingsystem.entities.builders.customerbuilder;
 
 import com.system.billingsystem.entities.Company;
 import com.system.billingsystem.entities.Customer;
+import com.system.billingsystem.entities.microtypes.Mail;
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
 import com.system.billingsystem.entities.microtypes.names.CustomerName;
 
-public class CustomerSteps implements CustomerIdStep, CustomerEmailStep, CustomerNameStep, CustomerPasswordStep, CustomerCompanyStep, CustomerBuildStep {
+public class CustomerSteps implements CustomerIdStep, CustomerEmailStep, CustomerNameStep, CustomerPasswordStep,
+        CustomerCompanyStep, CustomerBuildStep {
 
     private CustomerId customerId;
     private CustomerName name;
     private String password;
-    private String email;
+    private Mail email;
 
-    private Company company = null;
+    private Company company;
 
     @Override
     public Customer build() {
@@ -38,7 +40,7 @@ public class CustomerSteps implements CustomerIdStep, CustomerEmailStep, Custome
     }
 
     @Override
-    public CustomerCompanyStep email(String email) {
+    public CustomerCompanyStep email(Mail email) {
         this.email = email;
         return this;
     }

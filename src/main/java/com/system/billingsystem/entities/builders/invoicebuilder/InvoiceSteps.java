@@ -11,14 +11,13 @@ import java.util.List;
 
 public class InvoiceSteps implements InvoiceBuildStep, InvoiceBuyerCompanyStep, InvoiceCategoryStep,
         InvoiceDateStep, InvoiceDiscountStep, InvoiceIdStep, InvoiceInvoicedStep, InvoicePaidStep, 
-        InvoicePriceStep, InvoiceSellerCompanyStep, InvoiceVoucherStep, ListInvoiceProductStep, InvoiceCurrency {
+        InvoicePriceStep, InvoiceSellerCompanyStep, InvoiceVoucherStep, ListInvoiceProductStep {
 
     private InvoiceId invoiceId;
     private Timestamp date;
     private boolean paid;
     private boolean invoiced;
     private InvoicePrice price;
-    private Currency currency;
     private Discount discount;
     private InvoiceVoucher invoicevoucher;
     private InvoiceCategory category;
@@ -29,7 +28,7 @@ public class InvoiceSteps implements InvoiceBuildStep, InvoiceBuyerCompanyStep, 
 
     @Override
     public Invoice build() {
-        return new Invoice(invoiceId, date, paid, invoiced, price, currency, discount, invoicevoucher, category, sellerCompany, buyerCompany, products);
+        return new Invoice(invoiceId, date, paid, invoiced, price, discount, invoicevoucher, category, sellerCompany, buyerCompany, products);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class InvoiceSteps implements InvoiceBuildStep, InvoiceBuyerCompanyStep, 
     }
 
     @Override
-    public InvoiceCurrency price(InvoicePrice price) {
+    public InvoiceDiscountStep price(InvoicePrice price) {
         this.price = price;
         return this;
     }
@@ -95,12 +94,6 @@ public class InvoiceSteps implements InvoiceBuildStep, InvoiceBuyerCompanyStep, 
     @Override
     public InvoiceBuildStep ListInvoiceProducts(List<InvoiceProduct> invoiceProducts) {
         this.products = invoiceProducts;
-        return this;
-    }
-
-    @Override
-    public InvoiceDiscountStep currency(Currency currency) {
-        this.currency = currency;
         return this;
     }
 }

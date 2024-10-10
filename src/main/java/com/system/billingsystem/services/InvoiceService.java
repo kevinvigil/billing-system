@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,36 +34,55 @@ public class InvoiceService{
         this.invoiceRepository = invoiceRepository;
     }
 
-    public Invoice saveInvoice(@NotNull Invoice invoice){
+    public InvoiceId saveInvoice(@NotNull Invoice invoice){
         try{
             List<InvoiceProduct> productList = invoice.getProducts();
-            double total = 0.0;
-            if (productList != null && !productList.isEmpty()){
-                for (InvoiceProduct invoiceProduct:productList) {
-                    invoiceProduct.setInvoice(invoice);
 
-                    Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProductId());
-                    total += invoiceProduct.getCount() * currentProduct.getPrice().getValue().doubleValue();
+            double amount = productList.stream().map(invoiceProduct -> {
+                invoiceProduct.setInvoice(invoice);
 
-                    saveInvoiceProduct(invoiceProduct);
-                }
-            }
-            invoice.setPrice(new InvoicePrice(BigDecimal.valueOf(total)));
-            InvoiceId uuid = invoiceRepository.save(invoice);
-            return invoiceRepository.findById(uuid);
+                Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProductId());
+                double total = invoiceProduct.getCount() * currentProduct.getPrice().getValue().doubleValue();
+
+                saveInvoiceProduct(invoiceProduct);
+                return total;
+            }).mapToDouble(Double::doubleValue).sum();
+
+            invoice.setPrice(new InvoicePrice(BigDecimal.valueOf(amount)));
+
+            return invoiceRepository.save(invoice);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method saveInvoice, message: " + e.getMessage());
             throw e;
         }
     }
 
-    public Invoice updateInvoice (@NotNull Invoice invoice){
+    public boolean updateInvoice (@NotNull Invoice newInvoice){
         try {
+            if(newInvoice.getInvoiceId() == null || newInvoice.getInvoiceId().getValue() == null) throw new IllegalArgumentException("Invoice id is null");
+
+            Optional<Invoice> invoiceOpt = this.invoiceRepository.getInvoiceStatus(newInvoice.getInvoiceId().getValue());
+
+            if (invoiceOpt.isEmpty()) throw new IllegalArgumentException("Invoice not found");
+
+            Invoice oldInvoice = invoiceOpt.get();
+
+            if (oldInvoice.isInvoiced()) throw new IllegalStateException("Invoice is already invoiced, update not allowed");
+
+            if (oldInvoice.isPaid()){
+                if (newInvoice.isInvoiced()){
+                    oldInvoice.setInvoiced(true);
+                    return this.invoiceRepository.update(oldInvoice);
+                }else{
+                    throw new IllegalStateException("Invoice is paid, only invoiced can be updated to true");
+                }
+            }
+
             double total = 0.0;
-            List<InvoiceProduct> productList = invoice.getProducts();
+            List<InvoiceProduct> productList = newInvoice.getProducts();
             if (productList != null && !productList.isEmpty()){
                 for (InvoiceProduct invoiceProduct:productList) {
-                    invoiceProduct.setInvoice(invoice);
+                    invoiceProduct.setInvoice(newInvoice);
 
                     Product currentProduct = this.findProductById(invoiceProduct.getProduct().getProductId());
                     total += invoiceProduct.getCount() * currentProduct.getPrice().getValue().doubleValue();
@@ -70,12 +90,9 @@ public class InvoiceService{
                     this.updateInvoiceProduct(invoiceProduct);
                 }
             }
-            invoice.setPrice(new InvoicePrice(BigDecimal.valueOf(total)));
-            if (this.invoiceRepository.update(invoice)){
-                return this.invoiceRepository.findById(invoice.getInvoiceId());
-            } else {
-                return null;
-            }
+            newInvoice.setPrice(new InvoicePrice(BigDecimal.valueOf(total)));
+            return this.invoiceRepository.update(newInvoice);
+
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method updateInvoiceById, message: " + e.getMessage());
             throw e;
@@ -97,6 +114,8 @@ public class InvoiceService{
     public Invoice findInvoiceById(@NotNull InvoiceId id){
         try {
             Invoice invoice = invoiceRepository.findById(id);
+            if (invoice == null)
+                return null;
             List<InvoiceProduct> invoiceProductList = invoiceProductRepository.findByInvoiceId(id);
             invoice.setProducts(invoiceProductList);
             return invoice;
@@ -177,11 +196,9 @@ public class InvoiceService{
         }
     }
 
-    public Product updateProductById (@NotNull Product product){
+    public boolean updateProductById (@NotNull Product product){
         try{
-            if (this.productRepository.update(product))
-                return this.productRepository.findById(product.getProductId());
-            return null;
+            return this.productRepository.update(product);
         }catch (Exception e){
             logger.log(Level.SEVERE, "Error on InvoiceService in the method findProductById, message: " + e.getMessage());
             throw e;

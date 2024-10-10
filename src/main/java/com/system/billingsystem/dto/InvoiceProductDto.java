@@ -5,16 +5,14 @@ import java.util.Objects;
 import java.util.UUID;
 
 public record InvoiceProductDto (
-        UUID invoiceProductId,
         UUID productId,
         Integer count,
         String name,
         String description,
         BigDecimal price) {
 
-    public InvoiceProductDto(UUID invoiceProductId, UUID productId, Integer count,
+    public InvoiceProductDto( UUID productId, Integer count,
                              String name, String description, BigDecimal price) {
-        this.invoiceProductId = invoiceProductId;
         this.count = count;
         this.productId = productId;
         this.name = name;
@@ -58,10 +56,5 @@ public record InvoiceProductDto (
     @Override
     public UUID productId() {
         return productId;
-    }
-
-    @Override
-    public UUID invoiceProductId() {
-        return invoiceProductId;
     }
 }

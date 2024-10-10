@@ -1,23 +1,30 @@
 package com.system.billingsystem.entities.builders.companybuilder;
 
 import com.system.billingsystem.entities.Company;
+import com.system.billingsystem.entities.Invoice;
 import com.system.billingsystem.entities.microtypes.Address;
 import com.system.billingsystem.entities.microtypes.Cuit;
+import com.system.billingsystem.entities.microtypes.Mail;
 import com.system.billingsystem.entities.microtypes.Phone;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.names.CompanyName;
 
-public class CompanySteps implements CompanyIdSteps, CompanyNameStep, CompanyCuitStep, CompanyAddressStep, CompanyPhoneStep, CompanyEmailStep, CompanyBuildStep {
+import java.util.List;
+
+public class CompanySteps implements CompanyIdSteps, CompanyNameStep, CompanyCuitStep, CompanyAddressStep,
+        CompanyPhoneStep, CompanyEmailStep, CompanyBuildStep, CompanySoldInvoicesStep, CompanyPurchasedInvoicesStep {
     private CompanyId companyId;
     private Cuit cuit;
     private Address address;
     private CompanyName name;
     private Phone phone;
-    private String email;
+    private Mail email;
+    private List<Invoice> soldInvoices;
+    private List<Invoice> purchasedInvoices;
 
     @Override
     public Company build() {
-        return new Company(companyId, email, phone, name, address, cuit);
+        return new Company(companyId, cuit, address, name, phone, email, soldInvoices, purchasedInvoices);
     }
     @Override
     public CompanyPhoneStep address(Address address) {
@@ -30,7 +37,7 @@ public class CompanySteps implements CompanyIdSteps, CompanyNameStep, CompanyCui
         return this;
     }
     @Override
-    public CompanyBuildStep email(String email) {
+    public CompanySoldInvoicesStep email(Mail email) {
         this.email = email;
         return this;
     }
@@ -47,6 +54,18 @@ public class CompanySteps implements CompanyIdSteps, CompanyNameStep, CompanyCui
     @Override
     public CompanyNameStep companyId(CompanyId companyId) {
         this.companyId = companyId;
+        return this;
+    }
+
+    @Override
+    public CompanyBuildStep purchasedInvoices(List<Invoice> invoices) {
+        this.purchasedInvoices = invoices;
+        return this;
+    }
+
+    @Override
+    public CompanyPurchasedInvoicesStep soldInvoices(List<Invoice> invoices) {
+        this.soldInvoices = invoices;
         return this;
     }
 }

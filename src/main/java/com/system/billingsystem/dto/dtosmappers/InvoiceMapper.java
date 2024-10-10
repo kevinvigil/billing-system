@@ -32,9 +32,9 @@ public interface InvoiceMapper {
             @Mapping(target = "paid", expression = "java(invoice.isPaid())"),
             @Mapping(target = "invoiced", expression = "java(invoice.isInvoiced())"),
             @Mapping(target = "price", expression = "java(mapInvoicePriceToDto(invoice.getPrice()))"),
-            @Mapping(target = "currency", expression = "java(invoice.getCurrency().toString())"),
+            @Mapping(target = "currency", expression = "java(invoice.getPrice().getCurrency().name())"),
             @Mapping(target = "discount", expression = "java(invoice.getDiscount().getDiscount())"),
-            @Mapping(target = "invoiceVoucher", expression = "java(invoice.getInvoicevoucher().toString())"),
+            @Mapping(target = "invoiceVoucher", expression = "java(invoice.getInvoiceVoucher().name())"),
             @Mapping(target = "category", source = "invoice.category"),
             @Mapping(target = "sellerCompany", expression = "java(mapCompany(invoice.getSellerCompany()))"),
             @Mapping(target = "buyerCompany", expression = "java(mapCompany(invoice.getBuyerCompany()))"),
@@ -45,7 +45,6 @@ public interface InvoiceMapper {
     default List<InvoiceProductDto> mapProductsDto (Invoice invoice){
         if(invoice == null || invoice.getProducts() == null || invoice.getProducts().isEmpty()) return new ArrayList<InvoiceProductDto>();
         return invoice.getProducts().stream().map(invoiceProduct -> new InvoiceProductDto(
-                invoiceProduct.getInvoiceProductId().getValue(),
                 invoiceProduct.getProduct().getProductId().getValue(),
                 invoiceProduct.getCount(),
                 invoiceProduct.getProduct().getName().getName(),
@@ -59,10 +58,9 @@ public interface InvoiceMapper {
             @Mapping(target = "date", expression = "java(dto.date())"),
             @Mapping(target = "paid", expression = "java(dto.paid())"),
             @Mapping(target = "invoiced", expression = "java(dto.invoiced())"),
-            @Mapping(target = "price", expression = "java(mapInvoicePrice(dto.total()))"),
-            @Mapping(target = "currency", source = "dto.currency"),
+            @Mapping(target = "price", expression = "java(mapInvoicePrice(dto.price()))"),
             @Mapping(target = "discount", expression = "java(mapDiscount(dto))"),
-            @Mapping(target = "invoicevoucher", source = "dto.invoiceVoucher"),
+            @Mapping(target = "invoiceVoucher", source = "dto.invoiceVoucher"),
             @Mapping(target = "category", source = "dto.category"),
             @Mapping(target = "sellerCompany", expression = "java(mapCompany(dto.sellerCompany()))"),
             @Mapping(target = "buyerCompany", expression = "java(mapCompany(dto.buyerCompany()))"),

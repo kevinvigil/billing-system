@@ -3,7 +3,6 @@ package com.system.billingsystem.controllers;
 import com.system.billingsystem.dto.CompanyDto;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.services.CompanyService;
-import com.system.billingsystem.entities.Company;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,9 +42,12 @@ public class CompanyController {
         if (companyDto == null)
             throw new IllegalArgumentException();
 
-        Company company = this.companyService.update(COMPANY_MAPPER.toDomain(companyDto));
-
-        return ResponseEntity.status(HttpStatus.OK).body(COMPANY_MAPPER.toDto(company));
+        try {
+            this.companyService.update(COMPANY_MAPPER.toDomain(companyDto));
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/api/company/{id}")
@@ -58,7 +60,8 @@ public class CompanyController {
     public ResponseEntity<?> findById (@PathVariable UUID id){
         try {
             CompanyDto companyDto = COMPANY_MAPPER.toDto(companyService.findById(new CompanyId(id)));
-            companyDto.companyId();
+            if (companyDto == null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             return ResponseEntity.ok().body(companyDto);
         } catch (Exception e){
             throw new InternalError();

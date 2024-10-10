@@ -32,7 +32,7 @@ public class InvoiceRepoTest {
     public void setUp(){
         invoice = Invoice.builder()
                 .date(new Timestamp(1L))
-                .invoicevoucher(InvoiceVoucher.BILL)
+                .invoiceVoucher(InvoiceVoucher.BILL)
                 .invoiced(false)
                 .paid(false)
                 .discount(new Discount(0))
@@ -74,7 +74,7 @@ public class InvoiceRepoTest {
     public void testFindAll(){
         Invoice newInvoice = Invoice.builder()
                 .date(new Timestamp(2L))
-                .invoicevoucher(InvoiceVoucher.REFERENCE)
+                .invoiceVoucher(InvoiceVoucher.REFERENCE)
                 .invoiced(true)
                 .paid(true)
                 .discount(new Discount(0))

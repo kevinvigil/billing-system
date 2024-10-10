@@ -20,7 +20,8 @@ CREATE TABLE PRODUCT (
     product_id uuid NOT NULL PRIMARY KEY,
     description varchar(255) DEFAULT NULL,
     name varchar(255) NOT NULL,
-    price decimal(10,2) NOT NULL
+    price decimal(10,2) NOT NULL,
+    count INT DEFAULT NULL
 );
 
 CREATE TABLE INVOICE (
@@ -30,7 +31,8 @@ CREATE TABLE INVOICE (
     invoice_voucher varchar(30) DEFAULT NULL,
     invoiced boolean NOT NULL,
     paid boolean NOT NULL,
-    total decimal(10,2) NOT NULL,
+    price decimal(10,2) NOT NULL,
+    currency varchar(10) NOT NULL,
     category varchar(2) DEFAULT NULL,
     buyer_company_id uuid DEFAULT NULL,
     seller_company_id uuid DEFAULT NULL,
@@ -41,10 +43,10 @@ CREATE TABLE INVOICE (
 );
 
 CREATE TABLE INVOICE_PRODUCT (
-    invoiceProduct_id uuid NOT NULL PRIMARY KEY,
-    count INT DEFAULT NULL,
     invoice_id uuid DEFAULT NULL,
     product_id uuid DEFAULT NULL,
+    count INT DEFAULT NULL,
+    constraint primary_key primary key (invoice_id, product_id),
     CONSTRAINT INVOICE_PRODUCT_foreign_key_product_id FOREIGN KEY (product_id) REFERENCES product (product_id),
     CONSTRAINT INVOICE_PRODUCT_foreign_key_invoice_id FOREIGN KEY (invoice_id) REFERENCES invoice (invoice_id)
 );

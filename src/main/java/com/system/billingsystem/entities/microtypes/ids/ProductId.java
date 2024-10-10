@@ -1,9 +1,13 @@
 package com.system.billingsystem.entities.microtypes.ids;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 public class ProductId extends BaseId{
-    public ProductId(UUID productId) {
+    @JsonCreator
+    public ProductId(@JsonProperty("value") UUID productId) {
         super(productId);
     }
 }

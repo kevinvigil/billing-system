@@ -54,4 +54,12 @@ public class BasePrice implements Comparable<BasePrice> {
 
         return amount.multiply(value);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BasePrice basePrice)) return false;
+        return basePrice.currency.equals(this.currency) &&
+                basePrice.value.equals(this.value);
+    }
 }

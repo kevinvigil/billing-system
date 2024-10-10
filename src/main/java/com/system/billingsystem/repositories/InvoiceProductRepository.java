@@ -2,7 +2,6 @@ package com.system.billingsystem.repositories;
 
 import com.system.billingsystem.entities.InvoiceProduct;
 import com.system.billingsystem.entities.Product;
-import com.system.billingsystem.entities.builders.invoiceproductbuilder.InvoiceProductBuildStep;
 import com.system.billingsystem.entities.builders.invoiceproductbuilder.InvoiceProductBuilder;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceProductId;
@@ -11,6 +10,7 @@ import com.system.billingsystem.entities.microtypes.names.ProductName;
 import com.system.billingsystem.entities.microtypes.prices.ProductPrice;
 import domain.tables.records.InvoiceProductRecord;
 import domain.tables.records.ProductRecord;
+import org.jetbrains.annotations.NotNull;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Record;
@@ -37,7 +37,6 @@ public class InvoiceProductRepository extends BaseRepository<InvoiceProductRecor
     public InvoiceProductId save(InvoiceProduct persisted) {
         UUID id = UUID.randomUUID();
         int execution =  dsl.insertInto(INVOICE_PRODUCT)
-                .set(INVOICE_PRODUCT.INVOICEPRODUCT_ID, id)
                 .set(INVOICE_PRODUCT.INVOICE_ID, (persisted.getInvoice() == null)? null:persisted.getInvoice().getInvoiceId().getValue())
                 .set(INVOICE_PRODUCT.PRODUCT_ID, (persisted.getProduct() == null)? null:persisted.getProduct().getProductId().getValue())
                 .set(INVOICE_PRODUCT.COUNT, persisted.getCount())
@@ -52,10 +51,37 @@ public class InvoiceProductRepository extends BaseRepository<InvoiceProductRecor
                 .set(INVOICE_PRODUCT.INVOICE_ID, (persisted.getInvoice() == null)? null:persisted.getInvoice().getInvoiceId().getValue())
                 .set(INVOICE_PRODUCT.PRODUCT_ID, (persisted.getProduct() == null)? null:persisted.getProduct().getProductId().getValue())
                 .set(INVOICE_PRODUCT.COUNT, persisted.getCount())
-                .where(INVOICE_PRODUCT.INVOICEPRODUCT_ID.eq(persisted.getInvoiceProductId().getValue()))
+                .where(INVOICE_PRODUCT.INVOICE_ID.eq(persisted.getInvoice().getInvoiceId().getValue()),
+                        INVOICE_PRODUCT.PRODUCT_ID.eq(persisted.getProduct().getProductId().getValue()))
                 .execute();
 
         return (execution == 1);
+    }
+
+    public InvoiceProduct delete(InvoiceId invoiceId, ProductId productId){
+        return dsl.deleteFrom(INVOICE_PRODUCT)
+                .where(INVOICE_PRODUCT.INVOICE_ID.eq(invoiceId.getValue()),
+                        INVOICE_PRODUCT.PRODUCT_ID.eq(productId.getValue()))
+                .returning().fetchOneInto(InvoiceProduct.class);
+    }
+
+    public boolean exists(InvoiceId invoiceId, ProductId productId){
+        return dsl.fetchExists(
+                dsl.selectFrom(INVOICE_PRODUCT)
+                        .where(INVOICE_PRODUCT.INVOICE_ID.eq(invoiceId.getValue()),
+                                INVOICE_PRODUCT.PRODUCT_ID.eq(productId.getValue()))
+        );
+    }
+
+    public List<InvoiceProduct> findAll(){
+        return dsl.selectFrom(INVOICE_PRODUCT).fetchInto(InvoiceProduct.class);
+    }
+
+    public InvoiceProduct findById(InvoiceId invoiceId, ProductId productId) {
+        return dsl.selectFrom(INVOICE_PRODUCT)
+                .where(INVOICE_PRODUCT.INVOICE_ID.eq(invoiceId.getValue()),
+                        INVOICE_PRODUCT.PRODUCT_ID.eq(productId.getValue()))
+                .fetchOneInto(InvoiceProduct.class);
     }
 
     public List<InvoiceProduct> findByInvoiceId(InvoiceId invoiceId){
@@ -66,8 +92,26 @@ public class InvoiceProductRepository extends BaseRepository<InvoiceProductRecor
                 .where(INVOICE_PRODUCT.INVOICE_ID.eq(invoiceId.getValue()))
                 .fetch();
 
-        System.out.println(result);
+        if (result.isEmpty()) return new ArrayList<>();
 
+        return getInvoiceProductsWhitId(result);
+    }
+
+    public List<InvoiceProduct> findByProductId(ProductId productId){
+        Result<?> result = dsl
+                .select()
+                .from(INVOICE_PRODUCT)
+                .innerJoin(PRODUCT).on(INVOICE_PRODUCT.PRODUCT_ID.eq(PRODUCT.PRODUCT_ID))
+                .where(INVOICE_PRODUCT.PRODUCT_ID.eq(productId.getValue()))
+                .fetch();
+
+        if (result.isEmpty()) return new ArrayList<>();
+
+        return getInvoiceProductsWhitId(result);
+    }
+
+    @NotNull
+    private List<InvoiceProduct> getInvoiceProductsWhitId(Result<?> result) {
         List<InvoiceProduct> curr = new ArrayList<>();
 
         for(Record r: result){
@@ -76,7 +120,6 @@ public class InvoiceProductRepository extends BaseRepository<InvoiceProductRecor
 
             curr.add(
                     InvoiceProductBuilder.newBuilder()
-                            .id(new InvoiceProductId(invoiceProductRecord.getValue(INVOICE_PRODUCT.INVOICEPRODUCT_ID)))
                             .count(invoiceProductRecord.getValue(INVOICE_PRODUCT.COUNT))
                             .invoice(null)
                             .product(
@@ -95,6 +138,6 @@ public class InvoiceProductRepository extends BaseRepository<InvoiceProductRecor
 
     @Override
     protected Field<UUID> getIdField() {
-        return INVOICE_PRODUCT.INVOICEPRODUCT_ID;
+        return null;
     }
 }

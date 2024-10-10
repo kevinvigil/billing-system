@@ -11,4 +11,11 @@ import java.util.UUID;
 @AllArgsConstructor
 public class BaseId {
     protected UUID value;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BaseId baseId)) return false;
+        return value.equals(baseId.value);
+    }
 }

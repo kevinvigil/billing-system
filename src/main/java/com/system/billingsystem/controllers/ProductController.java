@@ -43,9 +43,12 @@ public class ProductController {
         if (entity == null)
             throw new IllegalArgumentException();
 
-        Product product = invoiceService.updateProductById(PRODUCT_MAPPER.toDomain(entity));
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(PRODUCT_MAPPER.toDto(product));
+        try {
+            invoiceService.updateProductById(PRODUCT_MAPPER.toDomain(entity));
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/api/product/{id}")
@@ -58,9 +61,9 @@ public class ProductController {
     public  ResponseEntity<?> findById(@PathVariable UUID id){
         try {
             Product product = invoiceService.findProductById(new ProductId(id));
-            if (product != null)
-                return ResponseEntity.ok().body(PRODUCT_MAPPER.toDto(product));
-            return null;
+            if (product == null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.ok().body(PRODUCT_MAPPER.toDto(product));
         } catch (Exception e){
             throw new InternalError();
         }
@@ -69,8 +72,8 @@ public class ProductController {
     @GetMapping("/api/product/")
     public ResponseEntity<?> findAll(){
         try {
-            List<ProductDto> productDtos = this.invoiceService.findAllProducts().stream().map(PRODUCT_MAPPER::toDto).toList();
-            return ResponseEntity.ok().body(productDtos);
+            List<ProductDto> listProductDto = this.invoiceService.findAllProducts().stream().map(PRODUCT_MAPPER::toDto).toList();
+            return ResponseEntity.ok().body(listProductDto);
         } catch (Exception e){
             throw new InternalError();
         }

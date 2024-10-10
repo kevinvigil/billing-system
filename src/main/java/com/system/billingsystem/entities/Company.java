@@ -2,10 +2,10 @@ package com.system.billingsystem.entities;
 
 import com.system.billingsystem.entities.microtypes.Address;
 import com.system.billingsystem.entities.microtypes.Cuit;
+import com.system.billingsystem.entities.microtypes.Mail;
 import com.system.billingsystem.entities.microtypes.Phone;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.names.CompanyName;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,9 +23,7 @@ public class Company {
     private Address address;
     private CompanyName name;
     private Phone phone;
-
-    @Email
-    private String email;
+    private Mail email;
     private List<Invoice> soldInvoices;
     private List<Invoice> purchasedInvoices;
 
@@ -35,7 +33,7 @@ public class Company {
         this.companyId = companyId;
     }
 
-    public Company(CompanyId companyId, String email, Phone phone,
+    public Company(CompanyId companyId, Mail email, Phone phone,
                    CompanyName name, Address address, Cuit cuit) {
         this.companyId = companyId;
         this.email = email;
@@ -48,11 +46,11 @@ public class Company {
     @Override
     public String toString(){
         return ("Company { " +
-                ", company_id: " + this.companyId +
-                ", name: " + this.name +
-                ", address: " + this.address +
-                ", phone: " + this.phone +
-                " }");
+                ", \n company_id: " + this.companyId +
+                ", \n name: " + this.name +
+                ", \n address: " + this.address +
+                ", \n phone: " + this.phone +
+                " \n }");
     }
 
     @Override

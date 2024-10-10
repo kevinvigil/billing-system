@@ -5,6 +5,7 @@ import com.system.billingsystem.entities.builders.companybuilder.CompanyBuilder;
 import com.system.billingsystem.entities.builders.invoicebuilder.InvoiceBuilder;
 import com.system.billingsystem.entities.microtypes.Cuit;
 import com.system.billingsystem.entities.microtypes.Discount;
+import com.system.billingsystem.entities.microtypes.Mail;
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
 import com.system.billingsystem.entities.microtypes.microtypesmapper.AddressMapper;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.UUID;
 
 import static domain.tables.Invoice.INVOICE;
@@ -40,10 +42,11 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
                 .set(INVOICE.INVOICE_ID, id)
                 .set(INVOICE.DATE, persisted.getDate().toLocalDateTime())
                 .set(INVOICE.DISCOUNT, persisted.getDiscount().getDiscount())
-                .set(INVOICE.INVOICE_VOUCHER, persisted.getInvoicevoucher().name())
+                .set(INVOICE.INVOICE_VOUCHER, persisted.getInvoiceVoucher().name())
                 .set(INVOICE.INVOICED, persisted.isInvoiced())
                 .set(INVOICE.PAID, persisted.isPaid())
-                .set(INVOICE.TOTAL, persisted.getPrice().getValue())
+                .set(INVOICE.PRICE, persisted.getPrice().getValue())
+                .set(INVOICE.CURRENCY, persisted.getPrice().getCurrency().name())
                 .set(INVOICE.CATEGORY, persisted.getCategory().name())
                 .set(INVOICE.BUYER_COMPANY_ID, (persisted.getBuyerCompany() != null)? persisted.getBuyerCompany().getCompanyId().getValue(): null)
                 .set(INVOICE.SELLER_COMPANY_ID, (persisted.getSellerCompany() != null)? persisted.getSellerCompany().getCompanyId().getValue(): null)
@@ -57,10 +60,11 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
         int execution =  dsl.update(INVOICE)
                 .set(INVOICE.DATE, persisted.getDate().toLocalDateTime())
                 .set(INVOICE.DISCOUNT, persisted.getDiscount().getDiscount())
-                .set(INVOICE.INVOICE_VOUCHER, persisted.getInvoicevoucher().name())
+                .set(INVOICE.INVOICE_VOUCHER, persisted.getInvoiceVoucher().name())
                 .set(INVOICE.INVOICED, persisted.isInvoiced())
                 .set(INVOICE.PAID, persisted.isPaid())
-                .set(INVOICE.TOTAL, persisted.getPrice().getValue())
+                .set(INVOICE.PRICE, persisted.getPrice().getValue())
+                .set(INVOICE.CURRENCY, persisted.getPrice().getCurrency().name())
                 .set(INVOICE.CATEGORY, persisted.getCategory().name())
                 .set(INVOICE.BUYER_COMPANY_ID, (persisted.getBuyerCompany() != null)? persisted.getBuyerCompany().getCompanyId().getValue(): null)
                 .set(INVOICE.SELLER_COMPANY_ID, (persisted.getSellerCompany() != null)? persisted.getSellerCompany().getCompanyId().getValue(): null)
@@ -73,16 +77,14 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
     public Invoice findById(InvoiceId id) {
         Result<?> result = dsl.select()
                 .from(INVOICE)
-                .innerJoin(COMPANY.as("seller")).on(INVOICE.SELLER_COMPANY_ID.eq(COMPANY.as("seller").COMPANY_ID))
-                .innerJoin(COMPANY.as("buyer")).on(INVOICE.BUYER_COMPANY_ID.eq(COMPANY.as("buyer").COMPANY_ID))
+                .leftJoin(COMPANY.as("seller")).on(INVOICE.SELLER_COMPANY_ID.eq(COMPANY.as("seller").COMPANY_ID))
+                .leftJoin(COMPANY.as("buyer")).on(INVOICE.BUYER_COMPANY_ID.eq(COMPANY.as("buyer").COMPANY_ID))
                 .where(INVOICE.INVOICE_ID.eq(id.getValue()))
                 .fetch();
 
         InvoiceRecord invoiceRecord = null;
         CompanyRecord companySellerRecord = null;
         CompanyRecord companyBuyerRecord = null;
-
-        System.out.println(result);
 
         for (Record r : result) {
             invoiceRecord = r.into(INVOICE);
@@ -97,40 +99,52 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
         if(invoiceRecord == null)
             return null;
 
+        Company sellerCompany = companySellerRecord.getValue(COMPANY.COMPANY_ID) != null ?
+                CompanyBuilder.newBuilder()
+                        .companyId(new CompanyId(companySellerRecord.getValue(COMPANY.as("seller").COMPANY_ID)))
+                        .name(new CompanyName(companySellerRecord.getValue(COMPANY.as("seller").NAME)))
+                        .cuit(new Cuit(companySellerRecord.getValue(COMPANY.as("seller").CUIT)))
+                        .address(AddressMapper.toDomain(companySellerRecord.getValue(COMPANY.as("seller").ADDRESS)))
+                        .phone(PhoneMapper.toDomain(companySellerRecord.getValue(COMPANY.as("seller").PHONE)))
+                        .email(new Mail(companySellerRecord.getValue(COMPANY.as("seller").EMAIL)))
+                        .soldInvoices(null)
+                        .purchasedInvoices(null)
+                        .build() : null;
+
+        Company buyerCompany = companyBuyerRecord.getValue(COMPANY.COMPANY_ID) != null ?
+                CompanyBuilder.newBuilder()
+                        .companyId(new CompanyId(companyBuyerRecord.getValue(COMPANY.as("buyer").COMPANY_ID)))
+                        .name(new CompanyName(companyBuyerRecord.getValue(COMPANY.as("buyer").NAME)))
+                        .cuit(new Cuit(companyBuyerRecord.getValue(COMPANY.as("buyer").CUIT)))
+                        .address(AddressMapper.toDomain(companyBuyerRecord.getValue(COMPANY.as("buyer").ADDRESS)))
+                        .phone(PhoneMapper.toDomain(companyBuyerRecord.getValue(COMPANY.as("buyer").PHONE)))
+                        .email(new Mail(companyBuyerRecord.getValue(COMPANY.as("buyer").EMAIL)))
+                        .soldInvoices(null)
+                        .purchasedInvoices(null)
+                        .build() : null;
+
         return InvoiceBuilder.newBuilder()
                 .invoiceId(new InvoiceId(invoiceRecord.getValue(INVOICE.INVOICE_ID)))
                 .date(Timestamp.valueOf(invoiceRecord.getValue(INVOICE.DATE)))
                 .paid(invoiceRecord.getValue(INVOICE.PAID))
                 .invoiced(invoiceRecord.getValue(INVOICE.INVOICED))
-                .price(new InvoicePrice(invoiceRecord.getValue(INVOICE.TOTAL)))
-                .currency(Currency.ARS)/// TODO
+                .price(new InvoicePrice(Currency.valueOf(invoiceRecord.getValue(INVOICE.CURRENCY)) ,invoiceRecord.getValue(INVOICE.PRICE)))
                 .discount(new Discount(invoiceRecord.getValue(INVOICE.DISCOUNT)))
                 .invoiceVoucher(InvoiceVoucher.valueOf(invoiceRecord.getValue(INVOICE.INVOICE_VOUCHER)))
                 .category(InvoiceCategory.valueOf(invoiceRecord.getValue(INVOICE.CATEGORY)))
-                .sellerCompany(
-                        CompanyBuilder.newBuilder()
-                                .companyId(new CompanyId(companyBuyerRecord.getValue(COMPANY.as("seller").COMPANY_ID)))
-                                .name(new CompanyName(companySellerRecord.getValue(COMPANY.as("seller").NAME)))
-                                .cuit(new Cuit(companySellerRecord.getValue(COMPANY.as("seller").CUIT)))
-                                .address(AddressMapper.toDomain(companyBuyerRecord.getValue(COMPANY.as("seller").ADDRESS)))
-                                .phone(PhoneMapper.toDomain(companySellerRecord.getValue(COMPANY.as("seller").PHONE)))
-                                .email(companyBuyerRecord.getValue(COMPANY.as("seller").EMAIL))
-                                .build()
-                )
-                .buyerCompany(
-                        CompanyBuilder.newBuilder()
-                                .companyId(new CompanyId(companyBuyerRecord.getValue(COMPANY.as("buyer").COMPANY_ID)))
-                                .name(new CompanyName(companySellerRecord.getValue(COMPANY.as("buyer").NAME)))
-                                .cuit(new Cuit(companySellerRecord.getValue(COMPANY.as("buyer").CUIT)))
-                                .address(AddressMapper.toDomain(companyBuyerRecord.getValue(COMPANY.as("buyer").ADDRESS)))
-                                .phone(PhoneMapper.toDomain(companySellerRecord.getValue(COMPANY.as("buyer").PHONE)))
-                                .email(companyBuyerRecord.getValue(COMPANY.as("buyer").EMAIL))
-                                .build()
-                ).ListInvoiceProducts(null).build();
+                .sellerCompany(sellerCompany)
+                .buyerCompany(buyerCompany).ListInvoiceProducts(null).build();
     }
 
     @Override
     protected Field<UUID> getIdField() {
         return INVOICE.INVOICE_ID;
+    }
+
+    public Optional<Invoice> getInvoiceStatus(UUID invoiceId) {
+        return dsl.select(INVOICE.INVOICED, INVOICE.PAID)
+                .from(INVOICE)
+                .where(INVOICE.INVOICE_ID.eq(invoiceId))
+                .fetchOptionalInto(Invoice.class);
     }
 }

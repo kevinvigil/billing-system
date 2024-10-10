@@ -22,25 +22,23 @@ public class Invoice {
     private boolean paid;
     private boolean invoiced;
     private InvoicePrice price;
-    private Currency currency;
     private Discount discount;
-    private InvoiceVoucher invoicevoucher;
+    private InvoiceVoucher invoiceVoucher;
     private InvoiceCategory category;
     private Company sellerCompany;
     private Company buyerCompany;
     private List<InvoiceProduct> products;
 
-    public Invoice(InvoiceId invoiceId, Timestamp date, boolean paid, boolean invoiced, InvoicePrice price, Currency currency,
-                   Discount discount, InvoiceVoucher invoicevoucher, InvoiceCategory category,
+    public Invoice(InvoiceId invoiceId, Timestamp date, boolean paid, boolean invoiced, InvoicePrice price,
+                   Discount discount, InvoiceVoucher invoiceVoucher, InvoiceCategory category,
                    Company sellerCompany, Company buyerCompany) {
         this.invoiceId = invoiceId;
         this.date = date;
         this.paid = paid;
         this.invoiced = invoiced;
         this.price = price;
-        this.currency = currency;
         this.discount = discount;
-        this.invoicevoucher = invoicevoucher;
+        this.invoiceVoucher = invoiceVoucher;
         this.category = category;
         this.sellerCompany = sellerCompany;
         this.buyerCompany = buyerCompany;
@@ -55,16 +53,16 @@ public class Invoice {
     @Override
     public String toString() {
         return "Invoice{" +
-                "invoice_id=" + invoiceId +
-                ", date=" + date +
-                ", paid=" + paid +
-                ", invoiced=" + invoiced +
-                ", total=" + price +
-                ", invoice voucher='" + ((invoicevoucher == null)? null: invoicevoucher.name()) + '\'' +
-                ", type='" + category.name() + '\'' +
-                ", company=" + ((sellerCompany != null) ? sellerCompany.getCompanyId().getValue() : "null") +
-                ", customer=" + ((buyerCompany != null) ? buyerCompany.getCompanyId().getValue() : "null") +
-                '}';
+                "\n invoice_id=" + invoiceId +
+                ", \n date=" + date +
+                ", \n paid=" + paid +
+                ", \n invoiced=" + invoiced +
+                ", \n total=" + price +
+                ", \n invoice voucher='" + ((invoiceVoucher == null)? null: invoiceVoucher.name()) + '\'' +
+                ", \n type='" + category.name() + '\'' +
+                ", \n company=" + ((sellerCompany != null) ? sellerCompany.getCompanyId().getValue() : "null") +
+                ", \n customer=" + ((buyerCompany != null) ? buyerCompany.getCompanyId().getValue() : "null") +
+                " \n }";
     }
 
     @Override
@@ -80,7 +78,7 @@ public class Invoice {
                         (invoiced != invoice.invoiced) ||
                         (!Objects.equals(invoiceId, invoice.invoiceId)) ||
                         (!Objects.equals(date, invoice.date)) ||
-                        (invoicevoucher != invoice.invoicevoucher) ||
+                        (invoiceVoucher != invoice.invoiceVoucher) ||
                         (category != invoice.category))return false;
 
         if (this.sellerCompany != null && invoice.sellerCompany != null){

@@ -1,7 +1,5 @@
 package com.system.billingsystem.dto;
 
-import com.system.billingsystem.entities.Company;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
@@ -39,22 +37,6 @@ public record InvoiceDto (
         this.products = products;
     }
 
-    @Override
-    public String toString() {
-        return "InvoiceDto{" +
-                "invoiceId=" + invoiceId +
-                ", date=" + date +
-                ", paid=" + paid +
-                ", invoiced=" + invoiced +
-                ", price=" + price +
-                ", money=" + currency +
-                ", invoicevoucher='" + invoiceVoucher +
-                ", type='" + category +
-                ", company=" + sellerCompany +
-                ", customer=" + buyerCompany +
-                '}';
-    }
-
     public static boolean compareInvoices(InvoiceDto invoice1, InvoiceDto invoice2) {
         if (invoice1 == invoice2) {
             return true;
@@ -66,7 +48,7 @@ public record InvoiceDto (
         return Objects.equals(invoice1.invoiceId(), invoice2.invoiceId())
                 && Objects.equals(invoice1.date(), invoice2.date())
                 && invoice1.paid() == invoice2.paid()
-                && invoice1.total().compareTo(invoice2.total()) == 0
+                && invoice1.price().compareTo(invoice2.price()) == 0
                 && Objects.equals(invoice1.invoiceVoucher(), invoice2.invoiceVoucher())
                 && Objects.equals(invoice1.category(), invoice2.category())
                 && Objects.equals(invoice1.sellerCompany(), invoice2.sellerCompany())
@@ -110,7 +92,7 @@ public record InvoiceDto (
         return invoiced;
     }
 
-    public BigDecimal total() {
+    public BigDecimal price() {
         return price;
     }
 
@@ -136,5 +118,21 @@ public record InvoiceDto (
     @Override
     public List<InvoiceProductDto> products() {
         return products;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (obj instanceof InvoiceDto dto) {
+            return Objects.equals(this.invoiceId, dto.invoiceId())
+                    && Objects.equals(this.date, dto.date())
+                    && this.paid == dto.paid()
+                    && this.invoiced == dto.invoiced()
+                    && this.price.compareTo(dto.price()) == 0
+                    && this.currency.equals(dto.currency())
+                    && Objects.equals(this.discount, dto.discount())
+                    && Objects.equals(this.invoiceVoucher, dto.invoiceVoucher())
+                    && Objects.equals(this.category, dto.category());
+        }
+        return false;
     }
 }
