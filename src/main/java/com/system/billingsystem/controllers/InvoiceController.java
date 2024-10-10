@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
@@ -84,13 +85,12 @@ public class InvoiceController {
         try{
             List<Invoice> invoices = this.invoiceService.findAllInvoices();
             System.out.println(invoices);
-            if (invoices != null){
-                List<InvoiceDto> invoiceDto = invoices.stream().map(INVOICE_MAPPER::toDto).toList();
-                return ResponseEntity.ok().body(invoiceDto);
-            }
-            return null;
+            List<InvoiceDto> invoiceDto = invoices.stream()
+                    .map(INVOICE_MAPPER::toDto)
+                    .toList();
+            return ResponseEntity.ok(invoiceDto);
         } catch (Exception e){
-            throw new InternalError();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error retrieving invoices", e);
         }
     }
 }

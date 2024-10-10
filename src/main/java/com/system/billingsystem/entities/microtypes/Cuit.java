@@ -17,4 +17,12 @@ public class Cuit {
     public String toString() {
         return cuit;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cuit cuit = (Cuit) o;
+        return cuit.equals(cuit.cuit);
+    }
 }

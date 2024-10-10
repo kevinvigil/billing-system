@@ -75,7 +75,10 @@ public class CustomerMapperTest {
         CustomerDto newCustomerDto = CUSTOMER_MAPPER.toDto(customer);
 
         //When
-        assertEquals(customerDto, newCustomerDto);
+        assertEquals(customerDto.customerId(), newCustomerDto.customerId());
+        assertEquals(customerDto.name(), newCustomerDto.name());
+        assertEquals(customerDto.password(), newCustomerDto.password());
+        assertEquals(customerDto.email(), newCustomerDto.email());
     }
 
     @Test
@@ -83,7 +86,10 @@ public class CustomerMapperTest {
         // Then
         Customer newCustomer = CUSTOMER_MAPPER.toDomain(customerDto);
         // When
-        assertEquals(customer, newCustomer);
+        assertEquals(customer.getCustomerId(), newCustomer.getCustomerId());
+        assertEquals(customer.getName(), newCustomer.getName());
+        assertEquals(customer.getPassword(), newCustomer.getPassword());
+        assertEquals(customer.getEmail(), newCustomer.getEmail());
     }
 
     @Test

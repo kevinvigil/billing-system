@@ -14,4 +14,11 @@ public class BaseName {
     public String toString() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BaseName baseName)) return false;
+        return name.equals(baseName.name);
+    }
 }

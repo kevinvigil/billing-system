@@ -52,7 +52,11 @@ public class ProductMapperTest {
         ProductDto newProductDto = PRODUCT_MAPPER.toDto(product);
 
         // When
-        assertEquals(productDto, newProductDto);
+        assertEquals(productDto.productId(), newProductDto.productId());
+        assertEquals(productDto.name(), newProductDto.name());
+        assertEquals(productDto.description(), newProductDto.description());
+        assertEquals(productDto.price(), newProductDto.price());
+        assertEquals(productDto.count(), newProductDto.count());
     }
 
     @Test
@@ -61,6 +65,10 @@ public class ProductMapperTest {
         Product newProduct = PRODUCT_MAPPER.toDomain(productDto);
 
         // When
-        assertEquals(product, newProduct);
+        assertEquals(product.getProductId(), newProduct.getProductId());
+        assertEquals(product.getName(), newProduct.getName());
+        assertEquals(product.getDescription(), newProduct.getDescription());
+        assertEquals(product.getPrice(), newProduct.getPrice());
+        assertEquals(product.getCount(), newProduct.getCount());
     }
 }

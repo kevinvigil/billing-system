@@ -68,8 +68,16 @@ public class InvoiceMapperTest {
         // Then
         InvoiceDto dto = INVOICE_MAPPER.toDto(invoice);
         // When
-        System.out.println(dto.price());
-        assertEquals(invoiceDto, dto);
+        assertEquals(invoiceDto.invoiceId(), dto.invoiceId());
+        assertEquals(invoiceDto.date(), dto.date());
+        assertEquals(invoiceDto.paid(), dto.paid());
+        assertEquals(invoiceDto.invoiced(), dto.invoiced());
+        assertEquals(invoiceDto.price(), dto.price());
+        assertEquals(invoiceDto.discount(), dto.discount());
+        assertEquals(invoiceDto.invoiceVoucher(), dto.invoiceVoucher());
+        assertEquals(invoiceDto.category(), dto.category());
+        assertEquals(invoiceDto.sellerCompany(), dto.sellerCompany());
+        assertEquals(invoiceDto.buyerCompany(), dto.buyerCompany());
     }
 
     @Test
@@ -77,7 +85,16 @@ public class InvoiceMapperTest {
         // Then
         Invoice newInvoice = INVOICE_MAPPER.toDomain(invoiceDto);
         // When
-        assertEquals(invoice, newInvoice);
+        assertEquals(invoice.getInvoiceId(), newInvoice.getInvoiceId());
+        assertEquals(invoice.getDate(), newInvoice.getDate());
+        assertEquals(invoice.isPaid(), newInvoice.isPaid());
+        assertEquals(invoice.isInvoiced(), newInvoice.isInvoiced());
+        assertEquals(invoice.getPrice(), newInvoice.getPrice());
+        assertEquals(invoice.getDiscount().getDiscount(), newInvoice.getDiscount().getDiscount());
+        assertEquals(invoice.getInvoiceVoucher(), newInvoice.getInvoiceVoucher());
+        assertEquals(invoice.getCategory(), newInvoice.getCategory());
+        assertEquals(invoice.getSellerCompany(), newInvoice.getSellerCompany());
+        assertEquals(invoice.getBuyerCompany(), newInvoice.getBuyerCompany());
     }
 
     @Test void shouldMapInvoiceDtoToInvoiceWithProducts() {

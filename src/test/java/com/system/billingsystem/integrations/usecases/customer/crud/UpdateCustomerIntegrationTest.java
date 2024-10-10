@@ -2,24 +2,18 @@ package com.system.billingsystem.integrations.usecases.customer.crud;
 
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
 import com.system.billingsystem.integrations.BaseIntegrationTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class GetCustomerIntegrationTest extends BaseIntegrationTest {
+public class UpdateCustomerIntegrationTest extends BaseIntegrationTest {
 
-    private CustomerId customerId;
-
-    @BeforeEach
-    public void setUp() {
+    @Test
+    public void shouldUpdateCustomer() {
         // Given
 
-        Object requestBody = """
+        Object postRequestBody = """
         {
             "name": "firstName secondName surname",
             "email": "customerEmail@gmail.com",
@@ -28,29 +22,10 @@ public class GetCustomerIntegrationTest extends BaseIntegrationTest {
         }
         """;
 
-        customerId = webTestClient.post()
+        CustomerId customerId = webTestClient.post()
                 .uri("/api/customer/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(requestBody)
-                .exchange()
-                .expectStatus().isCreated()
-                .expectBody(CustomerId.class)
-                .returnResult()
-                .getResponseBody();
-
-        Object requestBody2 = """
-        {
-            "name": "firstName secondName surname",
-            "email": "customerEmail2@gmail.com",
-            "password": "password",
-            "company": null
-        }
-        """;
-
-        webTestClient.post()
-                .uri("/api/customer/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(requestBody2)
+                .bodyValue(postRequestBody)
                 .exchange()
                 .expectStatus().isCreated()
                 .expectBody(CustomerId.class)
@@ -58,41 +33,37 @@ public class GetCustomerIntegrationTest extends BaseIntegrationTest {
                 .getResponseBody();
 
         assertNotNull(customerId);
-    }
 
-    @Test
-    public void shouldGetCustomerById() {
-        // When
+        Object putRequestBody = String.format("""
+        {
+            "customerId": "%s",
+            "name": "firstName secondName surname",
+            "email": "newCustomerEmail@gmail.com",
+            "password": "password",
+            "company": null
+        }
+        """, customerId.getValue());
+
+        //When
+        webTestClient.put()
+                .uri("/api/customer/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(putRequestBody)
+                .exchange()
+                .expectStatus().isNoContent();
+
         var response = webTestClient.get()
                 .uri("/api/customer/"+customerId.getValue())
                 .exchange();
 
         // Then
         assertNotNull(response);
-
         response.expectStatus().isOk()
                 .expectBody()
                 .jsonPath("$.customerId").isEqualTo(customerId.getValue().toString())
-                .jsonPath("$.email").isEqualTo("customerEmail@gmail.com")
+                .jsonPath("$.email").isEqualTo("newCustomerEmail@gmail.com")
                 .jsonPath("$.password").isEqualTo("password")
                 .jsonPath("$.name").isEqualTo("firstName secondName surname")
                 .jsonPath("$.company").isEqualTo(null);
     }
-
-    @Test
-    public void shouldGetAllCustomers() {
-        // When
-        var response = webTestClient.get()
-                .uri("/api/customer/").exchange();
-
-        // Then
-        assertNotNull(response);
-
-        List resp = response.expectBody(List.class).returnResult().getResponseBody();
-
-        assertNotNull(resp);
-
-        assertEquals(2, resp.size());
-    }
-
 }

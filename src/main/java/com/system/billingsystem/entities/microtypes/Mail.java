@@ -14,4 +14,11 @@ public class Mail {
         this.value = email;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Mail mail = (Mail) o;
+        return value.equals(mail.value);
+    }
 }

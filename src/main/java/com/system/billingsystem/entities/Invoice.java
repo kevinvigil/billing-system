@@ -23,14 +23,14 @@ public class Invoice {
     private boolean invoiced;
     private InvoicePrice price;
     private Discount discount;
-    private InvoiceVoucher invoicevoucher;
+    private InvoiceVoucher invoiceVoucher;
     private InvoiceCategory category;
     private Company sellerCompany;
     private Company buyerCompany;
     private List<InvoiceProduct> products;
 
     public Invoice(InvoiceId invoiceId, Timestamp date, boolean paid, boolean invoiced, InvoicePrice price,
-                   Discount discount, InvoiceVoucher invoicevoucher, InvoiceCategory category,
+                   Discount discount, InvoiceVoucher invoiceVoucher, InvoiceCategory category,
                    Company sellerCompany, Company buyerCompany) {
         this.invoiceId = invoiceId;
         this.date = date;
@@ -38,7 +38,7 @@ public class Invoice {
         this.invoiced = invoiced;
         this.price = price;
         this.discount = discount;
-        this.invoicevoucher = invoicevoucher;
+        this.invoiceVoucher = invoiceVoucher;
         this.category = category;
         this.sellerCompany = sellerCompany;
         this.buyerCompany = buyerCompany;
@@ -58,7 +58,7 @@ public class Invoice {
                 ", \n paid=" + paid +
                 ", \n invoiced=" + invoiced +
                 ", \n total=" + price +
-                ", \n invoice voucher='" + ((invoicevoucher == null)? null: invoicevoucher.name()) + '\'' +
+                ", \n invoice voucher='" + ((invoiceVoucher == null)? null: invoiceVoucher.name()) + '\'' +
                 ", \n type='" + category.name() + '\'' +
                 ", \n company=" + ((sellerCompany != null) ? sellerCompany.getCompanyId().getValue() : "null") +
                 ", \n customer=" + ((buyerCompany != null) ? buyerCompany.getCompanyId().getValue() : "null") +
@@ -78,7 +78,7 @@ public class Invoice {
                         (invoiced != invoice.invoiced) ||
                         (!Objects.equals(invoiceId, invoice.invoiceId)) ||
                         (!Objects.equals(date, invoice.date)) ||
-                        (invoicevoucher != invoice.invoicevoucher) ||
+                        (invoiceVoucher != invoice.invoiceVoucher) ||
                         (category != invoice.category))return false;
 
         if (this.sellerCompany != null && invoice.sellerCompany != null){

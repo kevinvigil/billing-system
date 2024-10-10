@@ -2,17 +2,22 @@ package com.system.billingsystem.integrations.usecases.company.crud;
 
 import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.integrations.BaseIntegrationTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class GetCompanyIntegrationTest extends BaseIntegrationTest {
 
-    @Test
-    public void shouldGetCompanyById() {
-        // Given
+    private CompanyId companyId;
 
+    @BeforeEach
+    public void setUp() {
+        // Given
         Object requestBody = """
         {
             "name": "company",
@@ -25,18 +30,43 @@ public class GetCompanyIntegrationTest extends BaseIntegrationTest {
         }
         """;
 
-        CompanyId companyId = webTestClient.post()
-            .uri("/api/company/")
-            .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(requestBody)
-            .exchange()
-            .expectStatus().isCreated()
-            .expectBody(CompanyId.class)
-             .returnResult()
-             .getResponseBody();
+        companyId = webTestClient.post()
+                .uri("/api/company/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(requestBody)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody(CompanyId.class)
+                .returnResult()
+                .getResponseBody();
+
+        Object requestBody2 = """
+        {
+            "name": "company",
+            "phone": "+549 2287 445577",
+            "cuit": "33333",
+            "email": "company2@gmail.com",
+            "address": "country, state, city, zip",
+            "soldInvoices": [],
+            "purchasedInvoices": []
+        }
+        """;
+
+        webTestClient.post()
+                .uri("/api/company/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(requestBody2)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody(CompanyId.class)
+                .returnResult()
+                .getResponseBody();
 
         assertNotNull(companyId);
+    }
 
+    @Test
+    public void shouldGetCompanyById() {
         // When
         var response = webTestClient.get()
             .uri("/api/company/"+companyId.getValue())
@@ -53,6 +83,21 @@ public class GetCompanyIntegrationTest extends BaseIntegrationTest {
                 .jsonPath("$.address").isEqualTo("country, state, city, zip")
                 .jsonPath("$.soldInvoices").isArray()
                 .jsonPath("$.purchasedInvoices").isArray();
+    }
 
+    @Test
+    public void shouldGetAllCompanies() {
+        // When
+        var response = webTestClient.get()
+                .uri("/api/company/").exchange();
+
+        // Then
+        response.expectStatus().isOk();
+
+        List resp = response.expectBody(List.class).returnResult().getResponseBody();
+
+        assertNotNull(resp);
+
+        assertEquals(2, resp.size());
     }
 }

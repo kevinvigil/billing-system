@@ -1,17 +1,22 @@
 package com.system.billingsystem.integrations.usecases.invoice.crud;
 
-import com.system.billingsystem.dto.InvoiceDto;
 import com.system.billingsystem.entities.microtypes.ids.InvoiceId;
 import com.system.billingsystem.integrations.BaseIntegrationTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GetInvoiceIntegrationTest extends BaseIntegrationTest {
 
-    @Test
-    public void shouldGetInvoiceById() {
+    private InvoiceId invoiceId;
+
+    @BeforeEach
+    public void setUp() {
         // Given
 
         Object requestBody = """
@@ -30,7 +35,7 @@ public class GetInvoiceIntegrationTest extends BaseIntegrationTest {
         }
         """;
 
-        InvoiceId invoiceId = webTestClient.post()
+        invoiceId = webTestClient.post()
                 .uri("/api/invoice/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(requestBody)
@@ -40,8 +45,37 @@ public class GetInvoiceIntegrationTest extends BaseIntegrationTest {
                 .returnResult()
                 .getResponseBody();
 
-        assertNotNull(invoiceId);
+        Object requestBody2 = """
+        {
+           "date": "1111111111111",
+           "paid": false,
+           "invoiced": false,
+           "price": "2",
+           "discount": "0",
+           "currency": "ARS",
+           "invoiceVoucher": "REFERENCE",
+           "category": "A",
+           "sellerCompany": null,
+           "buyerCompany": null,
+           "products": []
+        }
+        """;
 
+        webTestClient.post()
+                .uri("/api/invoice/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(requestBody2)
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody(InvoiceId.class)
+                .returnResult()
+                .getResponseBody();
+
+        assertNotNull(invoiceId);
+    }
+
+    @Test
+    public void shouldGetInvoiceById() {
         // When
         var response = webTestClient.get()
                 .uri("/api/invoice/"+invoiceId.getValue())
@@ -63,5 +97,21 @@ public class GetInvoiceIntegrationTest extends BaseIntegrationTest {
                 .jsonPath("$.sellerCompany").isEqualTo(null)
                 .jsonPath("$.buyerCompany").isEqualTo(null)
                 .jsonPath("$.products").isArray();
+    }
+
+    @Test
+    public void shouldGetAllInvoices() {
+        // When
+        var response = webTestClient.get()
+                .uri("/api/invoice/").exchange()
+                .expectStatus().isOk();
+
+        // Then
+        assertNotNull(response);
+
+        List resp = response.expectBody(List.class).returnResult().getResponseBody();
+
+        assertNotNull(resp);
+        assertEquals(2, resp.size());
     }
 }

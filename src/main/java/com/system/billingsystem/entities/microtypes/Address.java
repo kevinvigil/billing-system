@@ -2,6 +2,8 @@ package com.system.billingsystem.entities.microtypes;
 
 import lombok.Data;
 
+import java.util.Objects;
+
 @Data
 public class Address {
 
@@ -28,5 +30,16 @@ public class Address {
     @Override
     public String toString(){
         return country+", "+state+", "+city+", "+zip;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        if (!Objects.equals(country, address.country)) return false;
+        if (!Objects.equals(city, address.city)) return false;
+        if (!Objects.equals(state, address.state)) return false;
+        return Objects.equals(zip, address.zip);
     }
 }

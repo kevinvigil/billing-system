@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,7 +42,7 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
                 .set(INVOICE.INVOICE_ID, id)
                 .set(INVOICE.DATE, persisted.getDate().toLocalDateTime())
                 .set(INVOICE.DISCOUNT, persisted.getDiscount().getDiscount())
-                .set(INVOICE.INVOICE_VOUCHER, persisted.getInvoicevoucher().name())
+                .set(INVOICE.INVOICE_VOUCHER, persisted.getInvoiceVoucher().name())
                 .set(INVOICE.INVOICED, persisted.isInvoiced())
                 .set(INVOICE.PAID, persisted.isPaid())
                 .set(INVOICE.PRICE, persisted.getPrice().getValue())
@@ -61,7 +60,7 @@ public class InvoiceRepository extends BaseRepository<InvoiceRecord ,Invoice> {
         int execution =  dsl.update(INVOICE)
                 .set(INVOICE.DATE, persisted.getDate().toLocalDateTime())
                 .set(INVOICE.DISCOUNT, persisted.getDiscount().getDiscount())
-                .set(INVOICE.INVOICE_VOUCHER, persisted.getInvoicevoucher().name())
+                .set(INVOICE.INVOICE_VOUCHER, persisted.getInvoiceVoucher().name())
                 .set(INVOICE.INVOICED, persisted.isInvoiced())
                 .set(INVOICE.PAID, persisted.isPaid())
                 .set(INVOICE.PRICE, persisted.getPrice().getValue())
