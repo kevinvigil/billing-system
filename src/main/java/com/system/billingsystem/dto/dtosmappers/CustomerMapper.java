@@ -5,7 +5,6 @@ import com.system.billingsystem.dto.CustomerDto;
 import com.system.billingsystem.entities.Company;
 import com.system.billingsystem.entities.Customer;
 import com.system.billingsystem.entities.microtypes.Mail;
-import com.system.billingsystem.entities.microtypes.ids.CompanyId;
 import com.system.billingsystem.entities.microtypes.ids.CustomerId;
 import com.system.billingsystem.entities.microtypes.names.CustomerName;
 import org.mapstruct.Mapper;

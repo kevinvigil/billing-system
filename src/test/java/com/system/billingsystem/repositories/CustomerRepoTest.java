@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,15 +19,15 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 public class CustomerRepoTest {
 
-    private final CustomerRepository customerRepository;
+    private final AuthRepository authRepository;
 
     private static Customer customer;
 
     private static CustomerId baseId;
 
     @Autowired
-    public CustomerRepoTest(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    public CustomerRepoTest(AuthRepository authRepository) {
+        this.authRepository = authRepository;
     }
 
     @BeforeEach
@@ -40,19 +39,19 @@ public class CustomerRepoTest {
                 .company(null)
                 .build();
         
-        baseId = customerRepository.save(customer);
+        baseId = authRepository.save(customer);
         assertNotNull(baseId);
         customer.setCustomerId(baseId);
     }
 
     @AfterEach
     public void tearDown() {
-        customerRepository.deleteById(baseId);
+        authRepository.deleteById(baseId);
     }
 
     @Test
     public void testFindById() {
-        Customer foundCustomer = customerRepository.findById(baseId);
+        Customer foundCustomer = authRepository.findById(baseId);
         assertNotNull(foundCustomer);
         assertEquals(baseId, foundCustomer.getCustomerId());
     }
@@ -60,8 +59,8 @@ public class CustomerRepoTest {
     @Test
     public void testUpdateUser() {
         customer.setName(new CustomerName("new name","new name","new name"));
-        assertTrue(customerRepository.update(customer));
-        Customer foundCustomer = customerRepository.findById(baseId);
+        assertTrue(authRepository.update(customer));
+        Customer foundCustomer = authRepository.findById(baseId);
         assertNotNull(foundCustomer);
         assertEquals(customer.getName().getFirstName(), foundCustomer.getName().getFirstName());
     }
@@ -75,18 +74,18 @@ public class CustomerRepoTest {
                 .company(null)
                 .build();
 
-        CustomerId newId = customerRepository.save(newCustomer);
+        CustomerId newId = authRepository.save(newCustomer);
         assertNotNull(newId);
 
-        List<Customer> foundCustomers = customerRepository.findAll();
+        List<Customer> foundCustomers = authRepository.findAll();
         System.out.println(foundCustomers);
         assertNotNull(foundCustomers);
         assertTrue(foundCustomers.size() > 1);
-        customerRepository.deleteById(newId);
+        authRepository.deleteById(newId);
     }
 
     @Test
     public void testExistById(){
-        assertTrue(customerRepository.existsById(baseId));
+        assertTrue(authRepository.existsById(baseId));
     }
 }

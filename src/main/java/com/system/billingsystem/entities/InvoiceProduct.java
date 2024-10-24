@@ -1,11 +1,8 @@
 package com.system.billingsystem.entities;
 
-import com.system.billingsystem.entities.microtypes.ids.InvoiceProductId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.UUID;
 
 @Data
 @Builder

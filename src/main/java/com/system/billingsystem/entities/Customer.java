@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.UUID;
+import java.sql.Timestamp;
 
 @Data
 @Builder
@@ -15,16 +15,19 @@ import java.util.UUID;
 public class Customer {
 
     private CustomerId customerId;
-    private CustomerName name;
+    private CustomerName userName;
     private String password;
     private Mail email;
+    private Timestamp createdAt;
+    private Timestamp lastLogin;
+    private boolean isActive;
     private Company company;
 
     public Customer() {}
 
-    public Customer(CustomerId customerId, CustomerName name, String password, Mail email) {
+    public Customer(CustomerId customerId, CustomerName userName, String password, Mail email) {
         this.customerId = customerId;
-        this.name = name;
+        this.userName = userName;
         this.password = password;
         this.email = email;
     }
@@ -33,7 +36,7 @@ public class Customer {
     public String toString(){
         return ("Customer { " +
                 ", customer_id: " + this.customerId +
-                ", Name: " + this.name +
+                ", Name: " + this.userName +
                 " }"
         );
     }
@@ -42,7 +45,7 @@ public class Customer {
     public boolean equals (Object obj){
         if(obj instanceof Customer customer) {
             return !(!customerId.equals(customer.getCustomerId()) ||
-                    !this.name.equals(customer.getName())) ||
+                    !this.userName.equals(customer.getUserName())) ||
                     ! this.email.equals(customer.getEmail());
         }
         return false;

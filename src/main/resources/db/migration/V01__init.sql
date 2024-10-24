@@ -7,11 +7,14 @@ CREATE TABLE COMPANY (
     phone jsonb DEFAULT NULL
 );
 
-CREATE TABLE CUSTOMER (
-    customer_id uuid NOT NULL PRIMARY KEY,
-    email varchar(255) NOT NULL UNIQUE,
-    name jsonb DEFAULT NULL,
-    password varchar(255) NOT NULL,
+CREATE TABLE AUTH (
+    login_id uuid NOT NULL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE,
     company_id uuid UNIQUE DEFAULT NULL ,
     CONSTRAINT CUSTOMER_foreign_key_company_id FOREIGN KEY (company_id) REFERENCES company (company_id)
 );
