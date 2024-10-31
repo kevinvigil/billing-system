@@ -1,4 +1,4 @@
-val catalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
+val catalog = versionCatalogs.named("libs")
 
 plugins {
 	java

@@ -35,8 +35,4 @@ out/
 
 ### VS Code ###
 .vscode/
-
-### Exclude ###
-
-!auth-service/
-!main-app/
+/.gradle/
