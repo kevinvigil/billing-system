@@ -24,7 +24,6 @@ import static domain.tables.Company.COMPANY;
 import static domain.tables.Invoice.INVOICE;
 import static domain.tables.Product.PRODUCT;
 import static domain.tables.InvoiceProduct.INVOICE_PRODUCT;
-import static domain.tables.Auth.AUTH;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(
@@ -48,7 +47,6 @@ public class BaseIntegrationTest {
         dslContext.truncateTable(INVOICE).cascade().execute();
         dslContext.truncateTable(PRODUCT).cascade().execute();
         dslContext.truncateTable(INVOICE_PRODUCT).cascade().execute();
-        dslContext.truncateTable(AUTH).cascade().execute();
     }
 
     private static final WireMockServer wiremockServer;

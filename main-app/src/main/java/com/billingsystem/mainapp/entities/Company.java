@@ -5,6 +5,7 @@ import com.billingsystem.mainapp.entities.microtypes.Cuit;
 import com.billingsystem.mainapp.entities.microtypes.Mail;
 import com.billingsystem.mainapp.entities.microtypes.Phone;
 import com.billingsystem.mainapp.entities.microtypes.ids.CompanyId;
+import com.billingsystem.mainapp.entities.microtypes.ids.CustomerId;
 import com.billingsystem.mainapp.entities.microtypes.names.CompanyName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class Company {
     private CompanyName name;
     private Phone phone;
     private Mail email;
+    private CustomerId customerId;
     private List<Invoice> soldInvoices;
     private List<Invoice> purchasedInvoices;
 
@@ -41,6 +43,9 @@ public class Company {
         this.name = name;
         this.address = address;
         this.cuit = cuit;
+    }
+
+    public Company(CompanyId companyId, Cuit cuit, Address address, CompanyName name, Phone phone, Mail email, List<Invoice> soldInvoices, List<Invoice> purchasedInvoices) {
     }
 
     @Override

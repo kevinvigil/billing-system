@@ -31,7 +31,7 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-webflux:3.3.0")
 
-    implementation(catalog.findLibrary("spring-boot-starter-jooq").get())
+    implementation(libs.spring.boot.starter.jooq)
     implementation(catalog.findLibrary("spring-boot-starter-web").get())
 
     implementation(catalog.findLibrary("problem-spring-web-starter").get())
@@ -83,6 +83,8 @@ dependencies {
 
     implementation(catalog.findLibrary("spring-boot-starter-security").get())
 
+    implementation(libs.spring.cloud.starter.config)
+    implementation(libs.spring.cloud.starter.netflix.eureka.client)
 }
 
 tasks.withType<Test> {

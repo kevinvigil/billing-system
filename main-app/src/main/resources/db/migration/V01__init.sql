@@ -4,19 +4,8 @@ CREATE TABLE COMPANY (
     address jsonb DEFAULT NULL,
     email varchar(255) NOT NULL UNIQUE,
     name varchar(255) DEFAULT NULL,
-    phone jsonb DEFAULT NULL
-);
-
-CREATE TABLE AUTH (
-    login_id uuid NOT NULL PRIMARY KEY,
-    username VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_login TIMESTAMP,
-    is_active BOOLEAN DEFAULT TRUE,
-    company_id uuid UNIQUE DEFAULT NULL ,
-    CONSTRAINT CUSTOMER_foreign_key_company_id FOREIGN KEY (company_id) REFERENCES company (company_id)
+    phone jsonb DEFAULT NULL,
+    customer_id uuid NOT NULL
 );
 
 CREATE TABLE PRODUCT (

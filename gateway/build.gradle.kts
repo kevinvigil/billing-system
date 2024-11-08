@@ -18,9 +18,12 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation(libs.spring.cloud.starter)
+    implementation(libs.spring.cloud.starter.config)
+    implementation(libs.spring.cloud.starter.netflix.eureka.client)
+    implementation(libs.spring.cloud.starter.bootstrap)
+    implementation(libs.spring.cloud.starter.gateway.mvc)
 }
 
 tasks.withType<Test> {
