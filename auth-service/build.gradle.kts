@@ -19,22 +19,38 @@ repositories {
 }
 
 dependencies {
+
     implementation("org.springframework.boot:spring-boot-starter")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
+    implementation(libs.spring.boot.starter.security)
+    implementation(libs.problem.spring.web.starter)
+    implementation(libs.problem.spring.web)
+    implementation(libs.jackson.datatype.problem)
+    implementation(libs.jackson.datatype.jsr310)
+
+    implementation(libs.spring.boot.devtools)
     implementation(libs.spring.boot.starter.web)
-    implementation(libs.lombok)
     implementation(libs.spring.security.core)
 
-    implementation(libs.jooq)
-    jooqCodegen(libs.postgresql)
-    jooqCodegen(libs.jooq.codegen)
+    implementation(libs.spring.boot.starter.jooq)
     implementation(libs.jooq.kotlin)
+    implementation(libs.jooq)
+    jooqCodegen(libs.jooq.codegen)
+    jooqCodegen(libs.postgresql)
 
     implementation(libs.postgresql)
 
     implementation(libs.spring.cloud.starter.config)
+    implementation(libs.spring.cloud.starter.bootstrap)
+//    implementation(libs.spring.cloud.starter.netflix.eureka.client)
+
+    implementation(libs.lombok)
+    annotationProcessor(libs.lombok)
+    implementation(libs.mapstruct)
+    annotationProcessor(libs.mapstruct.processor)
+    annotationProcessor(libs.lombok.mapstruct.binding)
 }
 
 tasks.withType<Test> {
@@ -48,5 +64,8 @@ tasks {
         migrationLocations.setFromFilesystem(
             project.files("$projectDir/src/main/resources/db/migration"),
         )
+        doLast {
+            println (" \n generateJooqClasses ha terminado de ejecutarse. \n")
+        }
     }
 }

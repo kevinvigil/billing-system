@@ -1,4 +1,4 @@
-package com.billingsystem.mainapp.entities.builders.customerbuilder;
+package com.billingsystem.authservice.entity.builder.customerbuilder;
 
 public class CustomerBuilder {
 

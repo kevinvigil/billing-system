@@ -5,7 +5,7 @@ import com.billingsystem.mainapp.entities.microtypes.Cuit;
 import com.billingsystem.mainapp.entities.microtypes.Mail;
 import com.billingsystem.mainapp.entities.microtypes.Phone;
 import com.billingsystem.mainapp.entities.microtypes.ids.CompanyId;
-import com.billingsystem.mainapp.entities.microtypes.ids.CustomerId;
+import com.billingsystem.mainapp.entities.microtypes.ids.Id;
 import com.billingsystem.mainapp.entities.microtypes.names.CompanyName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +25,7 @@ public class Company {
     private CompanyName name;
     private Phone phone;
     private Mail email;
-    private CustomerId customerId;
+    private Id customerId;
     private List<Invoice> soldInvoices;
     private List<Invoice> purchasedInvoices;
 

@@ -1,6 +1,6 @@
 package com.billingsystem.mainapp.repositories;
 
-import com.billingsystem.mainapp.entities.microtypes.ids.BaseId;
+import com.billingsystem.mainapp.entities.microtypes.ids.Id;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Table;
@@ -23,7 +23,7 @@ public abstract class BaseRepository<R extends Record, E> {
         this.E = E;
     }
 
-    public abstract BaseId save(E persisted);
+    public abstract Id save(E persisted);
     public abstract boolean update(E persisted);
 
     protected abstract Field<UUID> getIdField();
@@ -32,20 +32,20 @@ public abstract class BaseRepository<R extends Record, E> {
         return dsl.selectFrom(table).fetchInto(E);
     }
 
-    public E findById(BaseId id) {
+    public E findById(Id id) {
         return dsl.selectFrom(table)
                 .where(getIdField().eq(id.getValue()))
                 .groupBy(getIdField())
                 .fetchOneInto(E);
     }
 
-    public E deleteById(BaseId id) {
+    public E deleteById(Id id) {
         return dsl.deleteFrom(table)
                 .where(getIdField().eq(id.getValue()))
                 .returning().fetchOneInto(E);
     }
 
-    public boolean existsById(BaseId uuid){
+    public boolean existsById(Id uuid){
         return dsl.fetchExists(dsl.select()
                 .from(table).where(getIdField().eq(uuid.getValue())));
     }

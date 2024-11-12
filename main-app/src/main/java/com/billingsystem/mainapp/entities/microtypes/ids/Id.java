@@ -9,13 +9,13 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseId {
+public class Id {
     protected UUID value;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BaseId baseId)) return false;
-        return value.equals(baseId.value);
+        if (!(o instanceof Id id)) return false;
+        return value.equals(id.value);
     }
 }

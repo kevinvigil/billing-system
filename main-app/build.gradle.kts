@@ -29,62 +29,63 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter")
 
-    implementation("org.springframework.boot:spring-boot-starter-webflux:3.3.0")
+//    implementation("org.springframework.boot:spring-boot-starter-webflux:3.3.0")
 
-    implementation(libs.spring.boot.starter.jooq)
-    implementation(catalog.findLibrary("spring-boot-starter-web").get())
+    implementation(libs.spring.boot.starter.web)
 
-    implementation(catalog.findLibrary("problem-spring-web-starter").get())
-    implementation(catalog.findLibrary("problem-spring-web").get())
+    implementation( libs.problem.spring.web.starter )
+    implementation( libs.problem.spring.web )
 
-    implementation(catalog.findLibrary("jackson-datatype-problem").get())
-    implementation(catalog.findLibrary("jackson-datatype-jsr310").get())
+    implementation( libs.jackson.datatype.problem )
+    implementation( libs.jackson.datatype.jsr310 )
 
 
-    implementation(catalog.findLibrary("jetbrains-annotation").get())
+    implementation( libs.jetbrains.annotation )
 
-    developmentOnly(catalog.findLibrary("spring-boot-devtools").get())
+    developmentOnly( libs.spring.boot.devtools )
 
     // Testing
-    testImplementation(catalog.findLibrary( "junit-platform-runner").get())
-    testImplementation(catalog.findLibrary("junit-jupiter").get())
+    testImplementation( libs.junit.platform.runner )
+    testImplementation( libs.junit.jupiter )
 
-    testImplementation(catalog.findLibrary("spring-boot-starter-test").get()) {
+    testImplementation( libs.spring.boot.starter.test ) {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
-//	testImplementation( "spring-security-test")
+//	testImplementation( "spring.security.test")
 
-    testImplementation(catalog.findLibrary("reactor-test").get())
+    testImplementation(libs.reactor.test)
 
     // Testcontainers
-    testImplementation(catalog.findLibrary("testcontainers").get())
-    testImplementation(catalog.findLibrary("testcontainers-junit-jupiter").get())
-    testImplementation(catalog.findLibrary("testcontainers-postgresql").get())
+    testImplementation(libs.testcontainers)
+    testImplementation(libs.testcontainers.junit.jupiter)
+    testImplementation(libs.testcontainers.postgresql)
 
     // WireMock
-    implementation(catalog.findLibrary("spring-cloud-contract-wiremock").get())
+    implementation(libs.spring.cloud.contract.wiremock)
 
     // mapper
-    implementation (catalog.findLibrary("mapstruct").get())
-    annotationProcessor (catalog.findLibrary("mapstruct-processor").get())
+    implementation(libs.mapstruct)
+    annotationProcessor(libs.mapstruct.processor)
+    annotationProcessor(libs.lombok.mapstruct.binding)
 
-    implementation(catalog.findLibrary( "lombok").get())
-    annotationProcessor(catalog.findLibrary( "lombok").get())
-    annotationProcessor(catalog.findLibrary("lombok-mapstruct-binding").get())
+    implementation(libs.lombok)
+    annotationProcessor(libs.lombok)
 
     // JOOQ
-    implementation(catalog.findLibrary( "jooq-kotlin").get())
-    implementation(catalog.findLibrary( "jooq").get())
-    jooqCodegen(catalog.findLibrary( "jooq-codegen").get())
-    jooqCodegen(catalog.findLibrary("postgresql").get())
+    implementation(libs.spring.boot.starter.jooq)
+    implementation(libs.jooq.kotlin)
+    implementation(libs.jooq)
+    jooqCodegen(libs.jooq.codegen)
+    jooqCodegen(libs.postgresql)
 
     // Postgresql
-    implementation(catalog.findLibrary("postgresql").get())
+    implementation(libs.postgresql)
 
-    implementation(catalog.findLibrary("spring-boot-starter-security").get())
+    implementation(libs.spring.boot.starter.security)
 
     implementation(libs.spring.cloud.starter.config)
-    implementation(libs.spring.cloud.starter.netflix.eureka.client)
+    implementation(libs.spring.cloud.starter.bootstrap)
+//    implementation(libs.spring.cloud.starter.netflix.eureka.client)
 }
 
 tasks.withType<Test> {

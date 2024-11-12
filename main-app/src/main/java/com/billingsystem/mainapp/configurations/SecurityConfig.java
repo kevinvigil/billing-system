@@ -45,7 +45,6 @@ public class SecurityConfig {
     public ObjectMapper objectMapper() {
         return new ObjectMapper().registerModules(
                 new ProblemModule(),
-                new ConstraintViolationProblemModule(),
-                new JavaTimeModule());
+                new ConstraintViolationProblemModule());
     }
 }

@@ -46,5 +46,4 @@ CONSTRAINT INVOICE_PRODUCT_foreign_key_invoice_id FOREIGN KEY (invoice_id) REFER
 -- drop table INVOICE_PRODUCT;
 -- drop table PRODUCT;
 -- drop table INVOICE;
--- drop table CUSTOMER;
 -- drop table COMPANY;

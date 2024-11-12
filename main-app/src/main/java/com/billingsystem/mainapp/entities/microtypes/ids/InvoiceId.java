@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
-public class InvoiceId extends BaseId{
+public class InvoiceId extends Id {
     @JsonCreator
     public InvoiceId(@JsonProperty("value") UUID invoiceId) {
         super(invoiceId);
